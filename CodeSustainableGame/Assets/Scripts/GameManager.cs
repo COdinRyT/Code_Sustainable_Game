@@ -20,6 +20,6 @@ public class GameManager : MonoBehaviour
 
     public void WebsiteLink() //This is to link the Pollution Probe website 
     {
-        Application.OpenURL("https://www.pollutionprobe.org"); //When a player selects a button, it opens this link
+        Application.OpenURL("https://www.pollutionprobe.org"); //When a player selects a button, this function will be called
     }
 }
