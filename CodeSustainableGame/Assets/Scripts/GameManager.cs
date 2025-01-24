@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,5 +16,10 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void WebsiteLink() //This is to link the Pollution Probe website 
+    {
+        Application.OpenURL("https://www.pollutionprobe.org"); //When a player selects a button, it opens this link
     }
 }
