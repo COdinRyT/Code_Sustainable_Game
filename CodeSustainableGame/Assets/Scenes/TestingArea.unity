@@ -155,7 +155,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f743f6172bdf7fc4ab229ba2185d448a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 1
+  mouseClick:
+    m_Name: Mouse Click
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: bb04737e-efc1-4363-b34b-8ba9cb508213
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: a9e20d68-ae10-46c0-9ac8-0705e11a4807
+      m_Path: <Mouse>/leftButton
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Mouse Click
+      m_Flags: 0
+    m_Flags: 0
+  playerSpeed: 10
 --- !u!65 &108276321
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -267,7 +284,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 4
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!1 &276819060
 GameObject:
@@ -598,13 +615,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.3132466, y: 0, z: 0, w: 0.94967186}
+  m_LocalPosition: {x: 0, y: 10, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 36.51, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
