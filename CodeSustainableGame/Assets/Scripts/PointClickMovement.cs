@@ -16,10 +16,13 @@ public class NewBehaviourScript : MonoBehaviour
 
     private Vector3 targetPosition; //Keeping track of wherever the player clicks on screen in a Vactor 3 
 
+    private Rigidbody rb;
+
 
     private void Awake()
     {
         camera = Camera.main;
+        rb = GetComponent<Rigidbody>();
     }
 
     //This function is called when the script is enabled
@@ -59,6 +62,8 @@ public class NewBehaviourScript : MonoBehaviour
     private IEnumerator PlayerMoveTowards(Vector3 target)
     {
         //While player is over 0.1 unity units away from point 
+        target.y = transform.position.y;
+
         while(Vector2.Distance(transform.position, target) > 0.1f)
         {
             Vector3 destination = Vector3.MoveTowards(transform.position, target, playerSpeed * Time.deltaTime);
