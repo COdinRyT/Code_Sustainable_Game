@@ -16,10 +16,13 @@ public class NewBehaviourScript : MonoBehaviour
 
     private Vector3 targetPosition;
 
+    private Rigidbody rb;
+
 
     private void Awake()
     {
         camera = Camera.main;
+        rb = GetComponent<Rigidbody>();
     }
     private void OnEnable()
     {
@@ -46,6 +49,8 @@ public class NewBehaviourScript : MonoBehaviour
 
     private IEnumerator PlayerMoveTowards(Vector3 target)
     {
+        target.y = transform.position.y;
+
         while(Vector2.Distance(transform.position, target) > 0.1f)
         {
             Vector3 destination = Vector3.MoveTowards(transform.position, target, playerSpeed * Time.deltaTime);
