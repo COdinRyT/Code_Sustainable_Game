@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     public int currentPeople;
     public int maxPeople;
     public int currentMoney;
-    public string roundStatus;
+    public bool endTurn;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +28,14 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Debug.Log("End turn: " + endTurn);
+        Debug.Log(" Current Turn: " + currentTurn);
+        Debug.Log("Max turn: " + maxTurn);
+        if (endTurn && currentTurn < maxTurn)
+        {
+            endTurn = false;
+            currentTurn++;
+        }
     }
 
     public void WebsiteLink() //This is to link the Pollution Probe website 
