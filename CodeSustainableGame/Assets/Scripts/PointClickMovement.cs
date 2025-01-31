@@ -6,64 +6,102 @@ using UnityEngine.Scripting.APIUpdating;
 
 public class NewBehaviourScript : MonoBehaviour
 {
-    [SerializeField]
-    private InputAction mouseClick;
+    [SerializeField] private InputAction mouseClick;   // Click to select a tile
+    [SerializeField] private InputAction confirmMove;  // Press to confirm movement
 
     private Camera camera;
-    private Coroutine coroutine;
+    private Coroutine moveCoroutine;
 
-    public float playerSpeed = 10f;
-
+    public float playerSpeed = 5f;  // Adjust speed for turn-based feel
+    public float stepDelay = 0.2f;  // Delay between tile movements
     private Vector3 targetPosition;
 
     private Rigidbody rb;
-
+    [SerializeField] private GameObject[] gridCoordinates; // Array of valid tiles
+    private GameObject selectedTile = null;  // The tile the player selects
 
     private void Awake()
     {
         camera = Camera.main;
         rb = GetComponent<Rigidbody>();
+
+        // Find all tiles dynamically if not assigned
+        if (gridCoordinates.Length == 0)
+        {
+            gridCoordinates = GameObject.FindGameObjectsWithTag("GridTile");
+        }
     }
+
     private void OnEnable()
     {
         mouseClick.Enable();
-        mouseClick.performed += Move;
+        mouseClick.performed += SelectTile;
+
+        confirmMove.Enable();
+        confirmMove.performed += ConfirmMovement;
     }
 
     private void OnDisable()
     {
-        mouseClick.performed -= Move;
+        mouseClick.performed -= SelectTile;
         mouseClick.Disable();
+
+        confirmMove.performed -= ConfirmMovement;
+        confirmMove.Disable();
     }
 
-    private void Move(InputAction.CallbackContext context)
+    /// <summary>
+    /// Selects a grid tile when clicked.
+    /// </summary>
+    private void SelectTile(InputAction.CallbackContext context)
     {
         Ray ray = camera.ScreenPointToRay(Mouse.current.position.ReadValue());
-        if(Physics.Raycast(ray: ray, hitInfo: out RaycastHit hit) && hit.collider)
+        if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            if(coroutine != null) StopCoroutine(coroutine);            
-            coroutine = StartCoroutine(PlayerMoveTowards(hit.point));
-            targetPosition = hit.point;
+            foreach (GameObject gridTile in gridCoordinates)
+            {
+                if (hit.collider.gameObject == gridTile)
+                {
+                    selectedTile = gridTile;
+                    Debug.Log("Selected Tile: " + selectedTile.name);
+                    return;
+                }
+            }
         }
     }
 
-    private IEnumerator PlayerMoveTowards(Vector3 target)
+    /// <summary>
+    /// Confirms movement and moves player toward the selected tile step-by-step.
+    /// </summary>
+    private void ConfirmMovement(InputAction.CallbackContext context)
     {
-        target.y = transform.position.y;
-
-        while(Vector2.Distance(transform.position, target) > 0.1f)
+        if (selectedTile != null)
         {
-            Vector3 destination = Vector3.MoveTowards(transform.position, target, playerSpeed * Time.deltaTime);
-            transform.position = destination;
-            yield return null;
+            if (moveCoroutine != null) StopCoroutine(moveCoroutine);
+            moveCoroutine = StartCoroutine(MoveStepByStep(selectedTile.transform.position));
         }
+    }
+
+    /// <summary>
+    /// Moves the player step by step toward the target position.
+    /// </summary>
+    private IEnumerator MoveStepByStep(Vector3 target)
+    {
+        target.y = transform.position.y; // Keep the player at the same height
+
+        while (Vector3.Distance(transform.position, target) > 0.1f)
+        {
+            Vector3 nextStep = Vector3.MoveTowards(transform.position, target, playerSpeed * Time.deltaTime);
+            transform.position = nextStep;
+            yield return new WaitForSeconds(stepDelay); // Adds a delay between steps for a turn-based feel
+        }
+
+        transform.position = target; // Snap to the exact position
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.blue;
+        Gizmos.color = Color.green;
         Gizmos.DrawSphere(targetPosition, 1);
     }
-
-
 }
