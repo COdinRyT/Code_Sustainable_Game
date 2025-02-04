@@ -1,0 +1,344 @@
+fileFormatVersion: 2
+guid: c007dd982c8d5d1479308d201c952486
+ModelImporter:
+  serializedVersion: 19301
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: //RootNode
+  - first:
+      1: 100002
+    second: Armature
+  - first:
+      1: 100004
+    second: Calf_L
+  - first:
+      1: 100006
+    second: Calf_R
+  - first:
+      1: 100008
+    second: Collar_L
+  - first:
+      1: 100010
+    second: Collar_R
+  - first:
+      1: 100012
+    second: Foot_L
+  - first:
+      1: 100014
+    second: Foot_R
+  - first:
+      1: 100016
+    second: ForeArm_L
+  - first:
+      1: 100018
+    second: ForeArm_R
+  - first:
+      1: 100020
+    second: Hand_L
+  - first:
+      1: 100022
+    second: Hand_R
+  - first:
+      1: 100024
+    second: Head
+  - first:
+      1: 100026
+    second: officer
+  - first:
+      1: 100028
+    second: Pelvis
+  - first:
+      1: 100030
+    second: Spine
+  - first:
+      1: 100032
+    second: Thigh_L
+  - first:
+      1: 100034
+    second: Thigh_R
+  - first:
+      1: 100036
+    second: UpperArm_L
+  - first:
+      1: 100038
+    second: UpperArm_R
+  - first:
+      1: 100040
+    second: Root
+  - first:
+      4: 400000
+    second: //RootNode
+  - first:
+      4: 400002
+    second: Armature
+  - first:
+      4: 400004
+    second: Calf_L
+  - first:
+      4: 400006
+    second: Calf_R
+  - first:
+      4: 400008
+    second: Collar_L
+  - first:
+      4: 400010
+    second: Collar_R
+  - first:
+      4: 400012
+    second: Foot_L
+  - first:
+      4: 400014
+    second: Foot_R
+  - first:
+      4: 400016
+    second: ForeArm_L
+  - first:
+      4: 400018
+    second: ForeArm_R
+  - first:
+      4: 400020
+    second: Hand_L
+  - first:
+      4: 400022
+    second: Hand_R
+  - first:
+      4: 400024
+    second: Head
+  - first:
+      4: 400026
+    second: officer
+  - first:
+      4: 400028
+    second: Pelvis
+  - first:
+      4: 400030
+    second: Spine
+  - first:
+      4: 400032
+    second: Thigh_L
+  - first:
+      4: 400034
+    second: Thigh_R
+  - first:
+      4: 400036
+    second: UpperArm_L
+  - first:
+      4: 400038
+    second: UpperArm_R
+  - first:
+      4: 400040
+    second: Root
+  - first:
+      21: 2100000
+    second: voxel_common
+  - first:
+      23: 2300000
+    second: officer
+  - first:
+      33: 3300000
+    second: officer
+  - first:
+      43: 4300000
+    second: officer
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: officer
+  - first:
+      41386430: 2186277476908879412
+    second: ImportLogs
+  externalObjects: {}
+  materials:
+    materialImportMode: 0
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 2
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    fileIdsGeneration: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 0
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton:
+    - name: 01_officer_Rig(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: officer
+      parentName: 01_officer_Rig(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: Root
+      parentName: 01_officer_Rig(Clone)
+      position: {x: -0, y: 49.468918, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: Pelvis
+      parentName: Root
+      position: {x: -0, y: 0, z: -0.106000006}
+      rotation: {x: 0.7071068, y: -0.00000008429372, z: -0.0000000842937, w: 0.7071067}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Spine
+      parentName: Pelvis
+      position: {x: -0, y: 0.24257836, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Collar_L
+      parentName: Spine
+      position: {x: -0, y: 0.2744606, z: 0}
+      rotation: {x: 0.0000002261886, y: -0.00000005760114, z: 0.7071068, w: 0.7071067}
+      scale: {x: 1, y: 1, z: 1}
+    - name: UpperArm_L
+      parentName: Collar_L
+      position: {x: -0, y: 0.21517663, z: 0}
+      rotation: {x: -0.042613875, y: 2.838334e-14, z: 0.000000017102623, w: 0.9990916}
+      scale: {x: 1, y: 1.0000001, z: 1}
+    - name: ForeArm_L
+      parentName: UpperArm_L
+      position: {x: 0.000000007353481, y: 0.190183, z: -7.2496675e-10}
+      rotation: {x: 0.08281431, y: -0.000000007547983, z: 0.000000006001254, w: 0.996565}
+      scale: {x: 1, y: 1, z: 0.99999994}
+    - name: Hand_L
+      parentName: ForeArm_L
+      position: {x: 0.0000000314453, y: 0.1210995, z: -7.417106e-10}
+      rotation: {x: -0.06701364, y: -5.22827e-15, z: 0.000000026895206, w: 0.9977521}
+      scale: {x: 1, y: 0.99999994, z: 0.99999994}
+    - name: Collar_R
+      parentName: Spine
+      position: {x: -0, y: 0.2744606, z: 0}
+      rotation: {x: 0.000000057601188, y: 0.0000002261886, z: -0.7071068, w: 0.7071067}
+      scale: {x: 1, y: 1, z: 1}
+    - name: UpperArm_R
+      parentName: Collar_R
+      position: {x: -0, y: 0.21517663, z: 0}
+      rotation: {x: -0.042613875, y: -4.2656986e-14, z: -0.000000017102622, w: 0.9990916}
+      scale: {x: 1, y: 1.0000001, z: 1}
+    - name: ForeArm_R
+      parentName: UpperArm_R
+      position: {x: -0.0000000073534823, y: 0.190183, z: -7.2496675e-10}
+      rotation: {x: 0.08281431, y: -0.000000018204176, z: -0.000000011904764, w: 0.996565}
+      scale: {x: 1, y: 1, z: 0.99999994}
+    - name: Hand_R
+      parentName: ForeArm_R
+      position: {x: -0.0000000314453, y: 0.1210995, z: -7.417106e-10}
+      rotation: {x: -0.06701364, y: 5.22827e-15, z: -0.000000026895206, w: 0.9977521}
+      scale: {x: 1, y: 0.99999994, z: 0.99999994}
+    - name: Head
+      parentName: Spine
+      position: {x: -0, y: 0.39140442, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Thigh_L
+      parentName: Pelvis
+      position: {x: -0.13914146, y: 0.07850394, z: 0.000000043721606}
+      rotation: {x: 0.99958795, y: -0.0000000068390045, z: -0.00000023813409, w: 0.02870447}
+      scale: {x: 1, y: 1, z: 1.0000849}
+    - name: Calf_L
+      parentName: Thigh_L
+      position: {x: 7.7904766e-10, y: 0.1951196, z: 0.0000000015061409}
+      rotation: {x: 0.04952368, y: -3.387051e-10, z: -0.00000001864134, w: 0.998773}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Foot_L
+      parentName: Calf_L
+      position: {x: -0.0000000039155634, y: 0.26877075, z: 0.000000001513222}
+      rotation: {x: -0.02083432, y: -7.606029e-14, z: 0.000000004967709, w: 0.999783}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Thigh_R
+      parentName: Pelvis
+      position: {x: 0.13914146, y: 0.07850394, z: -0.000000022626212}
+      rotation: {x: 0.99958795, y: 5.6511263e-12, z: 1.9637421e-10, w: 0.02870447}
+      scale: {x: 1, y: 1, z: 1.0000846}
+    - name: Calf_R
+      parentName: Thigh_R
+      position: {x: 0.0000000026713318, y: 0.19511963, z: 0.0000000010404619}
+      rotation: {x: 0.04952369, y: -3.3883768e-10, z: 0.000000004975391, w: 0.998773}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Foot_R
+      parentName: Calf_R
+      position: {x: -0.000000010985596, y: 0.26877075, z: 0.0000000015132272}
+      rotation: {x: -0.020834323, y: 1.4324916e-15, z: -0.000000004967709, w: 0.999783}
+      scale: {x: 1, y: 1, z: 1}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 3
+  humanoidOversampling: 1
+  avatarSetup: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
