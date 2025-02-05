@@ -41,6 +41,7 @@ public class NewBehaviourScript : MonoBehaviour
         confirmMove.performed += ConfirmMovement;
     }
 
+    //This function is called when the script is enabled
     private void OnDisable()
     {
         mouseClick.performed -= SelectTile;
@@ -55,6 +56,8 @@ public class NewBehaviourScript : MonoBehaviour
     /// </summary>
     private void SelectTile(InputAction.CallbackContext context)
     {
+        //This is to project a ray from the camera position onto wherever the mouse 
+        //is currently positioned
         Ray ray = camera.ScreenPointToRay(Mouse.current.position.ReadValue());
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
