@@ -712,6 +712,9 @@ MonoBehaviour:
   maxPeople: 15
   currentMoney: 1000
   endTurn: 0
+  TerrainGroup: {fileID: 1124279577}
+  Garbage: {fileID: 4305437803015692794, guid: c33e2faaad1ed2c468d696b7e45b2364, type: 3}
+  tag_targets: []
 --- !u!4 &276819062
 Transform:
   m_ObjectHideFlags: 0
