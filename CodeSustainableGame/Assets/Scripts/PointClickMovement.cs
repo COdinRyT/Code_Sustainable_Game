@@ -45,19 +45,19 @@ public class NewBehaviourScript : MonoBehaviour
             gridCoordinates = GameObject.FindGameObjectsWithTag("GridTile");
         }
 
-        if (confirmButton != null)
-        {
-            confirmButton.onClick.AddListener(MoveToSelectTile);
-        }
+        //if (confirmButton != null)
+        //{
+        //    confirmButton.onClick.AddListener(MoveToSelectTile);
+        //}
     }
     private void Update()
     {
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+        if (Input.GetMouseButtonDown(0))
         {
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit) && hit.collider.CompareTag("GridTile"))
+            if (Physics.Raycast(ray, out hit))
             {
                 normalizePoint = hit.point;
 
