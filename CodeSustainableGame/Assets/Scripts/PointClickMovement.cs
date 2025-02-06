@@ -1,82 +1,149 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
 using UnityEngine.Scripting.APIUpdating;
 
 public class NewBehaviourScript : MonoBehaviour
 {
-    [SerializeField]
-    private InputAction mouseClick; //To keep track of the mouse click inputs with a variable
+    [SerializeField] private InputAction mouseClick;   // Click to select a tile
+    [SerializeField] private InputAction confirmMove;  // Press to confirm movement
 
     private Camera camera;
-    private Coroutine coroutine;
+    public NavMeshAgent agent;
+    private Coroutine moveCoroutine;
 
-    public float playerSpeed = 10f; //How fast the characters will move on screen
-
-    private Vector3 targetPosition; //Keeping track of wherever the player clicks on screen in a Vactor 3 
+    public float playerSpeed = 5f;  // Adjust speed for turn-based feel
+    public float stepDelay = 0.2f;  // Delay between tile movements
+    private Vector3 targetPosition;
 
     private Rigidbody rb;
+    [SerializeField] private GameObject[] gridCoordinates; // Array of valid tiles
+    private GameObject selectedTile = null;  // The tile the player selects
 
+    private Vector3 normalizePoint;
+    private Vector3 midNormalizePoints;
+    private float xdecimalPoint;
+    private float zdecimalPoint;
 
+    public GameObject prefab;
     private void Awake()
     {
         camera = Camera.main;
         rb = GetComponent<Rigidbody>();
-    }
 
-    //This function is called when the script is enabled
-    private void OnEnable() 
+        // Find all tiles dynamically if not assigned
+        if (gridCoordinates.Length == 0)
+        {
+            gridCoordinates = GameObject.FindGameObjectsWithTag("GridTile");
+        }
+    }
+    private void Update()
     {
-        mouseClick.Enable(); //Enables the player to use mouse inputs
-        mouseClick.performed += Move; //Once a mouse input is performed, the Move script is called
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit))
+            {
+                normalizePoint = hit.point;
+
+                //Debug.Log(normalizePoint.x);
+                //Debug.Log(Math.Truncate(normalizePoint.x));
+                //xdecimalPoint = Mathf.Floor(normalizePoint.x) - normalizePoint.x;
+                //Debug.Log(xdecimalPoint);
+                // Whole number plus 0.5 
+                
+                xdecimalPoint = Mathf.Round(hit.point.x);
+                zdecimalPoint = Mathf.Round(hit.point.z);
+                midNormalizePoints = new Vector3(xdecimalPoint, hit.point.y, zdecimalPoint);
+                Debug.Log(normalizePoint);
+                Debug.Log(midNormalizePoints);
+                agent.SetDestination(midNormalizePoints);
+                Instantiate(prefab, midNormalizePoints, Quaternion.identity);
+            }
+        }
+    }
+    /*
+    private void OnEnable()
+    {
+        mouseClick.Enable();
+        mouseClick.performed += SelectTile;
+
+        confirmMove.Enable();
+        confirmMove.performed += ConfirmMovement;
     }
 
     //This function is called when the script is enabled
     private void OnDisable()
     {
-        mouseClick.performed -= Move; //Cancels the movement action if mouse click is performed
-        mouseClick.Disable(); //Disables the players' mouse inputs
-    }
+        mouseClick.performed -= SelectTile;
+        mouseClick.Disable();
 
-    //Main movement function for when a mouse click input id performed
-    private void Move(InputAction.CallbackContext context)
+        confirmMove.performed -= ConfirmMovement;
+        confirmMove.Disable();
+    }
+    
+    /// <summary>
+    /// Selects a grid tile when clicked.
+    /// </summary>
+    private void SelectTile(InputAction.CallbackContext context)
     {
         //This is to project a ray from the camera position onto wherever the mouse 
         //is currently positioned
         Ray ray = camera.ScreenPointToRay(Mouse.current.position.ReadValue());
-
-        //Perform a raycast and check if it hits a collider
-        if(Physics.Raycast(ray: ray, hitInfo: out RaycastHit hit) && hit.collider)
+        if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            //If another movement coroutine is already running, stop it
-            if(coroutine != null) StopCoroutine(coroutine);            
-
-            //Start new coroutine to move player towards wherever the point clicked is
-            coroutine = StartCoroutine(PlayerMoveTowards(hit.point));
-            targetPosition = hit.point; //For Gizmos, update position on screen
+            foreach (GameObject gridTile in gridCoordinates)
+            {
+                if (hit.collider.gameObject == gridTile)
+                {
+                    selectedTile = gridTile;
+                    Debug.Log("Selected Tile: " + selectedTile.name);
+                    return;
+                }
+            }
+        }
+    }
+    */
+    /*
+    /// <summary>
+    /// Confirms movement and moves player toward the selected tile step-by-step.
+    /// </summary>
+    private void ConfirmMovement(InputAction.CallbackContext context)
+    {
+        if (selectedTile != null)
+        {
+            if (moveCoroutine != null) StopCoroutine(moveCoroutine);
+            moveCoroutine = StartCoroutine(MoveStepByStep(selectedTile.transform.position));
         }
     }
 
-    //Coroutine to move player towards a target point 
-    private IEnumerator PlayerMoveTowards(Vector3 target)
+    /// <summary>
+    /// Moves the player step by step toward the target position.
+    /// </summary>
+    private IEnumerator MoveStepByStep(Vector3 target)
     {
-        //While player is over 0.1 unity units away from point 
-        target.y = transform.position.y;
+        target.y = transform.position.y; // Keep the player at the same height
 
-        while(Vector2.Distance(transform.position, target) > 0.1f)
+        while (Vector3.Distance(transform.position, target) > 0.1f)
         {
-            Vector3 destination = Vector3.MoveTowards(transform.position, target, playerSpeed * Time.deltaTime);
-            transform.position = destination;
-            yield return null;
+            Vector3 nextStep = Vector3.MoveTowards(transform.position, target, playerSpeed * Time.deltaTime);
+            transform.position = nextStep;
+            yield return new WaitForSeconds(stepDelay); // Adds a delay between steps for a turn-based feel
         }
-    }
 
-    private void OnDrawGizmos() //For debugging purposes 
+        transform.position = target; // Snap to the exact position
+    }
+    */
+    private void OnDrawGizmos()
     {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(targetPosition, 1); //Draw a sphere indicator at position where the mouse is clicked on screen
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(targetPosition, 1);
     }
-
-
 }
