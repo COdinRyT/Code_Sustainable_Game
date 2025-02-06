@@ -28,9 +28,9 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("End turn: " + endTurn);
-        Debug.Log(" Current Turn: " + currentTurn);
-        Debug.Log("Max turn: " + maxTurn);
+        //Debug.Log("End turn: " + endTurn);
+        //Debug.Log(" Current Turn: " + currentTurn);
+        //Debug.Log("Max turn: " + maxTurn);
         if (endTurn && currentTurn < maxTurn)
         {
             endTurn = false;
