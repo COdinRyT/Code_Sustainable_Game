@@ -1,5 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
@@ -23,6 +27,12 @@ public class NewBehaviourScript : MonoBehaviour
     [SerializeField] private GameObject[] gridCoordinates; // Array of valid tiles
     private GameObject selectedTile = null;  // The tile the player selects
 
+    private Vector3 normalizePoint;
+    private Vector3 midNormalizePoints;
+    private float xdecimalPoint;
+    private float zdecimalPoint;
+
+    public GameObject prefab;
     private void Awake()
     {
         camera = Camera.main;
@@ -49,9 +59,21 @@ public class NewBehaviourScript : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit) && hit.collider.CompareTag("GridTile"))
             {
-                selectedTile = hit.collider.gameObject;
-                targetPosition = hit.point;
-                Debug.Log("Tile Selected");
+                normalizePoint = hit.point;
+
+                //Debug.Log(normalizePoint.x);
+                //Debug.Log(Math.Truncate(normalizePoint.x));
+                //xdecimalPoint = Mathf.Floor(normalizePoint.x) - normalizePoint.x;
+                //Debug.Log(xdecimalPoint);
+                // Whole number plus 0.5 
+                
+                xdecimalPoint = Mathf.Round(hit.point.x);
+                zdecimalPoint = Mathf.Round(hit.point.z);
+                midNormalizePoints = new Vector3(xdecimalPoint, hit.point.y, zdecimalPoint);
+                Debug.Log(normalizePoint);
+                Debug.Log(midNormalizePoints);
+                agent.SetDestination(midNormalizePoints);
+                Instantiate(prefab, midNormalizePoints, Quaternion.identity);
             }
         }
 
