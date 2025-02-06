@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
 using UnityEngine.Scripting.APIUpdating;
 
@@ -10,6 +11,7 @@ public class NewBehaviourScript : MonoBehaviour
     [SerializeField] private InputAction confirmMove;  // Press to confirm movement
 
     private Camera camera;
+    public NavMeshAgent agent;
     private Coroutine moveCoroutine;
 
     public float playerSpeed = 5f;  // Adjust speed for turn-based feel
@@ -31,7 +33,19 @@ public class NewBehaviourScript : MonoBehaviour
             gridCoordinates = GameObject.FindGameObjectsWithTag("GridTile");
         }
     }
-
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit))
+            {
+                agent.SetDestination(hit.point);
+            }
+        }
+    }
+    /*
     private void OnEnable()
     {
         mouseClick.Enable();
@@ -50,7 +64,7 @@ public class NewBehaviourScript : MonoBehaviour
         confirmMove.performed -= ConfirmMovement;
         confirmMove.Disable();
     }
-
+    
     /// <summary>
     /// Selects a grid tile when clicked.
     /// </summary>
@@ -72,7 +86,8 @@ public class NewBehaviourScript : MonoBehaviour
             }
         }
     }
-
+    */
+    /*
     /// <summary>
     /// Confirms movement and moves player toward the selected tile step-by-step.
     /// </summary>
@@ -101,7 +116,7 @@ public class NewBehaviourScript : MonoBehaviour
 
         transform.position = target; // Snap to the exact position
     }
-
+    */
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
