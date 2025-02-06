@@ -51,6 +51,7 @@ public class NewBehaviourScript : MonoBehaviour
             {
                 selectedTile = hit.collider.gameObject;
                 targetPosition = hit.point;
+                Debug.Log("Tile Selected");
             }
         }
 
@@ -70,6 +71,7 @@ public class NewBehaviourScript : MonoBehaviour
         if(selectedTile != null)
         {
             agent.SetDestination(targetPosition);
+            Debug.Log("Moving to tile");
             selectedTile = null; //Reset tile to null 
         }
     }
