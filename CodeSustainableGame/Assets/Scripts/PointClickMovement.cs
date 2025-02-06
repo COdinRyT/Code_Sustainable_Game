@@ -4,15 +4,16 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
 using UnityEngine.Scripting.APIUpdating;
+using UnityEngine.UI;
 
 public class NewBehaviourScript : MonoBehaviour
 {
-    [SerializeField] private InputAction mouseClick;   // Click to select a tile
-    [SerializeField] private InputAction confirmMove;  // Press to confirm movement
+    //[SerializeField] private InputAction mouseClick;   // Click to select a tile
+    //[SerializeField] private InputAction confirmMove;  // Press to confirm movement
 
     private Camera camera;
     public NavMeshAgent agent;
-    private Coroutine moveCoroutine;
+    public Button confirmButton; //UI button to confirm movement
 
     public float playerSpeed = 5f;  // Adjust speed for turn-based feel
     public float stepDelay = 0.2f;  // Delay between tile movements
@@ -27,22 +28,49 @@ public class NewBehaviourScript : MonoBehaviour
         camera = Camera.main;
         rb = GetComponent<Rigidbody>();
 
+
         // Find all tiles dynamically if not assigned
         if (gridCoordinates.Length == 0)
         {
             gridCoordinates = GameObject.FindGameObjectsWithTag("GridTile");
         }
+
+        if (confirmButton != null)
+        {
+            confirmButton.onClick.AddListener(MoveToSelectTile);
+        }
     }
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
+
+            if (Physics.Raycast(ray, out hit) && hit.collider.CompareTag("GridTile"))
             {
-                agent.SetDestination(hit.point);
+                selectedTile = hit.collider.gameObject;
+                targetPosition = hit.point;
             }
+        }
+
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+        //    RaycastHit hit;
+        //    if (Physics.Raycast(ray, out hit))
+        //    {
+        //        agent.SetDestination(hit.point);
+        //    }
+        //}
+    }
+
+    public void MoveToSelectTile()
+    {
+        if(selectedTile != null)
+        {
+            agent.SetDestination(targetPosition);
+            selectedTile = null; //Reset tile to null 
         }
     }
     /*
