@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -23,6 +24,7 @@ public class GameManager : MonoBehaviour
     public GameObject TerrainGroup;
     public GameObject Garbage;
     public List<GameObject> tag_targets = new List<GameObject>();
+    public TextMeshProUGUI turnDisplay;
 
     private float chanceOfGarbage = 6;
     private float randomNumber;
@@ -39,6 +41,9 @@ public class GameManager : MonoBehaviour
         //Debug.Log("End turn: " + endTurn);
         //Debug.Log(" Current Turn: " + currentTurn);
         //Debug.Log("Max turn: " + maxTurn);
+
+        turnDisplay.text = "Turn" + currentTurn.ToString();
+
         if (endTurn && currentTurn < maxTurn)
         {
             endTurn = false;
