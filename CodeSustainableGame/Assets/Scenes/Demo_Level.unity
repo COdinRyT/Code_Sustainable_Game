@@ -1156,6 +1156,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: 10_workman
       objectReference: {fileID: 0}
+    - target: {fileID: 788379510068383616, guid: 0f7151353c7a94145b797f7c258219c1, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 2328428291358469909, guid: 0f7151353c7a94145b797f7c258219c1, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.05
@@ -7202,7 +7206,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.016666668
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 2efaebe4236552940b6b196d17df539f, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 29e049d7d6aa7394db90a8a5a0d9e6c8, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1001 &1985999018
 PrefabInstance:

@@ -17,15 +17,14 @@ public class NewBehaviourScript : MonoBehaviour
 
     private Camera camera;
     public NavMeshAgent agent;
-    public Button confirmButton; //UI button to confirm movement
 
     public float playerSpeed = 5f;  // Adjust speed for turn-based feel
     public float stepDelay = 0.2f;  // Delay between tile movements
-    private Vector3 targetPosition;
 
     private Rigidbody rb;
     [SerializeField] private GameObject[] gridCoordinates; // Array of valid tiles
-    private GameObject selectedTile = null;  // The tile the player selects
+    private GameObject selectedPlayer = null;  // The character that the player selects
+    public bool isPlayerSelected = false;
 
     private Vector3 normalizePoint;
     private Vector3 midNormalizePoints;
@@ -57,7 +56,13 @@ public class NewBehaviourScript : MonoBehaviour
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit))
+            if(Physics.Raycast(ray, out hit) && hit.collider.CompareTag("Player"))
+            {
+                selectedPlayer = hit.collider.gameObject;
+                Debug.Log("Character Selected");
+            }
+
+            else if(Physics.Raycast(ray, out hit) && selectedPlayer != null)
             {
                 normalizePoint = hit.point;
 
@@ -66,7 +71,7 @@ public class NewBehaviourScript : MonoBehaviour
                 //xdecimalPoint = Mathf.Floor(normalizePoint.x) - normalizePoint.x;
                 //Debug.Log(xdecimalPoint);
                 // Whole number plus 0.5 
-                
+
                 xdecimalPoint = Mathf.Round(hit.point.x);
                 zdecimalPoint = Mathf.Round(hit.point.z);
                 midNormalizePoints = new Vector3(xdecimalPoint, hit.point.y, zdecimalPoint);
@@ -75,6 +80,25 @@ public class NewBehaviourScript : MonoBehaviour
                 agent.SetDestination(midNormalizePoints);
                 Instantiate(prefab, midNormalizePoints, Quaternion.identity);
             }
+
+            //if (Physics.Raycast(ray, out hit))
+            //{
+            //    normalizePoint = hit.point;
+
+            //    //Debug.Log(normalizePoint.x);
+            //    //Debug.Log(Math.Truncate(normalizePoint.x));
+            //    //xdecimalPoint = Mathf.Floor(normalizePoint.x) - normalizePoint.x;
+            //    //Debug.Log(xdecimalPoint);
+            //    // Whole number plus 0.5 
+
+            //    xdecimalPoint = Mathf.Round(hit.point.x);
+            //    zdecimalPoint = Mathf.Round(hit.point.z);
+            //    midNormalizePoints = new Vector3(xdecimalPoint, hit.point.y, zdecimalPoint);
+            //    Debug.Log(normalizePoint);
+            //    Debug.Log(midNormalizePoints);
+            //    agent.SetDestination(midNormalizePoints);
+            //    Instantiate(prefab, midNormalizePoints, Quaternion.identity);
+            //}
         }
 
         //if (Input.GetMouseButtonDown(0))
@@ -88,15 +112,7 @@ public class NewBehaviourScript : MonoBehaviour
         //}
     }
 
-    public void MoveToSelectTile()
-    {
-        if(selectedTile != null)
-        {
-            agent.SetDestination(targetPosition);
-            Debug.Log("Moving to tile");
-            selectedTile = null; //Reset tile to null 
-        }
-    }
+
     /*
     private void OnEnable()
     {

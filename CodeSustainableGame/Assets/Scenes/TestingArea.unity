@@ -3352,7 +3352,7 @@ GameObject:
   - component: {fileID: 1124279578}
   m_Layer: 0
   m_Name: Terrain
-  m_TagString: Untagged
+  m_TagString: GridTile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5762,12 +5762,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 2135981465}
-  confirmButton: {fileID: 0}
   playerSpeed: 100
   stepDelay: 0.2
   gridCoordinates:
   - {fileID: 935354591}
   - {fileID: 1477136834}
+  isPlayerSelected: 0
   prefab: {fileID: 5803732622442556610, guid: 29871d086386fb54198d5bda5efb9845, type: 3}
 --- !u!54 &2135981462
 Rigidbody:
