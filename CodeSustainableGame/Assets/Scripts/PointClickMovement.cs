@@ -169,9 +169,4 @@ public class NewBehaviourScript : MonoBehaviour
         transform.position = target; // Snap to the exact position
     }
     */
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawSphere(targetPosition, 1);
-    }
 }
