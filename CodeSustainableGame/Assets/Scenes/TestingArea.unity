@@ -322,6 +322,7 @@ MonoBehaviour:
   maxPeople: 15
   currentMoney: 1000
   endTurn: 0
+  turnDisplay: {fileID: 1260849558}
 --- !u!4 &276819062
 Transform:
   m_ObjectHideFlags: 0

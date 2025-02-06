@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -19,6 +20,9 @@ public class GameManager : MonoBehaviour
     public int maxPeople;
     public int currentMoney;
     public bool endTurn;
+
+    public TextMeshProUGUI turnDisplay;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +35,9 @@ public class GameManager : MonoBehaviour
         Debug.Log("End turn: " + endTurn);
         Debug.Log(" Current Turn: " + currentTurn);
         Debug.Log("Max turn: " + maxTurn);
+
+        turnDisplay.text = "Turn: " + currentTurn.ToString();
+
         if (endTurn && currentTurn < maxTurn)
         {
             endTurn = false;
