@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -39,6 +40,8 @@ public class GameManager : MonoBehaviour
         //Debug.Log("End turn: " + endTurn);
         //Debug.Log(" Current Turn: " + currentTurn);
         //Debug.Log("Max turn: " + maxTurn);
+
+
         if (endTurn && currentTurn < maxTurn)
         {
             endTurn = false;
