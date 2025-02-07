@@ -18,6 +18,7 @@ public class NewBehaviourScript : MonoBehaviour
 
     public float playerSpeed = 5f;  // Adjust speed for turn-based feel
     public float stepDelay = 0.2f;  // Delay between tile movements
+    
 
     private Rigidbody rb;
     [SerializeField] private GameObject[] gridCoordinates; // Array of valid tiles
@@ -57,7 +58,7 @@ public class NewBehaviourScript : MonoBehaviour
                 }
                 if (hit.collider.gameObject.layer == 7 && isPlayerSelected == true);
                 {
-                    MoveSelectedPlayer(hit.point);
+                    MoveSelectedPlayer(hit.point);                  
                 }
 
                 //normalizePoint = hit.point;
