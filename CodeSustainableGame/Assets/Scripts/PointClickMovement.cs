@@ -51,55 +51,34 @@ public class NewBehaviourScript : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (isPlayerSelected)
         {
-            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if(Physics.Raycast(ray, out hit) && hit.collider.CompareTag("Player"))
+            if (Input.GetMouseButtonDown(0))
             {
-                selectedPlayer = hit.collider.gameObject;
-                Debug.Log("Character Selected");
+                Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit))
+                {
+                    normalizePoint = hit.point;
+
+                    //Debug.Log(normalizePoint.x);
+                    //Debug.Log(Math.Truncate(normalizePoint.x));
+                    //xdecimalPoint = Mathf.Floor(normalizePoint.x) - normalizePoint.x;
+                    //Debug.Log(xdecimalPoint);
+                    // Whole number plus 0.5 
+
+                    xdecimalPoint = Mathf.Round(hit.point.x);
+                    zdecimalPoint = Mathf.Round(hit.point.z);
+                    midNormalizePoints = new Vector3(xdecimalPoint, hit.point.y, zdecimalPoint);
+                    Debug.Log(normalizePoint);
+                    Debug.Log(midNormalizePoints);
+                    agent.SetDestination(midNormalizePoints);
+                    Instantiate(prefab, midNormalizePoints, Quaternion.identity);
+                }
             }
-
-            else if(Physics.Raycast(ray, out hit) && selectedPlayer != null)
-            {
-                normalizePoint = hit.point;
-
-                //Debug.Log(normalizePoint.x);
-                //Debug.Log(Math.Truncate(normalizePoint.x));
-                //xdecimalPoint = Mathf.Floor(normalizePoint.x) - normalizePoint.x;
-                //Debug.Log(xdecimalPoint);
-                // Whole number plus 0.5 
-
-                xdecimalPoint = Mathf.Round(hit.point.x);
-                zdecimalPoint = Mathf.Round(hit.point.z);
-                midNormalizePoints = new Vector3(xdecimalPoint, hit.point.y, zdecimalPoint);
-                Debug.Log(normalizePoint);
-                Debug.Log(midNormalizePoints);
-                agent.SetDestination(midNormalizePoints);
-                Instantiate(prefab, midNormalizePoints, Quaternion.identity);
-            }
-
-            //if (Physics.Raycast(ray, out hit))
-            //{
-            //    normalizePoint = hit.point;
-
-            //    //Debug.Log(normalizePoint.x);
-            //    //Debug.Log(Math.Truncate(normalizePoint.x));
-            //    //xdecimalPoint = Mathf.Floor(normalizePoint.x) - normalizePoint.x;
-            //    //Debug.Log(xdecimalPoint);
-            //    // Whole number plus 0.5 
-
-            //    xdecimalPoint = Mathf.Round(hit.point.x);
-            //    zdecimalPoint = Mathf.Round(hit.point.z);
-            //    midNormalizePoints = new Vector3(xdecimalPoint, hit.point.y, zdecimalPoint);
-            //    Debug.Log(normalizePoint);
-            //    Debug.Log(midNormalizePoints);
-            //    agent.SetDestination(midNormalizePoints);
-            //    Instantiate(prefab, midNormalizePoints, Quaternion.identity);
-            //}
         }
+       
 
         //if (Input.GetMouseButtonDown(0))
         //{
