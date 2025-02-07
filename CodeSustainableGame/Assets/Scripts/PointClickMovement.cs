@@ -7,14 +7,12 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.HID;
 using UnityEngine.Scripting.APIUpdating;
 using UnityEngine.UI;
 
 public class NewBehaviourScript : MonoBehaviour
 {
-    //[SerializeField] private InputAction mouseClick;   // Click to select a tile
-    //[SerializeField] private InputAction confirmMove;  // Press to confirm movement
-
     private Camera camera;
     public NavMeshAgent agent;
 
@@ -24,7 +22,7 @@ public class NewBehaviourScript : MonoBehaviour
     private Rigidbody rb;
     [SerializeField] private GameObject[] gridCoordinates; // Array of valid tiles
     private GameObject selectedPlayer = null;  // The character that the player selects
-    public bool isPlayerSelected = false;
+    public bool isPlayerSelected;
 
     private Vector3 normalizePoint;
     private Vector3 midNormalizePoints;
@@ -36,61 +34,84 @@ public class NewBehaviourScript : MonoBehaviour
     {
         camera = Camera.main;
         rb = GetComponent<Rigidbody>();
-
+        isPlayerSelected = false;
 
         // Find all tiles dynamically if not assigned
         if (gridCoordinates.Length == 0)
         {
             gridCoordinates = GameObject.FindGameObjectsWithTag("GridTile");
         }
-
-        //if (confirmButton != null)
-        //{
-        //    confirmButton.onClick.AddListener(MoveToSelectTile);
-        //}
     }
     private void Update()
     {
-        if (isPlayerSelected)
+        if (Input.GetMouseButtonDown(0))
         {
-            if (Input.GetMouseButtonDown(0))
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit))
             {
-                Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-
-                if (Physics.Raycast(ray, out hit))
+                if (hit.collider.gameObject.layer == 6)
                 {
-                    normalizePoint = hit.point;
-
-                    //Debug.Log(normalizePoint.x);
-                    //Debug.Log(Math.Truncate(normalizePoint.x));
-                    //xdecimalPoint = Mathf.Floor(normalizePoint.x) - normalizePoint.x;
-                    //Debug.Log(xdecimalPoint);
-                    // Whole number plus 0.5 
-
-                    xdecimalPoint = Mathf.Round(hit.point.x);
-                    zdecimalPoint = Mathf.Round(hit.point.z);
-                    midNormalizePoints = new Vector3(xdecimalPoint, hit.point.y, zdecimalPoint);
-                    Debug.Log(normalizePoint);
-                    Debug.Log(midNormalizePoints);
-                    agent.SetDestination(midNormalizePoints);
-                    Instantiate(prefab, midNormalizePoints, Quaternion.identity);
+                    SelectPlayer(hit.collider.gameObject);
                 }
+                if (hit.collider.gameObject.layer == 7 && isPlayerSelected == true);
+                {
+                    MoveSelectedPlayer(hit.point);
+                }
+
+                //normalizePoint = hit.point;
+
+                ////Debug.Log(normalizePoint.x);
+                ////Debug.Log(Math.Truncate(normalizePoint.x));
+                ////xdecimalPoint = Mathf.Floor(normalizePoint.x) - normalizePoint.x;
+                ////Debug.Log(xdecimalPoint);
+                //// Whole number plus 0.5 
+
+                //xdecimalPoint = Mathf.Round(hit.point.x);
+                //zdecimalPoint = Mathf.Round(hit.point.z);
+                //midNormalizePoints = new Vector3(xdecimalPoint, hit.point.y, zdecimalPoint);
+                //Debug.Log(normalizePoint);
+                //Debug.Log(midNormalizePoints);
+                //agent.SetDestination(midNormalizePoints);
+                //Instantiate(prefab, midNormalizePoints, Quaternion.identity);
             }
         }
-       
-
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-        //    RaycastHit hit;
-        //    if (Physics.Raycast(ray, out hit))
-        //    {
-        //        agent.SetDestination(hit.point);
-        //    }
-        //}
     }
 
+    public void SelectPlayer(GameObject player)
+    {
+        selectedPlayer = player;
+        isPlayerSelected = true;
+        Debug.Log("Player has been selected");
+    }
+
+    public void MoveSelectedPlayer(Vector3 targetPoint)
+    {
+        if(selectedPlayer != null)
+        {
+            normalizePoint = targetPoint;
+
+            //Debug.Log(normalizePoint.x);
+            //Debug.Log(Math.Truncate(normalizePoint.x));
+            //xdecimalPoint = Mathf.Floor(normalizePoint.x) - normalizePoint.x;
+            //Debug.Log(xdecimalPoint);
+            // Whole number plus 0.5 
+
+            xdecimalPoint = Mathf.Round(targetPoint.x);
+            zdecimalPoint = Mathf.Round(targetPoint.z);
+            midNormalizePoints = new Vector3(xdecimalPoint, targetPoint.y, zdecimalPoint);
+            Debug.Log(normalizePoint);
+            Debug.Log(midNormalizePoints);
+            agent.SetDestination(midNormalizePoints);
+            Instantiate(prefab, midNormalizePoints, Quaternion.identity);
+        }
+        else
+        {
+            Debug.Log("Player is not selected");
+        }
+       
+    }
 
     /*
     private void OnEnable()
