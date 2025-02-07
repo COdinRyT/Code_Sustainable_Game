@@ -69,11 +69,15 @@ public class NewBehaviourScript : MonoBehaviour
                 
                 xdecimalPoint = Mathf.Round(hit.point.x);
                 zdecimalPoint = Mathf.Round(hit.point.z);
-                midNormalizePoints = new Vector3(xdecimalPoint, hit.point.y, zdecimalPoint);
-                Debug.Log(normalizePoint);
-                Debug.Log(midNormalizePoints);
+                midNormalizePoints = new Vector3(xdecimalPoint, 1, zdecimalPoint);
+                //Debug.Log(normalizePoint);
+                //Debug.Log(midNormalizePoints);
                 agent.SetDestination(midNormalizePoints);
                 Instantiate(prefab, midNormalizePoints, Quaternion.identity);
+                CheckIfOnGarbage.Instance.x = midNormalizePoints.x;
+                CheckIfOnGarbage.Instance.y = midNormalizePoints.y;
+                CheckIfOnGarbage.Instance.z = midNormalizePoints.z;
+                CheckIfOnGarbage.Instance.CheckCollisionBetweenPlayerAndGarbage();
             }
         }
 
