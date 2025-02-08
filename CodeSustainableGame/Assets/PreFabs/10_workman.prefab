@@ -174,7 +174,7 @@ Transform:
   m_GameObject: {fileID: 788379510068383616}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 3.2371588, y: -0.9999981, z: -4.1557217}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -200,6 +200,7 @@ MonoBehaviour:
   stepDelay: 0.2
   gridCoordinates:
   - {fileID: 0}
+  prefab: {fileID: 0}
 --- !u!195 &6736039324516656521
 NavMeshAgent:
   m_ObjectHideFlags: 0
