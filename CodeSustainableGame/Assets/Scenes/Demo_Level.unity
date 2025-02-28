@@ -11411,7 +11411,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 600, y: 500}
+  m_AnchoredPosition: {x: 842.9, y: 297.9}
   m_SizeDelta: {x: 250, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1192266237
@@ -11471,8 +11471,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1192266237}
-        m_TargetAssemblyTypeName: EndTurn, Assembly-CSharp
+      - m_Target: {fileID: 1588275070}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
@@ -11935,8 +11935,8 @@ RectTransform:
   m_Children:
   - {fileID: 1120091546}
   - {fileID: 777638270}
-  - {fileID: 1192266236}
   - {fileID: 1118216774}
+  - {fileID: 1192266236}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -15514,6 +15514,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1413077853356169678, guid: dab0cc22c5659c342a8b9088407011dd, type: 3}
   m_PrefabInstance: {fileID: 1573039882}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1588275070 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6817312910991051896, guid: c4d5398d823a637458faf1c8be0166f3, type: 3}
+  m_PrefabInstance: {fileID: 809010166}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97a12d01999ccd94aa6b16385c08f9f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1603942705
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -32,11 +32,16 @@ public class GameManager : MonoBehaviour
     private float currentx;
     private float currenty;
     private Vector3 spot;
+
+    NewBehaviourScript pointClickMovement; 
+
+
     // Start is called before the first frame update
     void Start()
     {
         currentTurn = startTurn;
         SpawnGarbage();
+        pointClickMovement = FindAnyObjectByType<NewBehaviourScript>();
     }
 
     // Update is called once per frame
@@ -71,6 +76,14 @@ public class GameManager : MonoBehaviour
                     // Do things with obj
                 }
             }
+        }
+    }
+
+    public void OnClick()
+    {
+        if(pointClickMovement.isTileSelected)
+        {
+            pointClickMovement.MovePlayer(pointClickMovement.selectedTile.transform.position);
         }
     }
 

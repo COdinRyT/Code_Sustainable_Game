@@ -23,12 +23,13 @@ public class NewBehaviourScript : MonoBehaviour
     private Rigidbody rb;
     [SerializeField] private GameObject[] gridCoordinates; // Array of valid tiles
     private GameObject selectedPlayer = null;  // The character that the player selects
-    private GameObject selectedTile = null; // The tile that the player selects
+    public GameObject selectedTile = null; // The tile that the player selects
     //Booleans to keep track on whether player or tile have been selected
-    public bool isPlayerSelected;
-    private bool isTileSelected;
+    private bool isPlayerSelected;
+    public bool isTileSelected;
     //This is to keep track of how many times an object is selected
     private int timesSelected;
+    private GameObject lastPrefab;
 
     private Vector3 normalizePoint;
     private Vector3 midNormalizePoints;
@@ -73,6 +74,7 @@ public class NewBehaviourScript : MonoBehaviour
                 if(hit.collider.gameObject.layer == 7 && isPlayerSelected == true)
                 {
                     SelectTile(hit.collider.gameObject);
+                    timesSelected++;
                 }
             }
         }
@@ -88,9 +90,15 @@ public class NewBehaviourScript : MonoBehaviour
 
     public void SelectTile(GameObject tile)
     {
+        if(lastPrefab != null)
+        {
+            Destroy(lastPrefab);
+        }
+
         selectedTile = tile;
-        isTileSelected = true;        
-        Instantiate(prefab, selectedTile.transform.position, Quaternion.identity) ;
+        isTileSelected = true;  
+        
+        lastPrefab = Instantiate(prefab, selectedTile.transform.position, Quaternion.identity) ;
         Debug.Log("Tile selected");
     }
 
@@ -104,7 +112,6 @@ public class NewBehaviourScript : MonoBehaviour
         //Debug.Log(normalizePoint);
         //Debug.Log(midNormalizePoints);
         agent.SetDestination(midNormalizePoints);
-        Instantiate(prefab, midNormalizePoints, Quaternion.identity);
         CheckIfOnGarbage.Instance.x = midNormalizePoints.x;
         CheckIfOnGarbage.Instance.y = midNormalizePoints.y;
         CheckIfOnGarbage.Instance.z = midNormalizePoints.z;
