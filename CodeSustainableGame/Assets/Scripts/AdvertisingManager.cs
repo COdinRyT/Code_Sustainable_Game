@@ -12,7 +12,7 @@ public class AdvertisngManager : MonoBehaviour
         adPanel.SetActive(false);
 
         yesButton.onClick.AddListener(AdAccepted);
-        noButton.onClick.AddListener(AdDeclined);
+        //noButton.onClick.AddListener(AdDeclined);
     }
 
     public void AdAccepted()
