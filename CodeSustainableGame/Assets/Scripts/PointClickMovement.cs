@@ -57,16 +57,10 @@ public class NewBehaviourScript : MonoBehaviour
                 if (hit.collider.gameObject.layer == 6)
                 {
                     SelectPlayer(hit.collider.gameObject);
-                    timesSelected++;
-                    if (hit.collider.gameObject.layer == 6 && timesSelected == 2)
-                    {
-                        isPlayerSelected = false;
-                        timesSelected = 0;
-                        Debug.Log("Player unselected");
-                    }
+                    gameManager.ConfirmVolunteer(hit.collider.gameObject);
                 }
 
-                if(hit.collider.gameObject.layer == 7 && isPlayerSelected == true)
+                if(hit.collider.gameObject.layer == 7 && gameManager.characters.Count == 2)
                 {
                     SelectTile(hit.collider.gameObject);
                     timesSelected++;
@@ -122,6 +116,8 @@ public class NewBehaviourScript : MonoBehaviour
         CheckIfOnGarbage.Instance.y = midNormalizePoints.y;
         CheckIfOnGarbage.Instance.z = midNormalizePoints.z;
         CheckIfOnGarbage.Instance.CheckCollisionBetweenPlayerAndGarbage();
-    } 
+    }
+
+    
     
 }

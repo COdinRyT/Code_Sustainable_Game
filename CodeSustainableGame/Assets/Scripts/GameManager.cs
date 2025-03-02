@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    private Queue<NewBehaviourScript> characters = new Queue<NewBehaviourScript>(); //Character queue
+    public Queue<GameObject> characters = new Queue<GameObject>(); //Character queue
     public int maxVolunteers = 5;
 
     private void Awake()
@@ -64,7 +64,8 @@ public class GameManager : MonoBehaviour
         
     }
 
-    public void ConfirmVolunteer(NewBehaviourScript character)
+    //Add character object into queue when function is called
+    public void ConfirmVolunteer(GameObject character)
     {
         if (!characters.Contains(character))
         {
@@ -75,18 +76,17 @@ public class GameManager : MonoBehaviour
 
     public void RunNextVolunteer()
     {
-        if (characters.Count == 0)
+        if(characters.Count == 0)
         {
-            Debug.Log("All volunteers occupied");
+            Debug.Log("Volunteers occupied");
             return;
         }
 
-        NewBehaviourScript currentCharacter = characters.Dequeue();
-
-        if (pointClickMovement.isTileSelected)
+      GameObject currentCharacter = characters.Dequeue();
+       
+        if(pointClickMovement.isTileSelected)
         {
-            Vector3 targetPosition = pointClickMovement.selectedTile.transform.position;
-            currentCharacter.MovePlayer(targetPosition);  // Calls MovePlayer() on character
+           
         }
     }
 
@@ -149,11 +149,11 @@ public class GameManager : MonoBehaviour
 
     public void OnClick()
     {
-        if (pointClickMovement.isTileSelected && characters.Count > 0)
+       if(pointClickMovement.isTileSelected && characters.Count > 0)
         {
             RunNextVolunteer();
-        }
-        else if (characters.Count == 0)
+        } 
+       else if(characters.Count == 0)
         {
             Debug.Log("No volunteers available");
         }
