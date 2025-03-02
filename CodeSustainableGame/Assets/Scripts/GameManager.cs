@@ -8,11 +8,15 @@ using UnityEngine.UIElements;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+
+    private Queue<NewBehaviourScript> characters = new Queue<NewBehaviourScript>(); //Character queue
+    public int maxVolunteers = 5;
+
     private void Awake()
     {
         Instance = this; 
     }
-
+     
     public int currentTurn;
     public int startTurn;
     public int maxTurn;
@@ -57,7 +61,71 @@ public class GameManager : MonoBehaviour
             endTurn = false;
             currentTurn++;
         }
+        
     }
+
+    public void ConfirmVolunteer(NewBehaviourScript character)
+    {
+        if (!characters.Contains(character))
+        {
+            characters.Enqueue(character);
+            Debug.Log(character.gameObject.name + "added to queue");
+        }
+    }
+
+    public void RunNextVolunteer()
+    {
+        if (characters.Count == 0)
+        {
+            Debug.Log("All volunteers occupied");
+            return;
+        }
+
+        NewBehaviourScript currentCharacter = characters.Dequeue();
+
+        if (pointClickMovement.isTileSelected)
+        {
+            Vector3 targetPosition = pointClickMovement.selectedTile.transform.position;
+            currentCharacter.MovePlayer(targetPosition);  // Calls MovePlayer() on character
+        }
+    }
+
+    //public void ConfirmTask(GameObject character)
+    //{
+    //    if (!characters.Contains(character))
+    //    {
+    //        characters.Enqueue(character);
+    //        Debug.Log(character.name + "added to queue");
+    //    }        
+    //}
+
+    //public void RunNextCharacter()
+    //{
+    //    if(characters.Count == 0)
+    //    {
+    //        Debug.Log("All volunteers occupied");
+    //        return;
+    //    }
+
+    //    GameObject currentCharacter = characters.Dequeue();
+    //    if(pointClickMovement.isTileSelected)
+    //    {
+    //        Vector3 tilePos = pointClickMovement.selectedTile.transform.position;
+    //        pointClickMovement.MovePlayer(tilePos);
+    //        if (characters.Count > 0)
+    //        {
+    //            Debug.Log("Next volunteer in the queue: " + characters.Peek().name);
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("All volunteers are assigned tasks.");
+    //        }
+    //    }
+
+       
+
+    //}
+
     private void SpawnGarbage()
     {
         foreach (Transform child in TerrainGroup.transform)
@@ -81,9 +149,13 @@ public class GameManager : MonoBehaviour
 
     public void OnClick()
     {
-        if(pointClickMovement.isTileSelected)
+        if (pointClickMovement.isTileSelected && characters.Count > 0)
         {
-            pointClickMovement.MovePlayer(pointClickMovement.selectedTile.transform.position);
+            RunNextVolunteer();
+        }
+        else if (characters.Count == 0)
+        {
+            Debug.Log("No volunteers available");
         }
     }
 
