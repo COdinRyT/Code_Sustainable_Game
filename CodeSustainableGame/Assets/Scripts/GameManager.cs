@@ -41,7 +41,8 @@ public class GameManager : MonoBehaviour
     private float currenty;
     private Vector3 spot;
 
-    NewBehaviourScript pointClickMovement; 
+    NewBehaviourScript pointClickMovement;
+    private int tileLimit;
 
 
     // Start is called before the first frame update
@@ -57,7 +58,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("UI manager is not assigned to game manager!");
         }
 
-       
+        tileLimit = characters.Count;
     }
 
     // Update is called once per frame
@@ -66,10 +67,11 @@ public class GameManager : MonoBehaviour
         //Debug.Log("End turn: " + endTurn);
         //Debug.Log(" Current Turn: " + currentTurn);
         //Debug.Log("Max turn: " + maxTurn);
-
+        tileLimit = characters.Count;
 
         if (endTurn && currentTurn < maxTurn)
         {
+
             endTurn = false;
             currentTurn++;
         }
@@ -108,7 +110,7 @@ public class GameManager : MonoBehaviour
 
     public void ConfirmTilePlacement(GameObject tile)
     {        
-        if(tileQueue.Count < 2)
+        if(tileQueue.Count < tileLimit)
         {            
             pointClickMovement.SelectTile(tile, prefab);
             Debug.Log($"Tiles selectable: {characters.Count}");
