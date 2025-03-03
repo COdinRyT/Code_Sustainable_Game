@@ -7,6 +7,7 @@ public class AdvertisngManager : MonoBehaviour
     public GameObject adPanel;
     public Button yesButton;
     public Button noButton;
+    public int awarenessIncrease = 1;
     private void Start()
     {
         adPanel.SetActive(false);
@@ -19,8 +20,8 @@ public class AdvertisngManager : MonoBehaviour
     {
         Debug.Log("Advertisement sent!");
 
-        GameManager.Instance.currentPeople++;
-
+        //GameManager.Instance.currentPeople++;
+        GameManager.Instance.SpreadAwareness(awarenessIncrease);
         FindObjectOfType<UpdateUI>().UpdateUIElements();
 
         adPanel.SetActive(false);
