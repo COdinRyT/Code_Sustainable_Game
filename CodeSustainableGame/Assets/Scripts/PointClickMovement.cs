@@ -17,18 +17,16 @@ public class NewBehaviourScript : MonoBehaviour
     public NavMeshAgent agent;
     GameManager gameManager;
 
-    private bool isActive = false;
-
     public float playerSpeed = 5f;  // Adjust speed for turn-based feel
     public float stepDelay = 0.2f;  // Delay between tile movements
     
 
     private Rigidbody rb;
-    private GameObject selectedPlayer = null;  // The character that the player selects
+    public GameObject selectedPlayer = null;  // The character that the player selects
     public GameObject selectedTile = null; // The tile that the player selects
     //Booleans to keep track on whether player or tile have been selected
     private bool isPlayerSelected;
-    public bool isTileSelected;
+    private bool isTileSelected;
     //This is to keep track of how many times an object is selected
     private int timesSelected;
     private GameObject lastPrefab;
@@ -38,7 +36,7 @@ public class NewBehaviourScript : MonoBehaviour
     private float xdecimalPoint;
     private float zdecimalPoint;
 
-    public GameObject prefab;
+
     private void Awake()
     {
         camera = Camera.main;
@@ -46,31 +44,10 @@ public class NewBehaviourScript : MonoBehaviour
         gameManager = FindAnyObjectByType<GameManager>();
         isPlayerSelected = false;
         isTileSelected = false;
-
-        this.enabled = isActive;
     }
     private void Update()
     {
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-        //    RaycastHit hit;
-
-        //    if (Physics.Raycast(ray, out hit))
-        //    {
-        //        if (hit.collider.gameObject.layer == 6)
-        //        {
-        //            SelectPlayer(hit.collider.gameObject);
-        //            gameManager.ConfirmVolunteer(hit.collider.gameObject);
-        //        }
-
-        //        if(hit.collider.gameObject.layer == 7 && gameManager.characters.Count == 2)
-        //        {
-        //            SelectTile(hit.collider.gameObject);
-        //            timesSelected++;
-        //        }
-        //    }
-        //}
+        
     }
 
     //When this function is called, make the player the selected game object 
@@ -92,34 +69,47 @@ public class NewBehaviourScript : MonoBehaviour
         //}
     }
 
-    public void SelectTile(GameObject tile)
+    public void SelectTile(GameObject tile, GameObject marker)
     {
-        if(lastPrefab != null)
-        {
-            Destroy(lastPrefab);
-        }
+        //if(lastPrefab != null)
+        //{
+        //    Destroy(lastPrefab);
+        //}
 
         selectedTile = tile;
-        isTileSelected = true;  
-        
-        lastPrefab = Instantiate(prefab, selectedTile.transform.position, Quaternion.identity) ;
+        isTileSelected = true;
+
+        Instantiate(marker, selectedTile.transform.position, Quaternion.identity) ;
         Debug.Log("Tile selected");
     }
 
     //Move the player when this function is called
-    public void MovePlayer(Vector3 targetPoint)
+    public IEnumerator MovePlayer(GameObject player, GameObject targetPoint)
     {
 
-        xdecimalPoint = Mathf.Round(targetPoint.x);
-        zdecimalPoint = Mathf.Round(targetPoint.z);
+        NavMeshAgent playerAgent = player.GetComponent<NavMeshAgent>();
+        if(playerAgent == null)
+        {
+            Debug.Log($"{player.name} does not have their nav agent!");
+            yield break;
+        }
+
+        xdecimalPoint = Mathf.Round(targetPoint.transform.position.x);
+        zdecimalPoint = Mathf.Round(targetPoint.transform.position.z);
         midNormalizePoints = new Vector3(xdecimalPoint, 1, zdecimalPoint);
         //Debug.Log(normalizePoint);
         //Debug.Log(midNormalizePoints);
-        agent.SetDestination(midNormalizePoints);
-        CheckIfOnGarbage.Instance.x = midNormalizePoints.x;
-        CheckIfOnGarbage.Instance.y = midNormalizePoints.y;
-        CheckIfOnGarbage.Instance.z = midNormalizePoints.z;
-        CheckIfOnGarbage.Instance.CheckCollisionBetweenPlayerAndGarbage();
+        playerAgent.SetDestination(midNormalizePoints);
+        //CheckIfOnGarbage.Instance.x = midNormalizePoints.x;
+        //CheckIfOnGarbage.Instance.y = midNormalizePoints.y;
+        //CheckIfOnGarbage.Instance.z = midNormalizePoints.z;
+        //CheckIfOnGarbage.Instance.CheckCollisionBetweenPlayerAndGarbage();
+
+        while(playerAgent.pathPending || playerAgent.remainingDistance > 0.1f)
+        {
+            yield return null; //Wait for the next frame when the previous character
+            //moves within a distance of 0.1 of target
+        }
     }
 
     

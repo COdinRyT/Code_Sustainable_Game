@@ -6,9 +6,9 @@ using UnityEngine.UI;
 
 public class UpdateUI : MonoBehaviour
 {
-    public TMP_Text Turns;
-    public TMP_Text People;
-    public TMP_Text Money;
+    //public TMP_Text Turns;
+    //public TMP_Text People;
+    //public TMP_Text Money;
 
     public TextMeshProUGUI queueText;
     private List<string> characterNames = new List<string>();

@@ -13,7 +13,8 @@ public class GameManager : MonoBehaviour
     UpdateUI updateUI;
 
     public Queue<GameObject> characters = new Queue<GameObject>(); //Character queue
-    public int maxVolunteers = 5;
+    public Queue<GameObject> tileQueue = new Queue<GameObject>(); //Queue for tile selection
+    public GameObject prefab;
 
     private void Awake()
     {
@@ -55,6 +56,8 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("UI manager is not assigned to game manager!");
         }
+
+       
     }
 
     // Update is called once per frame
@@ -84,6 +87,10 @@ public class GameManager : MonoBehaviour
                     GameObject rootObject = selectedObject.transform.root.gameObject;
                     ConfirmVolunteer(rootObject);
                 }
+                if(selectedObject.layer == 7 && characters.Count == 2)
+                {
+                    ConfirmTilePlacement(hit.collider.gameObject);
+                }
             }
         }
     }
@@ -94,61 +101,47 @@ public class GameManager : MonoBehaviour
         if (!characters.Contains(character))
         {
             characters.Enqueue(character);
+            pointClickMovement.SelectPlayer(character);
             updateUI.UpdateQueueUI(new List<GameObject>(characters));
         }
     }
 
-    public void RunNextVolunteer()
-    {
-        if(characters.Count == 0)
-        {
-            Debug.Log("Volunteers occupied");
-            return;
+    public void ConfirmTilePlacement(GameObject tile)
+    {        
+        if(tileQueue.Count < 2)
+        {            
+            pointClickMovement.SelectTile(tile, prefab);
+            Debug.Log($"Tiles selectable: {characters.Count}");
+            tileQueue.Enqueue(tile);
         }
-
-      GameObject currentCharacter = characters.Dequeue();
-       
-        if(pointClickMovement.isTileSelected)
+        else
         {
-           
+            Debug.Log("No more paths to select");
         }
     }
 
-    //public void ConfirmTask(GameObject character)
-    //{
-    //    if (!characters.Contains(character))
-    //    {
-    //        characters.Enqueue(character);
-    //        Debug.Log(character.name + "added to queue");
-    //    }        
-    //}
+    public void DoTask()
+    {
+        if (characters.Count != tileQueue.Count)
+        {
+            Debug.LogError("Mismatch between character and tile queue sizes!");
+            return;
+        }
 
-    //public void RunNextCharacter()
-    //{
-    //    if(characters.Count == 0)
-    //    {
-    //        Debug.Log("All volunteers occupied");
-    //        return;
-    //    }
+        StartCoroutine(MoveCharacterSequence());        
+    }
 
-    //    GameObject currentCharacter = characters.Dequeue();
-    //    if(pointClickMovement.isTileSelected)
-    //    {
-    //        Vector3 tilePos = pointClickMovement.selectedTile.transform.position;
-    //        pointClickMovement.MovePlayer(tilePos);
-    //        if (characters.Count > 0)
-    //        {
-    //            Debug.Log("Next volunteer in the queue: " + characters.Peek().name);
-    //        }
-    //        else
-    //        {
-    //            Debug.Log("All volunteers are assigned tasks.");
-    //        }
-    //    }
+    private IEnumerator MoveCharacterSequence()
+    {
+        while(characters.Count > 0 && tileQueue.Count > 0)
+        {
+            GameObject currentCharacter = characters.Dequeue();
+            GameObject targetTile = tileQueue.Dequeue();
+            updateUI.UpdateQueueUI(new List<GameObject>(characters));
 
-       
-
-    //}
+            yield return StartCoroutine(pointClickMovement.MovePlayer(currentCharacter, targetTile));
+        }
+    }
 
     private void SpawnGarbage()
     {
@@ -171,17 +164,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void OnClick()
-    {
-       if(pointClickMovement.isTileSelected && characters.Count > 0)
-        {
-            RunNextVolunteer();
-        } 
-       else if(characters.Count == 0)
-        {
-            Debug.Log("No volunteers available");
-        }
-    }
+    
 
     public void WebsiteLink() //This is to link the Pollution Probe website 
     {
