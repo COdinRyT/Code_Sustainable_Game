@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
@@ -10,7 +12,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     private void Awake()
     {
-        Instance = this; 
+        Instance = this;
     }
 
     public int currentTurn;
@@ -20,11 +22,18 @@ public class GameManager : MonoBehaviour
     public int maxPeople;
     public int currentMoney;
     public bool endTurn;
+    public int happiness;
+    public int awarenessLevel;
+    public int currentPlantedTrees = 0;
+
+    public int garbageLevel = 1;
+    public int currentGarbageAmount; // An example is garbage will start at 100. 
+
+    public bool readyForGetInvolved = false;
 
     public GameObject TerrainGroup;
     public GameObject Garbage;
     public List<GameObject> tag_targets = new List<GameObject>();
-
     public Transform parentTransform;
 
     private float chanceOfGarbage = 9;
@@ -32,11 +41,13 @@ public class GameManager : MonoBehaviour
     private float currentx;
     private float currenty;
     private Vector3 spot;
+
+    //private returnVal;
     // Start is called before the first frame update
     void Start()
     {
         currentTurn = startTurn;
-        SpawnGarbage();
+        StartGame();
     }
 
     // Update is called once per frame
@@ -45,12 +56,41 @@ public class GameManager : MonoBehaviour
         //Debug.Log("End turn: " + endTurn);
         //Debug.Log(" Current Turn: " + currentTurn);
         //Debug.Log("Max turn: " + maxTurn);
-
+        if (happiness >= 100) // This is how you win the game
+        {
+            EndGame();
+        }
+        if (currentTurn >= 20)// This is how you lose the game
+        {
+            EndGame();
+        }
 
         if (endTurn && currentTurn < maxTurn)
         {
+            GameManager.Instance.GetInvolvedIsTrue();
             endTurn = false;
             currentTurn++;
+        }
+    }
+    void EndGame()
+    {
+        SceneManager.LoadScene("EndGame");
+    }
+    public void GetInvolvedIsTrue()
+    {
+        Debug.Log("Update glow");
+        GlowAndSparkle.Instance.transparency = 100;
+    }
+    void StartGame()
+    {
+        SetupVariables();
+        SpawnGarbage();
+    }
+    void SetupVariables()
+    {
+        if (garbageLevel == 1)
+        {
+            currentGarbageAmount = 100;
         }
     }
     private void SpawnGarbage()
@@ -66,12 +106,29 @@ public class GameManager : MonoBehaviour
                 if (randomNumber >= chanceOfGarbage)
                 {
                     //Debug.Log("what");
+                    Debug.Log("Garbage spawn x" + obj.transform.position.x + "z: " + obj.transform.position.z);
                     spot = new Vector3(obj.transform.position.x, .51f, obj.transform.position.z);
                     Instantiate(Garbage, spot, Quaternion.identity, parentTransform);
                     // Do things with obj
                 }
             }
         }
+    }
+
+    public void SpreadAwareness(int spreadAwarenessValue)
+    {
+        awarenessLevel += spreadAwarenessValue;
+        //return returnVal;
+    }
+
+    public void SmallTrashPile(int smallTrashPileValue)
+    {
+        currentGarbageAmount -= smallTrashPileValue;
+    }
+
+    public void MediumTrashPile(int mediumTrashPileValue)
+    {
+        currentGarbageAmount -= mediumTrashPileValue;
     }
 
     public void WebsiteLink() //This is to link the Pollution Probe website 
