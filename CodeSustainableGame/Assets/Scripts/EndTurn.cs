@@ -12,7 +12,7 @@ public class EndTurn : MonoBehaviour
         {
             GameManager.Instance.endTurn = true;
 
-            advertisementPanel.SetActive(true);
+            //advertisementPanel.SetActive(true);
         }
     }
 }

@@ -22,6 +22,7 @@ public class AdvertisngManager : MonoBehaviour
 
         //GameManager.Instance.currentPeople++;
         GameManager.Instance.SpreadAwareness(awarenessIncrease);
+        GameManager.Instance.GetInvolvedIsTrue();
         FindObjectOfType<UpdateUI>().UpdateUIElements();
 
         adPanel.SetActive(false);

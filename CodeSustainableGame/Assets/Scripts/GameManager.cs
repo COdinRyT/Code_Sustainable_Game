@@ -4,6 +4,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
@@ -11,7 +12,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     private void Awake()
     {
-        Instance = this; 
+        Instance = this;
     }
 
     public int currentTurn;
@@ -28,10 +29,11 @@ public class GameManager : MonoBehaviour
     public int garbageLevel = 1;
     public int currentGarbageAmount; // An example is garbage will start at 100. 
 
+    public bool readyForGetInvolved = false;
+
     public GameObject TerrainGroup;
     public GameObject Garbage;
     public List<GameObject> tag_targets = new List<GameObject>();
-
     public Transform parentTransform;
 
     private float chanceOfGarbage = 9;
@@ -54,15 +56,31 @@ public class GameManager : MonoBehaviour
         //Debug.Log("End turn: " + endTurn);
         //Debug.Log(" Current Turn: " + currentTurn);
         //Debug.Log("Max turn: " + maxTurn);
-
+        if (happiness >= 100) // This is how you win the game
+        {
+            EndGame();
+        }
+        if (currentTurn >= 20)// This is how you lose the game
+        {
+            EndGame();
+        }
 
         if (endTurn && currentTurn < maxTurn)
         {
+            GameManager.Instance.GetInvolvedIsTrue();
             endTurn = false;
             currentTurn++;
         }
     }
-
+    void EndGame()
+    {
+        SceneManager.LoadScene("EndGame");
+    }
+    public void GetInvolvedIsTrue()
+    {
+        Debug.Log("Update glow");
+        GlowAndSparkle.Instance.transparency = 100;
+    }
     void StartGame()
     {
         SetupVariables();
