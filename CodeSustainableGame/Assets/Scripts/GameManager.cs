@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
@@ -52,15 +53,31 @@ public class GameManager : MonoBehaviour
         camera = Camera.main;
         currentTurn = startTurn;
         SpawnGarbage();
-        pointClickMovement = FindAnyObjectByType<NewBehaviourScript>();
-        updateUI.UpdateQueueUI(new List<GameObject>(characters));
+        pointClickMovement = FindAnyObjectByType<NewBehaviourScript>();        
         updateUI = FindAnyObjectByType<UpdateUI>();
-        if(updateUI == null)
+        updateUI.UpdateQueueUI(new List<GameObject>(characters));
+        if (updateUI == null)
         {
             Debug.Log("UI manager is not assigned to game manager!");
         }
 
         tileLimit = characters.Count;
+
+        FirstPlayer();
+    }
+
+    public void FirstPlayer() {
+        while(characters.Count > 0)
+        {
+            for (int i = 0; i < characters.Count; i++)
+            {
+                pointClickMovement.SelectPlayer(pointClickMovement.selectedPlayer);
+            }
+        }
+
+        
+
+        
     }
 
     // Update is called once per frame
@@ -102,18 +119,34 @@ public class GameManager : MonoBehaviour
     //Add character object into queue when function is called
     public void ConfirmVolunteer(GameObject character)
     {
+        
+
         if (!characters.Contains(character))
         {
             Debug.Log("Confirming volunteer");
             characters.Enqueue(character);
-            //pointClickMovement.SelectPlayer(character);
+            //pointClickMovement.SelectPlayer(character);           
         }
     }
-
+    /*
     public void ConfirmTilePlacement(GameObject tile)
     {        
         if(tileQueue.Count < tileLimit)
         {            
+            pointClickMovement.SelectTile(tile, prefab);
+            Debug.Log($"Tiles selectable: {characters.Count}");
+            tileQueue.Enqueue(tile);
+        }
+        else
+        {
+            Debug.Log("No more paths to select");
+        }
+    }
+    */
+    public void ConfirmTilePlacement(GameObject tile)
+    {
+        if (tileQueue.Count < tileLimit)
+        {
             pointClickMovement.SelectTile(tile, prefab);
             Debug.Log($"Tiles selectable: {characters.Count}");
             tileQueue.Enqueue(tile);
