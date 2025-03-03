@@ -47,8 +47,8 @@ public class NewBehaviourScript : MonoBehaviour
 
         if (this.enabled == true)
         {
-            Debug.Log($"Agent {agent.gameObject.name} has been added to queue");
-            gameManager.ConfirmVolunteer(agent.gameObject);
+            Debug.Log($"Agent {gameObject.name} has been added to queue");
+            gameManager.ConfirmVolunteer(gameObject);
             
         }
         else

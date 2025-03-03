@@ -18,7 +18,8 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;         
+        Instance = this;
+        updateUI = FindAnyObjectByType<UpdateUI>();
     }
      
     public int currentTurn;
@@ -52,6 +53,7 @@ public class GameManager : MonoBehaviour
         currentTurn = startTurn;
         SpawnGarbage();
         pointClickMovement = FindAnyObjectByType<NewBehaviourScript>();
+        updateUI.UpdateQueueUI(new List<GameObject>(characters));
         updateUI = FindAnyObjectByType<UpdateUI>();
         if(updateUI == null)
         {
@@ -105,7 +107,6 @@ public class GameManager : MonoBehaviour
             Debug.Log("Confirming volunteer");
             characters.Enqueue(character);
             //pointClickMovement.SelectPlayer(character);
-            updateUI.UpdateQueueUI(new List<GameObject>(characters));
         }
     }
 
