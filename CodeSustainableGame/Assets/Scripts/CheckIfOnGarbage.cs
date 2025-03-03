@@ -50,6 +50,8 @@ public class CheckIfOnGarbage : MonoBehaviour
                 Debug.Log("At same spot. We have collision");
             }
             */
+            //Debug.Log("Garbage: " + allChildren[i].transform.position);
+            //Debug.Log("Player x: " + madeUpVector3.x + " z: "+ madeUpVector3.z);
             if (allChildren[i].transform.position.x == madeUpVector3.x && allChildren[i].transform.position.z == madeUpVector3.z)
             {
                 Debug.Log("Same spot, We have collision.");
