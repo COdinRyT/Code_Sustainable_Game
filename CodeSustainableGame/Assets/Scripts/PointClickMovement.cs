@@ -44,6 +44,17 @@ public class NewBehaviourScript : MonoBehaviour
         gameManager = FindAnyObjectByType<GameManager>();
         isPlayerSelected = false;
         isTileSelected = false;
+
+        if (this.enabled == true)
+        {
+            Debug.Log($"Agent {agent.gameObject.name} has been added to queue");
+            gameManager.ConfirmVolunteer(agent.gameObject);
+            
+        }
+        else
+        {
+            Debug.Log("Agent is not in the queue");
+        }
     }
     private void Update()
     {
@@ -84,28 +95,28 @@ public class NewBehaviourScript : MonoBehaviour
     }
 
     //Move the player when this function is called
-    public IEnumerator MovePlayer(GameObject player, GameObject targetPoint)
+    public IEnumerator MovePlayer()
     {
 
-        NavMeshAgent playerAgent = player.GetComponent<NavMeshAgent>();
-        if(playerAgent == null)
-        {
-            Debug.Log($"{player.name} does not have their nav agent!");
-            yield break;
-        }
+        //NavMeshAgent playerAgent = player.GetComponent<NavMeshAgent>();
+        //if(playerAgent == null)
+        //{
+        //    Debug.Log($"{player.name} does not have their nav agent!");
+        //    yield break;
+        //}
 
-        xdecimalPoint = Mathf.Round(targetPoint.transform.position.x);
-        zdecimalPoint = Mathf.Round(targetPoint.transform.position.z);
+        xdecimalPoint = Mathf.Round(agent.transform.position.x);
+        zdecimalPoint = Mathf.Round(agent.transform.position.z);
         midNormalizePoints = new Vector3(xdecimalPoint, 1, zdecimalPoint);
         //Debug.Log(normalizePoint);
         //Debug.Log(midNormalizePoints);
-        playerAgent.SetDestination(midNormalizePoints);
+        agent.SetDestination(midNormalizePoints);
         //CheckIfOnGarbage.Instance.x = midNormalizePoints.x;
         //CheckIfOnGarbage.Instance.y = midNormalizePoints.y;
         //CheckIfOnGarbage.Instance.z = midNormalizePoints.z;
         //CheckIfOnGarbage.Instance.CheckCollisionBetweenPlayerAndGarbage();
 
-        while(playerAgent.pathPending || playerAgent.remainingDistance > 0.1f)
+        while(agent.pathPending || agent.remainingDistance > 0.1f)
         {
             yield return null; //Wait for the next frame when the previous character
             //moves within a distance of 0.1 of target

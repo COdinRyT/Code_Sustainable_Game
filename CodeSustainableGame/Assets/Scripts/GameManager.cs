@@ -102,8 +102,9 @@ public class GameManager : MonoBehaviour
     {
         if (!characters.Contains(character))
         {
+            Debug.Log("Confirming volunteer");
             characters.Enqueue(character);
-            pointClickMovement.SelectPlayer(character);
+            //pointClickMovement.SelectPlayer(character);
             updateUI.UpdateQueueUI(new List<GameObject>(characters));
         }
     }
@@ -141,7 +142,7 @@ public class GameManager : MonoBehaviour
             GameObject targetTile = tileQueue.Dequeue();
             updateUI.UpdateQueueUI(new List<GameObject>(characters));
 
-            yield return StartCoroutine(pointClickMovement.MovePlayer(currentCharacter, targetTile));
+            yield return StartCoroutine(pointClickMovement.MovePlayer());
         }
     }
 
