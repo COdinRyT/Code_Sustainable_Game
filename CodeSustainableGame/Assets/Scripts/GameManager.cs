@@ -8,13 +8,16 @@ using UnityEngine.UIElements;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    private Camera camera;
+
+    UpdateUI updateUI;
 
     public Queue<GameObject> characters = new Queue<GameObject>(); //Character queue
     public int maxVolunteers = 5;
 
     private void Awake()
     {
-        Instance = this; 
+        Instance = this;         
     }
      
     public int currentTurn;
@@ -43,9 +46,15 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        camera = Camera.main;
         currentTurn = startTurn;
         SpawnGarbage();
         pointClickMovement = FindAnyObjectByType<NewBehaviourScript>();
+        updateUI = FindAnyObjectByType<UpdateUI>();
+        if(updateUI == null)
+        {
+            Debug.Log("UI manager is not assigned to game manager!");
+        }
     }
 
     // Update is called once per frame
@@ -61,7 +70,22 @@ public class GameManager : MonoBehaviour
             endTurn = false;
             currentTurn++;
         }
-        
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                GameObject selectedObject = hit.collider.gameObject;
+
+                if(selectedObject.layer == 6)
+                {
+                    GameObject rootObject = selectedObject.transform.root.gameObject;
+                    ConfirmVolunteer(rootObject);
+                }
+            }
+        }
     }
 
     //Add character object into queue when function is called
@@ -70,7 +94,7 @@ public class GameManager : MonoBehaviour
         if (!characters.Contains(character))
         {
             characters.Enqueue(character);
-            Debug.Log(character.gameObject.name + "added to queue");
+            updateUI.UpdateQueueUI(new List<GameObject>(characters));
         }
     }
 

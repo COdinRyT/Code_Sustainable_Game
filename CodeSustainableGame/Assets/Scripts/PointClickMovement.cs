@@ -17,6 +17,8 @@ public class NewBehaviourScript : MonoBehaviour
     public NavMeshAgent agent;
     GameManager gameManager;
 
+    private bool isActive = false;
+
     public float playerSpeed = 5f;  // Adjust speed for turn-based feel
     public float stepDelay = 0.2f;  // Delay between tile movements
     
@@ -44,29 +46,31 @@ public class NewBehaviourScript : MonoBehaviour
         gameManager = FindAnyObjectByType<GameManager>();
         isPlayerSelected = false;
         isTileSelected = false;
+
+        this.enabled = isActive;
     }
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+        //    RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit))
-            {
-                if (hit.collider.gameObject.layer == 6)
-                {
-                    SelectPlayer(hit.collider.gameObject);
-                    gameManager.ConfirmVolunteer(hit.collider.gameObject);
-                }
+        //    if (Physics.Raycast(ray, out hit))
+        //    {
+        //        if (hit.collider.gameObject.layer == 6)
+        //        {
+        //            SelectPlayer(hit.collider.gameObject);
+        //            gameManager.ConfirmVolunteer(hit.collider.gameObject);
+        //        }
 
-                if(hit.collider.gameObject.layer == 7 && gameManager.characters.Count == 2)
-                {
-                    SelectTile(hit.collider.gameObject);
-                    timesSelected++;
-                }
-            }
-        }
+        //        if(hit.collider.gameObject.layer == 7 && gameManager.characters.Count == 2)
+        //        {
+        //            SelectTile(hit.collider.gameObject);
+        //            timesSelected++;
+        //        }
+        //    }
+        //}
     }
 
     //When this function is called, make the player the selected game object 
