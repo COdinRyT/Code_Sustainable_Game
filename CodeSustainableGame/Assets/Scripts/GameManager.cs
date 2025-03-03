@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -24,8 +25,13 @@ public class GameManager : MonoBehaviour
     public GameObject Garbage;
     public List<GameObject> tag_targets = new List<GameObject>();
 
-    private float chanceOfGarbage = 6;
+    public Transform parentTransform;
+
+    private float chanceOfGarbage = 9;
     private float randomNumber;
+    private float currentx;
+    private float currenty;
+    private Vector3 spot;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,6 +45,8 @@ public class GameManager : MonoBehaviour
         //Debug.Log("End turn: " + endTurn);
         //Debug.Log(" Current Turn: " + currentTurn);
         //Debug.Log("Max turn: " + maxTurn);
+
+
         if (endTurn && currentTurn < maxTurn)
         {
             endTurn = false;
@@ -54,11 +62,12 @@ public class GameManager : MonoBehaviour
             if (obj.layer == 7)
             {
                 randomNumber = Random.Range(0, 10);
-                Debug.Log(randomNumber);
+                //Debug.Log(randomNumber);
                 if (randomNumber >= chanceOfGarbage)
                 {
-                    Debug.Log("what");
-                    Instantiate(Garbage, obj.transform.position, Quaternion.identity);
+                    //Debug.Log("what");
+                    spot = new Vector3(obj.transform.position.x, .51f, obj.transform.position.z);
+                    Instantiate(Garbage, spot, Quaternion.identity, parentTransform);
                     // Do things with obj
                 }
             }

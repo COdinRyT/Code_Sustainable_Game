@@ -1,0 +1,4 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/WorkerProgressBar/ProgressBar.uss?fileID=7433441132597879392&amp;guid=7cc670b26100c35459508c875d0d82fa&amp;type=3#ProgressBar" />
+    <ui:Slider label="Slider" high-value="100" />
+</ui:UXML>

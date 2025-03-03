@@ -8,15 +8,16 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
 using UnityEngine.Scripting.APIUpdating;
+using UnityEngine.UI;
 
 public class NewBehaviourScript : MonoBehaviour
 {
-    [SerializeField] private InputAction mouseClick;   // Click to select a tile
-    [SerializeField] private InputAction confirmMove;  // Press to confirm movement
+    //[SerializeField] private InputAction mouseClick;   // Click to select a tile
+    //[SerializeField] private InputAction confirmMove;  // Press to confirm movement
 
     private Camera camera;
     public NavMeshAgent agent;
-    private Coroutine moveCoroutine;
+    public Button confirmButton; //UI button to confirm movement
 
     public float playerSpeed = 5f;  // Adjust speed for turn-based feel
     public float stepDelay = 0.2f;  // Delay between tile movements
@@ -37,11 +38,17 @@ public class NewBehaviourScript : MonoBehaviour
         camera = Camera.main;
         rb = GetComponent<Rigidbody>();
 
+
         // Find all tiles dynamically if not assigned
         if (gridCoordinates.Length == 0)
         {
             gridCoordinates = GameObject.FindGameObjectsWithTag("GridTile");
         }
+
+        //if (confirmButton != null)
+        //{
+        //    confirmButton.onClick.AddListener(MoveToSelectTile);
+        //}
     }
     private void Update()
     {
@@ -49,6 +56,7 @@ public class NewBehaviourScript : MonoBehaviour
         {
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
+
             if (Physics.Raycast(ray, out hit))
             {
                 normalizePoint = hit.point;
@@ -61,12 +69,36 @@ public class NewBehaviourScript : MonoBehaviour
                 
                 xdecimalPoint = Mathf.Round(hit.point.x);
                 zdecimalPoint = Mathf.Round(hit.point.z);
-                midNormalizePoints = new Vector3(xdecimalPoint, hit.point.y, zdecimalPoint);
-                Debug.Log(normalizePoint);
-                Debug.Log(midNormalizePoints);
+                midNormalizePoints = new Vector3(xdecimalPoint, 1, zdecimalPoint);
+                //Debug.Log(normalizePoint);
+                //Debug.Log(midNormalizePoints);
                 agent.SetDestination(midNormalizePoints);
                 Instantiate(prefab, midNormalizePoints, Quaternion.identity);
+                CheckIfOnGarbage.Instance.x = midNormalizePoints.x;
+                CheckIfOnGarbage.Instance.y = midNormalizePoints.y;
+                CheckIfOnGarbage.Instance.z = midNormalizePoints.z;
+                CheckIfOnGarbage.Instance.CheckCollisionBetweenPlayerAndGarbage();
             }
+        }
+
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+        //    RaycastHit hit;
+        //    if (Physics.Raycast(ray, out hit))
+        //    {
+        //        agent.SetDestination(hit.point);
+        //    }
+        //}
+    }
+
+    public void MoveToSelectTile()
+    {
+        if(selectedTile != null)
+        {
+            agent.SetDestination(targetPosition);
+            Debug.Log("Moving to tile");
+            selectedTile = null; //Reset tile to null 
         }
     }
     /*
@@ -141,9 +173,4 @@ public class NewBehaviourScript : MonoBehaviour
         transform.position = target; // Snap to the exact position
     }
     */
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawSphere(targetPosition, 1);
-    }
 }
