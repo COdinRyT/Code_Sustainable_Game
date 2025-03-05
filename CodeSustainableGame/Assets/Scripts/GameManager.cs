@@ -67,15 +67,8 @@ public class GameManager : MonoBehaviour
     }
 
     public void FirstPlayer() {
-        while(characters.Count > 0)
-        {
-            for (int i = 0; i < characters.Count; i++)
-            {
-                pointClickMovement.SelectPlayer(pointClickMovement.selectedPlayer);
-            }
-        }
-
-        
+        GameObject currentCharacter = FindAnyObjectByType<NewBehaviourScript>().gameObject;
+        pointClickMovement.SelectPlayer(currentCharacter);  
 
         
     }
