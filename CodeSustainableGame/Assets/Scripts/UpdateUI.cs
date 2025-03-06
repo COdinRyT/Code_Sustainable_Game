@@ -10,6 +10,17 @@ public class UpdateUI : MonoBehaviour
     public TMP_Text People;
     public TMP_Text Money;
 
+    public Image moneyBar;
+    public float moneyBarAmount;
+
+    public Image garbageBar;
+    public float garbageBarAmount;
+
+    public Image happyBar;
+    public float happyBarAmount;
+
+
+
     void Start()
     {
         UpdateUIElements();

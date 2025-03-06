@@ -387,7 +387,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &59109091
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1599,6 +1599,7 @@ GameObject:
   - component: {fileID: 240037023}
   - component: {fileID: 240037022}
   - component: {fileID: 240037021}
+  - component: {fileID: 240037024}
   m_Layer: 5
   m_Name: next turn
   m_TagString: Untagged
@@ -1668,7 +1669,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 240037022}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 240037024}
+        m_TargetAssemblyTypeName: EndTurn, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &240037022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1707,6 +1720,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 240037019}
   m_CullTransparentMesh: 1
+--- !u!114 &240037024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 240037019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b91b4ae530afd354d854977815317fda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  advertisementPanel: {fileID: 1724133228}
 --- !u!1 &243108744
 GameObject:
   m_ObjectHideFlags: 0
@@ -2568,6 +2594,7 @@ GameObject:
   - component: {fileID: 381809195}
   - component: {fileID: 381809194}
   - component: {fileID: 381809193}
+  - component: {fileID: 381809197}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -2665,6 +2692,27 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &381809197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 381809192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67ff507cf21d394cb1c97aa2386079c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Turns: {fileID: 1075580708}
+  People: {fileID: 248273152}
+  Money: {fileID: 552881899}
+  moneyBar: {fileID: 1140100266}
+  moneyBarAmount: 0
+  garbageBar: {fileID: 1905441017}
+  garbageBarAmount: 0
+  happyBar: {fileID: 1073342176}
+  happyBarAmount: 0
 --- !u!1 &421194625
 GameObject:
   m_ObjectHideFlags: 0
@@ -4051,7 +4099,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &647048484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4183,6 +4231,12 @@ MonoBehaviour:
   Turns: {fileID: 87537249}
   People: {fileID: 550653259}
   Money: {fileID: 421194627}
+  moneyBar: {fileID: 0}
+  moneyBarAmount: 0
+  garbageBar: {fileID: 0}
+  garbageBarAmount: 0
+  happyBar: {fileID: 0}
+  happyBarAmount: 0
 --- !u!1 &678990279
 GameObject:
   m_ObjectHideFlags: 0
@@ -5376,7 +5430,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &845143001
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5452,6 +5506,12 @@ MonoBehaviour:
   Turns: {fileID: 87537249}
   People: {fileID: 550653259}
   Money: {fileID: 421194627}
+  moneyBar: {fileID: 0}
+  moneyBarAmount: 0
+  garbageBar: {fileID: 0}
+  garbageBarAmount: 0
+  happyBar: {fileID: 0}
+  happyBarAmount: 0
 --- !u!1 &851717352
 GameObject:
   m_ObjectHideFlags: 0
@@ -9950,7 +10010,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1724133229
 RectTransform:
   m_ObjectHideFlags: 0
