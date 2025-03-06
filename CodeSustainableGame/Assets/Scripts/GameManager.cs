@@ -158,7 +158,12 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        StartCoroutine(MoveCharacterSequence());        
+        StartCoroutine(MoveCharacterSequence());
+        endTurn = true;
+        if(characters.Count > 0)
+        {
+            endTurn = false;
+        }
     }
 
     private IEnumerator MoveCharacterSequence()

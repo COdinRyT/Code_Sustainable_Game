@@ -58,7 +58,10 @@ public class NewBehaviourScript : MonoBehaviour
     }
     private void Update()
     {
-        
+        if(gameManager.endTurn == true)
+        {
+            gameManager.ConfirmVolunteer(gameObject);
+        }
     }
 
     //When this function is called, make the player the selected game object 
@@ -120,7 +123,7 @@ public class NewBehaviourScript : MonoBehaviour
         }
 
         // Ensure the character is exactly at the position
-        character.transform.position = targetPosition;
+        character.transform.position = targetPosition;       
     }
 
     
