@@ -29,7 +29,7 @@ public class UpdateUI : MonoBehaviour
 
     public void UpdateUIElements()
     {
-        Turns.text = "Turns: " + GameManager.Instance.currentTurn.ToString() + "/" + GameManager.Instance.maxTurn.ToString();
+        Turns.text = GameManager.Instance.currentTurn.ToString() + "/" + GameManager.Instance.maxTurn.ToString();
         People.text = GameManager.Instance.currentPeople.ToString() + "/" + GameManager.Instance.maxPeople.ToString();
         Money.text = GameManager.Instance.currentMoney.ToString() + "$";
 
