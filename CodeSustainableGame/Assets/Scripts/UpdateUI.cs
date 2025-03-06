@@ -14,7 +14,7 @@ public class UpdateUI : MonoBehaviour
     public Image garbageBar;
     public Image happyBar;
 
-
+    public GameObject sideBar;
 
 
     void Start()
@@ -36,7 +36,17 @@ public class UpdateUI : MonoBehaviour
         moneyBar.fillAmount = GameManager.Instance.currentMoney / 9999f; // If the money amount is larger than 9999 than the bar will not fill up any more.
         garbageBar.fillAmount = GameManager.Instance.currentGarbageAmount / 100f;
         happyBar.fillAmount = GameManager.Instance.happiness / 100f;
+    }
 
-
+    public void EnableSideBar(bool enabled)
+    {
+        if (enabled)
+        {
+            sideBar.SetActive(true);
+        }
+        else
+        {
+            sideBar.SetActive(false);
+        }
     }
 }
