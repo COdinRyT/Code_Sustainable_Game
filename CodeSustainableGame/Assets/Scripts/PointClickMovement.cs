@@ -1,176 +1,190 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.InputSystem;
-using UnityEngine.Scripting.APIUpdating;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using UnityEngine.Timeline;
+//using UnityEngine.EventSystems;  // Include this to check for UI interaction
 
-public class NewBehaviourScript : MonoBehaviour
+public class PointClickMovement : MonoBehaviour
 {
-    //[SerializeField] private InputAction mouseClick;   // Click to select a tile
-    //[SerializeField] private InputAction confirmMove;  // Press to confirm movement
-
     private Camera camera;
     public NavMeshAgent agent;
-    public Button confirmButton; //UI button to confirm movement
+    GameManager gameManager;
+
+    public GameObject Marker;
 
     public float playerSpeed = 5f;  // Adjust speed for turn-based feel
     public float stepDelay = 0.2f;  // Delay between tile movements
-    private Vector3 targetPosition;
 
     private Rigidbody rb;
-    [SerializeField] private GameObject[] gridCoordinates; // Array of valid tiles
-    private GameObject selectedTile = null;  // The tile the player selects
+    public GameObject selectedPlayer = null;  // The character that the player selects
+    public GameObject selectedTile = null;   // The tile that the player selects
 
-    private Vector3 normalizePoint;
-    private Vector3 midNormalizePoints;
-    private float xdecimalPoint;
-    private float zdecimalPoint;
+    private Vector3 targetPosition;
 
-    public GameObject prefab;
+
+    private Vector3 additionPos = new Vector3(0,0.1f,0);
+    // Flashing variables
+    public bool flashCharacter = false;
+    private bool flashup = true;
+    private bool flashdown;
+    public GameObject cube;
+
+    public float moveSpeedCube = 50f;
+    private float speedFactor;
+
+    // Skip flag for skipping movement
+    public bool skipMove = false;
+
+
     private void Awake()
     {
         camera = Camera.main;
         rb = GetComponent<Rigidbody>();
+        gameManager = FindAnyObjectByType<GameManager>();
 
-
-        // Find all tiles dynamically if not assigned
-        if (gridCoordinates.Length == 0)
+        if (this.enabled == true)
         {
-            gridCoordinates = GameObject.FindGameObjectsWithTag("GridTile");
+            Debug.Log($"Agent {gameObject.name} has been added to queue");
+            gameManager.ConfirmVolunteer(gameObject);
         }
-
-        //if (confirmButton != null)
-        //{
-        //    confirmButton.onClick.AddListener(MoveToSelectTile);
-        //}
+        else
+        {
+            Debug.Log("Agent is not in the queue");
+        }
     }
+
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        speedFactor = moveSpeedCube * Time.deltaTime;
+        if (flashCharacter)
         {
-            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit))
+            cube.SetActive(true);
+            if (flashup)
             {
-                normalizePoint = hit.point;
-
-                //Debug.Log(normalizePoint.x);
-                //Debug.Log(Math.Truncate(normalizePoint.x));
-                //xdecimalPoint = Mathf.Floor(normalizePoint.x) - normalizePoint.x;
-                //Debug.Log(xdecimalPoint);
-                // Whole number plus 0.5 
-                
-                xdecimalPoint = Mathf.Round(hit.point.x);
-                zdecimalPoint = Mathf.Round(hit.point.z);
-                midNormalizePoints = new Vector3(xdecimalPoint, 1, zdecimalPoint);
-                //Debug.Log(normalizePoint);
-                //Debug.Log(midNormalizePoints);
-                agent.SetDestination(midNormalizePoints);
-                Instantiate(prefab, midNormalizePoints, Quaternion.identity);
-                CheckIfOnGarbage.Instance.x = midNormalizePoints.x;
-                CheckIfOnGarbage.Instance.y = midNormalizePoints.y;
-                CheckIfOnGarbage.Instance.z = midNormalizePoints.z;
-                CheckIfOnGarbage.Instance.CheckCollisionBetweenPlayerAndGarbage();
-            }
-        }
-
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-        //    RaycastHit hit;
-        //    if (Physics.Raycast(ray, out hit))
-        //    {
-        //        agent.SetDestination(hit.point);
-        //    }
-        //}
-    }
-
-    public void MoveToSelectTile()
-    {
-        if(selectedTile != null)
-        {
-            agent.SetDestination(targetPosition);
-            Debug.Log("Moving to tile");
-            selectedTile = null; //Reset tile to null 
-        }
-    }
-    /*
-    private void OnEnable()
-    {
-        mouseClick.Enable();
-        mouseClick.performed += SelectTile;
-
-        confirmMove.Enable();
-        confirmMove.performed += ConfirmMovement;
-    }
-
-    //This function is called when the script is enabled
-    private void OnDisable()
-    {
-        mouseClick.performed -= SelectTile;
-        mouseClick.Disable();
-
-        confirmMove.performed -= ConfirmMovement;
-        confirmMove.Disable();
-    }
-    
-    /// <summary>
-    /// Selects a grid tile when clicked.
-    /// </summary>
-    private void SelectTile(InputAction.CallbackContext context)
-    {
-        //This is to project a ray from the camera position onto wherever the mouse 
-        //is currently positioned
-        Ray ray = camera.ScreenPointToRay(Mouse.current.position.ReadValue());
-        if (Physics.Raycast(ray, out RaycastHit hit))
-        {
-            foreach (GameObject gridTile in gridCoordinates)
-            {
-                if (hit.collider.gameObject == gridTile)
+                cube.transform.position = cube.transform.position + additionPos * speedFactor;
+                if (cube.transform.position.y > 5)
                 {
-                    selectedTile = gridTile;
-                    Debug.Log("Selected Tile: " + selectedTile.name);
-                    return;
+                    flashup = false;
+                    flashdown = true;
+                }
+            }
+            if (flashdown)
+            {
+                cube.transform.position = cube.transform.position - additionPos * speedFactor;
+                if (cube.transform.position.y < 3)
+                {
+                    flashup = true;
+                    flashdown = false;
                 }
             }
         }
-    }
-    */
-    /*
-    /// <summary>
-    /// Confirms movement and moves player toward the selected tile step-by-step.
-    /// </summary>
-    private void ConfirmMovement(InputAction.CallbackContext context)
-    {
-        if (selectedTile != null)
+        else
         {
-            if (moveCoroutine != null) StopCoroutine(moveCoroutine);
-            moveCoroutine = StartCoroutine(MoveStepByStep(selectedTile.transform.position));
+            cube.SetActive(false);
+        }
+        // Handle player selection here if needed (already done by GameManager)
+    }
+
+    // When this function is called, make the player the selected game object
+    public void SelectPlayer(GameObject player)
+    {
+        selectedPlayer = player;
+
+        Debug.Log("Player has been Selected");
+    }
+
+    public void SelectTile(GameObject tile, GameObject marker)
+    {
+        selectedTile = tile;
+        Instantiate(marker, selectedTile.transform.position, Quaternion.identity);
+        Debug.Log("Tile selected");
+    }
+
+    // Move the player when this function is called and wait for the player to click
+    public IEnumerator MovePlayer()
+    {
+        flashCharacter = true;
+        if (selectedPlayer == null)
+        {
+            flashCharacter = false;
+            Debug.LogError("No player selected!");
+            yield break;
+        }
+
+        // Get the NavMeshAgent from the selected player
+        NavMeshAgent playerAgent = selectedPlayer.GetComponent<NavMeshAgent>();
+        if (playerAgent == null)
+        {
+            flashCharacter = false;
+            Debug.LogError("Selected player does not have a NavMeshAgent!");
+            yield break;
+        }
+
+        // Wait for a click or check if we need to skip the move
+        yield return StartCoroutine(WaitForClick());
+
+        // If skipMove is true, immediately skip the movement
+        if (skipMove)
+        {
+            Debug.Log("Move skipped due to skip flag.");
+            flashCharacter = false;
+            skipMove = false;  // Reset skip flag
+            yield break;  // Exit the coroutine early
+        }
+
+        // Only proceed with raycast if we are not over UI (like a button)
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            // Skip raycasting if mouse is over UI
+            flashCharacter = false;
+            Debug.Log("Pointer is over UI, skipping raycast.");
+            yield break;
+        }
+
+        // Get the click position (convert mouse position to world position)
+        Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            targetPosition = hit.point;  // Set the target position to where the player clicked
+
+            // Round the target position to the nearest whole unit for tile-based movement
+            targetPosition.x = Mathf.Round(targetPosition.x);  // Round X to nearest 1 unit
+            targetPosition.z = Mathf.Round(targetPosition.z);  // Round Z to nearest 1 unit
+            targetPosition.y = hit.point.y;  // Keep the Y as the original height
+
+            // Move the player to the snapped position
+            playerAgent.SetDestination(targetPosition);
+            Debug.Log($"Moving to snapped position: {targetPosition}");
+
+            // Create marker on tile
+            Instantiate(Marker, targetPosition, Quaternion.identity);
+
+            // Wait for the agent to reach the target
+            while (playerAgent.pathPending || playerAgent.remainingDistance > 0.1f)
+            {
+                yield return null;  // Continue waiting until the movement is complete
+            }
+            flashCharacter = false;
+            Debug.Log("Movement complete!");
         }
     }
-
-    /// <summary>
-    /// Moves the player step by step toward the target position.
-    /// </summary>
-    private IEnumerator MoveStepByStep(Vector3 target)
+    // Wait for a click before proceeding
+    private IEnumerator WaitForClick()
     {
-        target.y = transform.position.y; // Keep the player at the same height
+        bool clicked = false;
 
-        while (Vector3.Distance(transform.position, target) > 0.1f)
+        // While we haven't clicked and haven't skipped, keep waiting
+        while (!clicked && !skipMove)
         {
-            Vector3 nextStep = Vector3.MoveTowards(transform.position, target, playerSpeed * Time.deltaTime);
-            transform.position = nextStep;
-            yield return new WaitForSeconds(stepDelay); // Adds a delay between steps for a turn-based feel
+            if (Input.GetMouseButtonDown(0))  // Left mouse button clicked
+            {
+                clicked = true;
+            }
+            yield return null;  // Wait until the next frame
         }
-
-        transform.position = target; // Snap to the exact position
     }
-    */
 }
