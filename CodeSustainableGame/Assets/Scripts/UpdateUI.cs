@@ -1,36 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using TMPro.Examples;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UpdateUI : MonoBehaviour
 {
+    public TMP_Text Turns;
+    public TMP_Text People;
+    public TMP_Text Money;
+
+    public Image moneyBar;
+    public Image garbageBar;
+    public Image happyBar;
+
     public TextMeshProUGUI queueText;
+
     private List<string> characterNames = new List<string>();
 
-    void Awake()
+    void Start()
     {
-        //queueText = GetComponent<TextMeshProUGUI>();
         UpdateUIElements();
-        Debug.Log("UpdateUI GameObject active? " + gameObject.activeInHierarchy);
-       
     }
 
     void Update()
     {
-        if (queueText != null)
-        {
-            UpdateUIElements();
-        }
+        UpdateUIElements();
     }
 
     public void UpdateUIElements()
     {
-        //Turns.text = "Turns: " + GameManager.Instance.currentTurn.ToString() + "/" + GameManager.Instance.maxTurn.ToString();
-        //People.text = "People: " + GameManager.Instance.currentPeople.ToString() + "/" + GameManager.Instance.maxPeople.ToString();
-        //Money.text = "Money: " + GameManager.Instance.currentMoney.ToString() + "$";
+        Turns.text = GameManager.Instance.currentTurn.ToString() + "/" + GameManager.Instance.maxTurn.ToString();
+        People.text = GameManager.Instance.currentPeople.ToString() + "/" + GameManager.Instance.maxPeople.ToString();
+        Money.text = GameManager.Instance.currentMoney.ToString() + "$";
+
+        moneyBar.fillAmount = GameManager.Instance.currentMoney / 9999f; // If the money amount is larger than 9999 than the bar will not fill up any more.
+        garbageBar.fillAmount = GameManager.Instance.currentGarbageAmount / 100f;
+        happyBar.fillAmount = GameManager.Instance.happiness / 100f;
     }
 
     public void UpdateQueueUI(List<GameObject> characterQueue)
@@ -44,7 +50,7 @@ public class UpdateUI : MonoBehaviour
         if (queueText != null)
         {
             Debug.Log("Updating");
-            queueText.text = "Queue:\n" + string.Join("\n", characterNames);
+            queueText.text = "Queue: \n" + string.Join("\n", characterNames);
         }
     }
 }
