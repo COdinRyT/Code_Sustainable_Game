@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 using UnityEngine.Timeline;
+//using UnityEngine.EventSystems;  // Include this to check for UI interaction
 
 public class PointClickMovement : MonoBehaviour
 {
@@ -20,6 +22,9 @@ public class PointClickMovement : MonoBehaviour
     public GameObject selectedTile = null;   // The tile that the player selects
 
     private Vector3 targetPosition;
+
+    // Skip flag for skipping movement
+    public bool skipMove = false;
 
     private void Awake()
     {
@@ -75,8 +80,24 @@ public class PointClickMovement : MonoBehaviour
             yield break;
         }
 
-        // Wait for a click
+        // Wait for a click or check if we need to skip the move
         yield return StartCoroutine(WaitForClick());
+
+        // If skipMove is true, immediately skip the movement
+        if (skipMove)
+        {
+            Debug.Log("Move skipped due to skip flag.");
+            skipMove = false;  // Reset skip flag
+            yield break;  // Exit the coroutine early
+        }
+
+        // Only proceed with raycast if we are not over UI (like a button)
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            // Skip raycasting if mouse is over UI
+            Debug.Log("Pointer is over UI, skipping raycast.");
+            yield break;
+        }
 
         // Get the click position (convert mouse position to world position)
         Ray ray = camera.ScreenPointToRay(Input.mousePosition);
@@ -112,13 +133,13 @@ public class PointClickMovement : MonoBehaviour
     {
         bool clicked = false;
 
-        while (!clicked)
+        // While we haven't clicked and haven't skipped, keep waiting
+        while (!clicked && !skipMove)
         {
             if (Input.GetMouseButtonDown(0))  // Left mouse button clicked
             {
                 clicked = true;
             }
-
             yield return null;  // Wait until the next frame
         }
     }

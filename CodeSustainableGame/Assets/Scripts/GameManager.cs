@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     private Camera camera;
 
-    UpdateUI updateUI;
+    public UpdateUI updateUI;
 
     public Queue<GameObject> characters = new Queue<GameObject>(); // Character queue
     public GameObject prefab;
@@ -21,6 +22,8 @@ public class GameManager : MonoBehaviour
     public int maxPeople;
     public int currentMoney;
     public bool endTurn = false;
+
+    public Button skipButton;  // Drag the Skip Button here from the Unity Editor
 
     public GameObject TerrainGroup;
     public GameObject Garbage;
@@ -57,11 +60,41 @@ public class GameManager : MonoBehaviour
         updateUI = FindAnyObjectByType<UpdateUI>();
         updateUI.UpdateQueueUI(new List<GameObject>(characters));
 
+        if (skipButton != null)
+        {
+            skipButton.onClick.AddListener(OnSkipButtonClick);
+        }
+
         if (updateUI == null)
         {
             Debug.Log("UI manager is not assigned to game manager!");
         }
         FirstPlayer();
+    }
+    // This method is called when the skip button is clicked
+    public void OnEndTurnClick()
+    {
+        // Set the skip flag to true for all characters
+        foreach (GameObject character in characters)
+        {
+            PointClickMovement movement = character.GetComponent<PointClickMovement>();
+            if (movement != null)
+            {
+                movement.skipMove = false;
+            }
+        }
+    }
+    void OnSkipButtonClick()
+    {
+        // Set the skip flag to true for all characters
+        foreach (GameObject character in characters)
+        {
+            PointClickMovement movement = character.GetComponent<PointClickMovement>();
+            if (movement != null)
+            {
+                movement.skipMove = true;
+            }
+        }
     }
 
     public void FirstPlayer()
@@ -73,6 +106,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        updateUI.UpdateQueueUI(new List<GameObject>(characters));
         if (endTurn && currentTurn < maxTurn)
         {
             // Find all game objects with the tag "Player" (or any tag you've assigned to your characters)
@@ -89,7 +123,7 @@ public class GameManager : MonoBehaviour
                 if (playerScript != null)
                 {
                     // Call the function to check for garbage (or any other function you want to execute)
-                    Debug.Log("Test");
+                    //Debug.Log("Test");
                     playerScript.CheckCollisionBetweenPlayerAndGarbage();
                 }
                 else
@@ -155,9 +189,6 @@ public class GameManager : MonoBehaviour
 
             // Move the current player to the clicked position
             yield return StartCoroutine(characterMovement.MovePlayer());
-
-            // Optional: Wait for a short delay before the next character moves
-            //yield return new WaitForSeconds(stepDelay);The 
         }
 
         // After all characters have moved, re-add them to the queue
@@ -165,7 +196,6 @@ public class GameManager : MonoBehaviour
         {
             characters.Enqueue(character);  // Re-add characters to the queue
         }
-        //endTurn = true;
         // End the turn after all characters have moved
         hasTaskStarted = false;  // Reset task flag
         Debug.Log("Turn ended");
