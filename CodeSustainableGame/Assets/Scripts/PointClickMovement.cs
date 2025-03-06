@@ -95,32 +95,32 @@ public class NewBehaviourScript : MonoBehaviour
     }
 
     //Move the player when this function is called
-    public IEnumerator MovePlayer()
+    public IEnumerator MovePlayer(GameObject character, GameObject tile)
     {
-
-        //NavMeshAgent playerAgent = player.GetComponent<NavMeshAgent>();
-        //if(playerAgent == null)
-        //{
-        //    Debug.Log($"{player.name} does not have their nav agent!");
-        //    yield break;
-        //}
-
-        xdecimalPoint = Mathf.Round(agent.transform.position.x);
-        zdecimalPoint = Mathf.Round(agent.transform.position.z);
-        midNormalizePoints = new Vector3(xdecimalPoint, 1, zdecimalPoint);
-        //Debug.Log(normalizePoint);
-        //Debug.Log(midNormalizePoints);
-        agent.SetDestination(midNormalizePoints);
-        //CheckIfOnGarbage.Instance.x = midNormalizePoints.x;
-        //CheckIfOnGarbage.Instance.y = midNormalizePoints.y;
-        //CheckIfOnGarbage.Instance.z = midNormalizePoints.z;
-        //CheckIfOnGarbage.Instance.CheckCollisionBetweenPlayerAndGarbage();
-
-        while(agent.pathPending || agent.remainingDistance > 0.1f)
+        NavMeshAgent agent = character.GetComponent<NavMeshAgent>();
+        if (agent == null)
         {
-            yield return null; //Wait for the next frame when the previous character
-            //moves within a distance of 0.1 of target
+            Debug.LogError($"{character.name} does not have a NavMeshAgent component!");
+            yield break;
         }
+
+        // Get the target position
+        xdecimalPoint = Mathf.Round(tile.transform.position.x);
+        zdecimalPoint = Mathf.Round(tile.transform.position.z);
+        Vector3 targetPosition = new Vector3(xdecimalPoint, 1, zdecimalPoint);
+
+        // Set the NavMesh destination
+        agent.SetDestination(targetPosition);
+        Debug.Log($"{character.name} moving to {targetPosition}");
+
+        // Wait until the agent reaches the destination
+        while (agent.pathPending || agent.remainingDistance > agent.stoppingDistance)
+        {
+            yield return null;  // Wait until next frame
+        }
+
+        // Ensure the character is exactly at the position
+        character.transform.position = targetPosition;
     }
 
     

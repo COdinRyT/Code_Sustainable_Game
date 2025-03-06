@@ -163,13 +163,17 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator MoveCharacterSequence()
     {
-        while(characters.Count > 0 && tileQueue.Count > 0)
+        while (characters.Count > 0 && tileQueue.Count > 0)
         {
             GameObject currentCharacter = characters.Dequeue();
             GameObject targetTile = tileQueue.Dequeue();
-            updateUI.UpdateQueueUI(new List<GameObject>(characters));
 
-            yield return StartCoroutine(pointClickMovement.MovePlayer());
+            Debug.Log($"Moving {currentCharacter.name} to {targetTile.name}");
+
+            // Move one character at a time, waiting for completion
+            yield return StartCoroutine(pointClickMovement.MovePlayer(currentCharacter, targetTile));
+
+            updateUI.UpdateQueueUI(new List<GameObject>(characters));
         }
     }
 
