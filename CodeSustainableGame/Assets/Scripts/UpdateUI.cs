@@ -11,13 +11,13 @@ public class UpdateUI : MonoBehaviour
     public TMP_Text Money;
 
     public Image moneyBar;
-    public float moneyBarAmount;
+    private float moneyBarAmount;
 
     public Image garbageBar;
-    public float garbageBarAmount;
+    private float garbageBarAmount;
 
     public Image happyBar;
-    public float happyBarAmount;
+    private float happyBarAmount;
 
 
 
