@@ -1,40 +1,41 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.HID;
-using UnityEngine.Scripting.APIUpdating;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using UnityEngine.Timeline;
+//using UnityEngine.EventSystems;  // Include this to check for UI interaction
 
-public class NewBehaviourScript : MonoBehaviour
+public class PointClickMovement : MonoBehaviour
 {
     private Camera camera;
     public NavMeshAgent agent;
     GameManager gameManager;
 
+    public GameObject Marker;
+
     public float playerSpeed = 5f;  // Adjust speed for turn-based feel
     public float stepDelay = 0.2f;  // Delay between tile movements
-    
 
     private Rigidbody rb;
     public GameObject selectedPlayer = null;  // The character that the player selects
-    public GameObject selectedTile = null; // The tile that the player selects
-    //Booleans to keep track on whether player or tile have been selected
-    private bool isPlayerSelected;
-    private bool isTileSelected;
-    //This is to keep track of how many times an object is selected
-    private int timesSelected;
-    private GameObject lastPrefab;
+    public GameObject selectedTile = null;   // The tile that the player selects
 
-    private Vector3 normalizePoint;
-    private Vector3 midNormalizePoints;
-    private float xdecimalPoint;
-    private float zdecimalPoint;
+    private Vector3 targetPosition;
+
+
+    private Vector3 additionPos = new Vector3(0,0.1f,0);
+    // Flashing variables
+    public bool flashCharacter = false;
+    private bool flashup = true;
+    private bool flashdown;
+    public GameObject cube;
+
+    public float moveSpeedCube = 50f;
+    private float speedFactor;
+
+    // Skip flag for skipping movement
+    public bool skipMove = false;
 
 
     private void Awake()
@@ -42,90 +43,148 @@ public class NewBehaviourScript : MonoBehaviour
         camera = Camera.main;
         rb = GetComponent<Rigidbody>();
         gameManager = FindAnyObjectByType<GameManager>();
-        isPlayerSelected = false;
-        isTileSelected = false;
 
         if (this.enabled == true)
         {
             Debug.Log($"Agent {gameObject.name} has been added to queue");
             gameManager.ConfirmVolunteer(gameObject);
-            
         }
         else
         {
             Debug.Log("Agent is not in the queue");
         }
     }
+
     private void Update()
     {
-        if(gameManager.endTurn == true)
+        speedFactor = moveSpeedCube * Time.deltaTime;
+        if (flashCharacter)
         {
-            gameManager.ConfirmVolunteer(gameObject);
+            cube.SetActive(true);
+            if (flashup)
+            {
+                cube.transform.position = cube.transform.position + additionPos * speedFactor;
+                if (cube.transform.position.y > 5)
+                {
+                    flashup = false;
+                    flashdown = true;
+                }
+            }
+            if (flashdown)
+            {
+                cube.transform.position = cube.transform.position - additionPos * speedFactor;
+                if (cube.transform.position.y < 3)
+                {
+                    flashup = true;
+                    flashdown = false;
+                }
+            }
         }
+        else
+        {
+            cube.SetActive(false);
+        }
+        // Handle player selection here if needed (already done by GameManager)
     }
 
-    //When this function is called, make the player the selected game object 
+    // When this function is called, make the player the selected game object
     public void SelectPlayer(GameObject player)
     {
         selectedPlayer = player;
-        isPlayerSelected = true;
-        Debug.Log("Player has been Selected");
 
-        //if (selectedPlayers.Contains(player))
-        //{
-        //    selectedPlayers.Remove(player);
-        //    Debug.Log("Player deselected");
-        //}
-        //else
-        //{
-        //    selectedPlayers.Add(player);
-        //    Debug.Log("Player has been Selected");
-        //}
+        Debug.Log("Player has been Selected");
     }
 
     public void SelectTile(GameObject tile, GameObject marker)
     {
-        //if(lastPrefab != null)
-        //{
-        //    Destroy(lastPrefab);
-        //}
-
         selectedTile = tile;
-        isTileSelected = true;
-
-        Instantiate(marker, selectedTile.transform.position, Quaternion.identity) ;
+        Instantiate(marker, selectedTile.transform.position, Quaternion.identity);
         Debug.Log("Tile selected");
     }
 
-    //Move the player when this function is called
-    public IEnumerator MovePlayer(GameObject character, GameObject tile)
+    // Move the player when this function is called and wait for the player to click
+    public IEnumerator MovePlayer()
     {
-        NavMeshAgent agent = character.GetComponent<NavMeshAgent>();
-        if (agent == null)
+        flashCharacter = true;
+        if (selectedPlayer == null)
         {
-            Debug.LogError($"{character.name} does not have a NavMeshAgent component!");
+            flashCharacter = false;
+            Debug.LogError("No player selected!");
             yield break;
         }
 
-        // Get the target position
-        xdecimalPoint = Mathf.Round(tile.transform.position.x);
-        zdecimalPoint = Mathf.Round(tile.transform.position.z);
-        Vector3 targetPosition = new Vector3(xdecimalPoint, 1, zdecimalPoint);
-
-        // Set the NavMesh destination
-        agent.SetDestination(targetPosition);
-        Debug.Log($"{character.name} moving to {targetPosition}");
-
-        // Wait until the agent reaches the destination
-        while (agent.pathPending || agent.remainingDistance > agent.stoppingDistance)
+        // Get the NavMeshAgent from the selected player
+        NavMeshAgent playerAgent = selectedPlayer.GetComponent<NavMeshAgent>();
+        if (playerAgent == null)
         {
-            yield return null;  // Wait until next frame
+            flashCharacter = false;
+            Debug.LogError("Selected player does not have a NavMeshAgent!");
+            yield break;
         }
 
-        // Ensure the character is exactly at the position
-        character.transform.position = targetPosition;       
-    }
+        // Wait for a click or check if we need to skip the move
+        yield return StartCoroutine(WaitForClick());
 
-    
-    
+        // If skipMove is true, immediately skip the movement
+        if (skipMove)
+        {
+            Debug.Log("Move skipped due to skip flag.");
+            flashCharacter = false;
+            skipMove = false;  // Reset skip flag
+            yield break;  // Exit the coroutine early
+        }
+
+        // Only proceed with raycast if we are not over UI (like a button)
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            // Skip raycasting if mouse is over UI
+            flashCharacter = false;
+            Debug.Log("Pointer is over UI, skipping raycast.");
+            yield break;
+        }
+
+        // Get the click position (convert mouse position to world position)
+        Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            targetPosition = hit.point;  // Set the target position to where the player clicked
+
+            // Round the target position to the nearest whole unit for tile-based movement
+            targetPosition.x = Mathf.Round(targetPosition.x);  // Round X to nearest 1 unit
+            targetPosition.z = Mathf.Round(targetPosition.z);  // Round Z to nearest 1 unit
+            targetPosition.y = hit.point.y;  // Keep the Y as the original height
+
+            // Move the player to the snapped position
+            playerAgent.SetDestination(targetPosition);
+            Debug.Log($"Moving to snapped position: {targetPosition}");
+
+            // Create marker on tile
+            Instantiate(Marker, targetPosition, Quaternion.identity);
+
+            // Wait for the agent to reach the target
+            while (playerAgent.pathPending || playerAgent.remainingDistance > 0.1f)
+            {
+                yield return null;  // Continue waiting until the movement is complete
+            }
+            flashCharacter = false;
+            Debug.Log("Movement complete!");
+        }
+    }
+    // Wait for a click before proceeding
+    private IEnumerator WaitForClick()
+    {
+        bool clicked = false;
+
+        // While we haven't clicked and haven't skipped, keep waiting
+        while (!clicked && !skipMove)
+        {
+            if (Input.GetMouseButtonDown(0))  // Left mouse button clicked
+            {
+                clicked = true;
+            }
+            yield return null;  // Wait until the next frame
+        }
+    }
 }
