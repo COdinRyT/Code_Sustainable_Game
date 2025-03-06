@@ -1,35 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
-using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance { get; private set; }
     private Camera camera;
 
     UpdateUI updateUI;
 
-    public Queue<GameObject> characters = new Queue<GameObject>(); //Character queue
-    public Queue<GameObject> tileQueue = new Queue<GameObject>(); //Queue for tile selection
+    public Queue<GameObject> characters = new Queue<GameObject>(); // Character queue
     public GameObject prefab;
 
-    private void Awake()
-    {
-        Instance = this;
-        updateUI = FindAnyObjectByType<UpdateUI>();
-    }
-     
+    public float stepDelay = 0.2f;  // Delay between tile movements 
     public int currentTurn;
     public int startTurn;
     public int maxTurn;
     public int currentPeople;
     public int maxPeople;
     public int currentMoney;
-    public bool endTurn;
+    public bool endTurn = false;
 
     public GameObject TerrainGroup;
     public GameObject Garbage;
@@ -39,13 +29,27 @@ public class GameManager : MonoBehaviour
 
     private float chanceOfGarbage = 9;
     private float randomNumber;
-    private float currentx;
-    private float currenty;
     private Vector3 spot;
 
-    NewBehaviourScript pointClickMovement;
+    private bool hasTaskStarted = false;  // Add a flag to track if the task has started
+
+    PointClickMovement pointClickMovement;
+
     private int tileLimit;
 
+    public static GameManager Instance { get; private set; }
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -53,123 +57,118 @@ public class GameManager : MonoBehaviour
         camera = Camera.main;
         currentTurn = startTurn;
         SpawnGarbage();
-        pointClickMovement = FindAnyObjectByType<NewBehaviourScript>();        
+        pointClickMovement = FindAnyObjectByType<PointClickMovement>();
         updateUI = FindAnyObjectByType<UpdateUI>();
         updateUI.UpdateQueueUI(new List<GameObject>(characters));
+
         if (updateUI == null)
         {
             Debug.Log("UI manager is not assigned to game manager!");
         }
 
         tileLimit = characters.Count;
-
         FirstPlayer();
     }
 
-    public void FirstPlayer() {
-        GameObject currentCharacter = FindAnyObjectByType<NewBehaviourScript>().gameObject;
-        pointClickMovement.SelectPlayer(currentCharacter);  
-
-        
+    public void FirstPlayer()
+    {
+        Debug.Log("First player function");
+        DoTask();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log("End turn: " + endTurn);
-        //Debug.Log(" Current Turn: " + currentTurn);
-        //Debug.Log("Max turn: " + maxTurn);
         tileLimit = characters.Count;
 
         if (endTurn && currentTurn < maxTurn)
         {
-
+            Debug.Log("Up");
             endTurn = false;
             currentTurn++;
-        }
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit))
-            {
-                GameObject selectedObject = hit.collider.gameObject;
-
-                if(selectedObject.layer == 6)
-                {
-                    GameObject rootObject = selectedObject.transform.root.gameObject;
-                    ConfirmVolunteer(rootObject);
-                }
-                if(selectedObject.layer == 7 && characters.Count == 2)
-                {
-                    ConfirmTilePlacement(hit.collider.gameObject);
-                }
-            }
+            DoTask();
         }
     }
 
-    //Add character object into queue when function is called
+    // Add character object into queue when function is called
     public void ConfirmVolunteer(GameObject character)
     {
-        
-
         if (!characters.Contains(character))
         {
-            Debug.Log("Confirming volunteer");
             characters.Enqueue(character);
-            //pointClickMovement.SelectPlayer(character);           
-        }
-    }
-    /*
-    public void ConfirmTilePlacement(GameObject tile)
-    {        
-        if(tileQueue.Count < tileLimit)
-        {            
-            pointClickMovement.SelectTile(tile, prefab);
-            Debug.Log($"Tiles selectable: {characters.Count}");
-            tileQueue.Enqueue(tile);
-        }
-        else
-        {
-            Debug.Log("No more paths to select");
-        }
-    }
-    */
-    public void ConfirmTilePlacement(GameObject tile)
-    {
-        if (tileQueue.Count < tileLimit)
-        {
-            pointClickMovement.SelectTile(tile, prefab);
-            Debug.Log($"Tiles selectable: {characters.Count}");
-            tileQueue.Enqueue(tile);
-        }
-        else
-        {
-            Debug.Log("No more paths to select");
+            Debug.Log($"Added character: {character.name}, Total characters in queue: {characters.Count}");
         }
     }
 
     public void DoTask()
     {
-        if (characters.Count != tileQueue.Count)
-        {
-            Debug.LogError("Mismatch between character and tile queue sizes!");
-            return;
-        }
+        // Ensure we're only running the task once
+        if (hasTaskStarted) return;
+        hasTaskStarted = true;
 
-        StartCoroutine(MoveCharacterSequence());        
+        // Start the process to move characters one by one
+        StartCoroutine(MoveCharacterSequence());
     }
 
+    // Coroutine to move characters one at a time, waiting for click before each character moves
     private IEnumerator MoveCharacterSequence()
     {
-        while(characters.Count > 0 && tileQueue.Count > 0)
+        // Save a temporary list of all characters in the queue
+        List<GameObject> charactersInCurrentTurn = new List<GameObject>(characters);
+
+        while (characters.Count > 0)
         {
             GameObject currentCharacter = characters.Dequeue();
-            GameObject targetTile = tileQueue.Dequeue();
+
+            // Debug logs to check queue sizes
+            Debug.Log($"Dequeued Character: {currentCharacter.name}");
+            Debug.Log($"Remaining Characters in Queue: {characters.Count}");
+
             updateUI.UpdateQueueUI(new List<GameObject>(characters));
 
-            yield return StartCoroutine(pointClickMovement.MovePlayer());
+            // Get the PointClickMovement component from the current character
+            PointClickMovement characterMovement = currentCharacter.GetComponent<PointClickMovement>();
+
+            if (characterMovement != null)
+            {
+                // Select the current character in PointClickMovement
+                characterMovement.SelectPlayer(currentCharacter);
+            }
+
+            // Wait for the player to click before moving the character
+            yield return StartCoroutine(WaitForClick());
+
+            // Move the current player to the clicked position
+            yield return StartCoroutine(characterMovement.MovePlayer());
+
+            // Optional: Wait for a short delay before the next character moves
+            yield return new WaitForSeconds(stepDelay);
+        }
+
+        // After all characters have moved, re-add them to the queue
+        foreach (var character in charactersInCurrentTurn)
+        {
+            characters.Enqueue(character);  // Re-add characters to the queue
+        }
+
+        // End the turn after all characters have moved
+        hasTaskStarted = false;  // Reset task flag
+        Debug.Log("Turn ended");
+    }
+
+    // Wait for a mouse click before moving the current character
+    private IEnumerator WaitForClick()
+    {
+        bool clicked = false;
+
+        // Keep checking for a click until it happens
+        while (!clicked)
+        {
+            if (Input.GetMouseButtonDown(0)) // Left mouse button clicked
+            {
+                clicked = true;
+            }
+            yield return null; // Wait until the next frame
         }
     }
 
@@ -178,26 +177,21 @@ public class GameManager : MonoBehaviour
         foreach (Transform child in TerrainGroup.transform)
         {
             GameObject obj = child.gameObject;
-            //Debug.Log(obj.layer);
+
             if (obj.layer == 7)
             {
                 randomNumber = Random.Range(0, 10);
-                //Debug.Log(randomNumber);
                 if (randomNumber >= chanceOfGarbage)
                 {
-                    //Debug.Log("what");
                     spot = new Vector3(obj.transform.position.x, .51f, obj.transform.position.z);
                     Instantiate(Garbage, spot, Quaternion.identity, parentTransform);
-                    // Do things with obj
                 }
             }
         }
     }
 
-    
-
-    public void WebsiteLink() //This is to link the Pollution Probe website 
+    public void WebsiteLink() // This is to link the Pollution Probe website 
     {
-        Application.OpenURL("https://www.pollutionprobe.org"); //When a player selects a button, this function will be called
+        Application.OpenURL("https://www.pollutionprobe.org"); // When a player selects a button, this function will be called
     }
 }

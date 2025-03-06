@@ -8,10 +8,15 @@ public class EndTurn : MonoBehaviour
 
     public void OnClick()
     {
+        if (GameManager.Instance == null)
+        {
+            Debug.LogError("GameManager.Instance is null");
+            return;
+        }
+
         if (GameManager.Instance.endTurn == false)
         {
             GameManager.Instance.endTurn = true;
-
             advertisementPanel.SetActive(true);
         }
     }

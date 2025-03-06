@@ -15,6 +15,7 @@ public class UpdateUI : MonoBehaviour
 
     void Start()
     {
+        queueText = GetComponent<TextMeshProUGUI>();
         UpdateUIElements();
         Debug.Log("UpdateUI GameObject active? " + gameObject.activeInHierarchy);
        

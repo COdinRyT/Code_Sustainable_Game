@@ -1,41 +1,28 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.HID;
-using UnityEngine.Scripting.APIUpdating;
-using UnityEngine.UI;
+using UnityEngine.Timeline;
 
-public class NewBehaviourScript : MonoBehaviour
+public class PointClickMovement : MonoBehaviour
 {
     private Camera camera;
     public NavMeshAgent agent;
     GameManager gameManager;
 
+    public GameObject Marker;
+
     public float playerSpeed = 5f;  // Adjust speed for turn-based feel
     public float stepDelay = 0.2f;  // Delay between tile movements
-    
 
     private Rigidbody rb;
     public GameObject selectedPlayer = null;  // The character that the player selects
-    public GameObject selectedTile = null; // The tile that the player selects
-    //Booleans to keep track on whether player or tile have been selected
+    public GameObject selectedTile = null;   // The tile that the player selects
+
     private bool isPlayerSelected;
     private bool isTileSelected;
-    //This is to keep track of how many times an object is selected
-    private int timesSelected;
-    private GameObject lastPrefab;
 
-    private Vector3 normalizePoint;
-    private Vector3 midNormalizePoints;
-    private float xdecimalPoint;
-    private float zdecimalPoint;
-
+    private Vector3 targetPosition;
 
     private void Awake()
     {
@@ -49,80 +36,93 @@ public class NewBehaviourScript : MonoBehaviour
         {
             Debug.Log($"Agent {gameObject.name} has been added to queue");
             gameManager.ConfirmVolunteer(gameObject);
-            
         }
         else
         {
             Debug.Log("Agent is not in the queue");
         }
     }
+
     private void Update()
     {
-        
+        // Handle player selection here if needed (already done by GameManager)
     }
 
-    //When this function is called, make the player the selected game object 
+    // When this function is called, make the player the selected game object
     public void SelectPlayer(GameObject player)
     {
         selectedPlayer = player;
         isPlayerSelected = true;
         Debug.Log("Player has been Selected");
-
-        //if (selectedPlayers.Contains(player))
-        //{
-        //    selectedPlayers.Remove(player);
-        //    Debug.Log("Player deselected");
-        //}
-        //else
-        //{
-        //    selectedPlayers.Add(player);
-        //    Debug.Log("Player has been Selected");
-        //}
     }
 
     public void SelectTile(GameObject tile, GameObject marker)
     {
-        //if(lastPrefab != null)
-        //{
-        //    Destroy(lastPrefab);
-        //}
-
         selectedTile = tile;
         isTileSelected = true;
 
-        Instantiate(marker, selectedTile.transform.position, Quaternion.identity) ;
+        Instantiate(marker, selectedTile.transform.position, Quaternion.identity);
         Debug.Log("Tile selected");
     }
 
-    //Move the player when this function is called
+    // Move the player when this function is called and wait for the player to click
     public IEnumerator MovePlayer()
     {
-
-        //NavMeshAgent playerAgent = player.GetComponent<NavMeshAgent>();
-        //if(playerAgent == null)
-        //{
-        //    Debug.Log($"{player.name} does not have their nav agent!");
-        //    yield break;
-        //}
-
-        xdecimalPoint = Mathf.Round(agent.transform.position.x);
-        zdecimalPoint = Mathf.Round(agent.transform.position.z);
-        midNormalizePoints = new Vector3(xdecimalPoint, 1, zdecimalPoint);
-        //Debug.Log(normalizePoint);
-        //Debug.Log(midNormalizePoints);
-        agent.SetDestination(midNormalizePoints);
-        //CheckIfOnGarbage.Instance.x = midNormalizePoints.x;
-        //CheckIfOnGarbage.Instance.y = midNormalizePoints.y;
-        //CheckIfOnGarbage.Instance.z = midNormalizePoints.z;
-        //CheckIfOnGarbage.Instance.CheckCollisionBetweenPlayerAndGarbage();
-
-        while(agent.pathPending || agent.remainingDistance > 0.1f)
+        if (selectedPlayer == null)
         {
-            yield return null; //Wait for the next frame when the previous character
-            //moves within a distance of 0.1 of target
+            Debug.LogError("No player selected!");
+            yield break;
+        }
+
+        // Get the NavMeshAgent from the selected player
+        NavMeshAgent playerAgent = selectedPlayer.GetComponent<NavMeshAgent>();
+        if (playerAgent == null)
+        {
+            Debug.LogError("Selected player does not have a NavMeshAgent!");
+            yield break;
+        }
+
+        // Wait for a click
+        yield return StartCoroutine(WaitForClick());
+
+        // Get the click position (convert mouse position to world position)
+        Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            targetPosition = hit.point;  // Set the target position to where the player clicked
+
+            // Move the player to the clicked position
+            agent.SetDestination(targetPosition);
+            Debug.Log($"Moving to: {targetPosition}");
+
+            // Create marker on tile
+            Instantiate(Marker, targetPosition, Quaternion.identity);
+
+            // Wait for the agent to reach the target
+            while (agent.pathPending || agent.remainingDistance > 0.1f)
+            {
+                yield return null;  // Continue waiting until the movement is complete
+            }
+
+            Debug.Log("Movement complete!");
         }
     }
 
-    
-    
+    // Wait for a click before proceeding
+    private IEnumerator WaitForClick()
+    {
+        bool clicked = false;
+
+        while (!clicked)
+        {
+            if (Input.GetMouseButtonDown(0))  // Left mouse button clicked
+            {
+                clicked = true;
+            }
+
+            yield return null;  // Wait until the next frame
+        }
+    }
 }
