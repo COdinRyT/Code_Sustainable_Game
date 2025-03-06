@@ -37,16 +37,4 @@ public class UpdateUI : MonoBehaviour
         garbageBar.fillAmount = GameManager.Instance.currentGarbageAmount / 100f;
         happyBar.fillAmount = GameManager.Instance.happiness / 100f;
     }
-
-    public void EnableSideBar(bool enabled)
-    {
-        if (enabled)
-        {
-            sideBar.SetActive(true);
-        }
-        else
-        {
-            sideBar.SetActive(false);
-        }
-    }
 }
