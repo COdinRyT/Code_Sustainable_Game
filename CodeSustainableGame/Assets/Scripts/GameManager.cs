@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 
@@ -33,10 +34,6 @@ public class GameManager : MonoBehaviour
 
     private bool hasTaskStarted = false;  // Add a flag to track if the task has started
 
-    PointClickMovement pointClickMovement;
-
-    private int tileLimit;
-
     public static GameManager Instance { get; private set; }
 
     void Awake()
@@ -57,7 +54,6 @@ public class GameManager : MonoBehaviour
         camera = Camera.main;
         currentTurn = startTurn;
         SpawnGarbage();
-        pointClickMovement = FindAnyObjectByType<PointClickMovement>();
         updateUI = FindAnyObjectByType<UpdateUI>();
         updateUI.UpdateQueueUI(new List<GameObject>(characters));
 
@@ -65,8 +61,6 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("UI manager is not assigned to game manager!");
         }
-
-        tileLimit = characters.Count;
         FirstPlayer();
     }
 
@@ -79,10 +73,31 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        tileLimit = characters.Count;
-
         if (endTurn && currentTurn < maxTurn)
         {
+            // Find all game objects with the tag "Player" (or any tag you've assigned to your characters)
+            GameObject[] allCharacters = GameObject.FindGameObjectsWithTag("Player");
+
+            // Loop through each character and call a function (e.g., CheckCollisionBetweenPlayerAndGarbage)
+            foreach (GameObject character in allCharacters)
+            {
+                Debug.Log($"Checking for garbage for character: {character.name}");
+
+                // Assuming each character has a script (like CheckIfOnGarbage) attached with a function you want to call
+                CheckIfOnGarbage playerScript = character.GetComponent<CheckIfOnGarbage>();
+
+                if (playerScript != null)
+                {
+                    // Call the function to check for garbage (or any other function you want to execute)
+                    Debug.Log("Test");
+                    playerScript.CheckCollisionBetweenPlayerAndGarbage();
+                }
+                else
+                {
+                    Debug.LogWarning($"Player {character.name} does not have the CheckIfOnGarbage script attached.");
+                }
+            }
+
             Debug.Log("Up");
             endTurn = false;
             currentTurn++;
@@ -136,13 +151,13 @@ public class GameManager : MonoBehaviour
             }
 
             // Wait for the player to click before moving the character
-            yield return StartCoroutine(WaitForClick());
+            //yield return StartCoroutine(WaitForClick());
 
             // Move the current player to the clicked position
             yield return StartCoroutine(characterMovement.MovePlayer());
 
             // Optional: Wait for a short delay before the next character moves
-            yield return new WaitForSeconds(stepDelay);
+            //yield return new WaitForSeconds(stepDelay);The 
         }
 
         // After all characters have moved, re-add them to the queue
@@ -150,41 +165,35 @@ public class GameManager : MonoBehaviour
         {
             characters.Enqueue(character);  // Re-add characters to the queue
         }
-
+        //endTurn = true;
         // End the turn after all characters have moved
         hasTaskStarted = false;  // Reset task flag
         Debug.Log("Turn ended");
     }
 
-    // Wait for a mouse click before moving the current character
-    private IEnumerator WaitForClick()
-    {
-        bool clicked = false;
-
-        // Keep checking for a click until it happens
-        while (!clicked)
-        {
-            if (Input.GetMouseButtonDown(0)) // Left mouse button clicked
-            {
-                clicked = true;
-            }
-            yield return null; // Wait until the next frame
-        }
-    }
-
     private void SpawnGarbage()
     {
+        //Debug.Log("Spawn garbo");
+        GameObject GarbageClone;
         foreach (Transform child in TerrainGroup.transform)
         {
             GameObject obj = child.gameObject;
-
+            //Debug.Log("obj: " + obj.name);
             if (obj.layer == 7)
             {
+               // Debug.Log("Random num");
                 randomNumber = Random.Range(0, 10);
                 if (randomNumber >= chanceOfGarbage)
                 {
-                    spot = new Vector3(obj.transform.position.x, .51f, obj.transform.position.z);
-                    Instantiate(Garbage, spot, Quaternion.identity, parentTransform);
+                    // Get the center of the tile (obj.transform.position should be the center of the tile)
+                    Vector3 tileCenter = obj.transform.position;
+
+                    // Set the garbage spawn position to be slightly above the tile (e.g., 1 unit above)
+                    Vector3 spawnPosition = new Vector3(tileCenter.x, tileCenter.y + 1f, tileCenter.z);
+
+                    // Instantiate the garbage at the calculated spawn position
+                    GarbageClone = Instantiate(Garbage, spawnPosition, Quaternion.identity, parentTransform);
+                    GarbageClone.name = Garbage.name;
                 }
             }
         }

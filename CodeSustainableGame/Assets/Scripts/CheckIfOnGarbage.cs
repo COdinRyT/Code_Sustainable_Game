@@ -22,47 +22,30 @@ public class CheckIfOnGarbage : MonoBehaviour
 
     public GameObject ProgressBar;
     public GameObject WorldCanvas;
-    private void Awake()
-    {
-        // If there is an instance, and it's not me, delete myself.
 
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            Instance = this;
-        }
+    void Start()
+    {
+        GarbageStorage = GameObject.Find("GarbageStorage");
     }
     public void CheckCollisionBetweenPlayerAndGarbage()
     {
-        madeUpVector3 = new Vector3(x,y,z);
+        madeUpVector3 = new Vector3(gameObject.transform.position.x,y,gameObject.transform.position.z);
         GetChildren();
-        //Debug.Log("Running");
         for (int i = 0; i < allChildren.Length; i++)
         {
-            //Debug.Log("Garbage:" + allChildren[i].transform.position);
-            //Debug.Log("Player:" + Player.transform.position);
-            /*
-            if (allChildren[i].transform.position == madeUpVector3)
-            {
-                Debug.Log("At same spot. We have collision");
-            }
-            */
             if (allChildren[i].transform.position.x == madeUpVector3.x && allChildren[i].transform.position.z == madeUpVector3.z)
             {
+                Vector3 currentScale = allChildren[i].transform.localScale;
+                allChildren[i].GetComponent<Garbage>().currentHealth -= 25;
+                allChildren[i].transform.localScale = currentScale * 0.8f;
+                Debug.Log(allChildren[i].GetComponent<Garbage>().currentHealth);
+                //Destroy(allChildren[i]);
                 Debug.Log("Same spot, We have collision.");
                 PlayerAndGarbageCollision = true;
-                CreateProgressBarsForGarbage();
             }
             //child is your child transform
         }
 
-    }
-
-    public void CreateProgressBarsForGarbage()
-    {
     }
 
     // Start is called before the first frame update

@@ -646,6 +646,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97a12d01999ccd94aa6b16385c08f9f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefab: {fileID: 0}
+  stepDelay: 0.2
   currentTurn: 0
   startTurn: 1
   maxTurn: 50
@@ -1288,7 +1290,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &647048484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1425,9 +1427,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a67ff507cf21d394cb1c97aa2386079c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Turns: {fileID: 0}
-  People: {fileID: 0}
-  Money: {fileID: 0}
+  queueText: {fileID: 0}
 --- !u!1 &680368935
 GameObject:
   m_ObjectHideFlags: 0
@@ -5862,13 +5862,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 2135981465}
-  confirmButton: {fileID: 0}
+  Marker: {fileID: 0}
   playerSpeed: 100
   stepDelay: 0.2
-  gridCoordinates:
-  - {fileID: 935354591}
-  - {fileID: 1477136834}
-  prefab: {fileID: 5803732622442556610, guid: 29871d086386fb54198d5bda5efb9845, type: 3}
+  selectedPlayer: {fileID: 0}
+  selectedTile: {fileID: 0}
 --- !u!54 &2135981462
 Rigidbody:
   m_ObjectHideFlags: 0

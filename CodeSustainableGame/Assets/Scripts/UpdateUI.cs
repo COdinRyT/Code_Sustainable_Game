@@ -35,19 +35,12 @@ public class UpdateUI : MonoBehaviour
 
     public void UpdateQueueUI(List<GameObject> characterQueue)
     {
-        if (queueText == null)
-        {
-            Debug.LogError("queueText is null! Make sure it's assigned in the Inspector.");
-            return;
-        }
-
         characterNames.Clear();
 
         foreach (GameObject character in characterQueue)
         {
             characterNames.Add(character.name);
         }
-
         queueText.text = "Queue:\n" + string.Join("\n", characterNames);
     }
 }

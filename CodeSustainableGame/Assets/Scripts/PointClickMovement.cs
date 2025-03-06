@@ -19,9 +19,6 @@ public class PointClickMovement : MonoBehaviour
     public GameObject selectedPlayer = null;  // The character that the player selects
     public GameObject selectedTile = null;   // The tile that the player selects
 
-    private bool isPlayerSelected;
-    private bool isTileSelected;
-
     private Vector3 targetPosition;
 
     private void Awake()
@@ -29,8 +26,6 @@ public class PointClickMovement : MonoBehaviour
         camera = Camera.main;
         rb = GetComponent<Rigidbody>();
         gameManager = FindAnyObjectByType<GameManager>();
-        isPlayerSelected = false;
-        isTileSelected = false;
 
         if (this.enabled == true)
         {
@@ -52,15 +47,13 @@ public class PointClickMovement : MonoBehaviour
     public void SelectPlayer(GameObject player)
     {
         selectedPlayer = player;
-        isPlayerSelected = true;
+
         Debug.Log("Player has been Selected");
     }
 
     public void SelectTile(GameObject tile, GameObject marker)
     {
         selectedTile = tile;
-        isTileSelected = true;
-
         Instantiate(marker, selectedTile.transform.position, Quaternion.identity);
         Debug.Log("Tile selected");
     }
@@ -93,15 +86,20 @@ public class PointClickMovement : MonoBehaviour
         {
             targetPosition = hit.point;  // Set the target position to where the player clicked
 
-            // Move the player to the clicked position
-            agent.SetDestination(targetPosition);
-            Debug.Log($"Moving to: {targetPosition}");
+            // Round the target position to the nearest whole unit for tile-based movement
+            targetPosition.x = Mathf.Round(targetPosition.x);  // Round X to nearest 1 unit
+            targetPosition.z = Mathf.Round(targetPosition.z);  // Round Z to nearest 1 unit
+            targetPosition.y = hit.point.y;  // Keep the Y as the original height
+
+            // Move the player to the snapped position
+            playerAgent.SetDestination(targetPosition);
+            Debug.Log($"Moving to snapped position: {targetPosition}");
 
             // Create marker on tile
             Instantiate(Marker, targetPosition, Quaternion.identity);
 
             // Wait for the agent to reach the target
-            while (agent.pathPending || agent.remainingDistance > 0.1f)
+            while (playerAgent.pathPending || playerAgent.remainingDistance > 0.1f)
             {
                 yield return null;  // Continue waiting until the movement is complete
             }
@@ -109,7 +107,6 @@ public class PointClickMovement : MonoBehaviour
             Debug.Log("Movement complete!");
         }
     }
-
     // Wait for a click before proceeding
     private IEnumerator WaitForClick()
     {
