@@ -2708,11 +2708,8 @@ MonoBehaviour:
   People: {fileID: 248273152}
   Money: {fileID: 552881899}
   moneyBar: {fileID: 1140100266}
-  moneyBarAmount: 0
   garbageBar: {fileID: 1905441017}
-  garbageBarAmount: 0
   happyBar: {fileID: 1073342176}
-  happyBarAmount: 0
 --- !u!1 &421194625
 GameObject:
   m_ObjectHideFlags: 0
@@ -4232,11 +4229,8 @@ MonoBehaviour:
   People: {fileID: 550653259}
   Money: {fileID: 421194627}
   moneyBar: {fileID: 0}
-  moneyBarAmount: 0
   garbageBar: {fileID: 0}
-  garbageBarAmount: 0
   happyBar: {fileID: 0}
-  happyBarAmount: 0
 --- !u!1 &678990279
 GameObject:
   m_ObjectHideFlags: 0
@@ -5507,11 +5501,8 @@ MonoBehaviour:
   People: {fileID: 550653259}
   Money: {fileID: 421194627}
   moneyBar: {fileID: 0}
-  moneyBarAmount: 0
   garbageBar: {fileID: 0}
-  garbageBarAmount: 0
   happyBar: {fileID: 0}
-  happyBarAmount: 0
 --- !u!1 &851717352
 GameObject:
   m_ObjectHideFlags: 0
