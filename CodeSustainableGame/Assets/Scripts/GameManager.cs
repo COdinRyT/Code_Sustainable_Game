@@ -93,6 +93,7 @@ public class GameManager : MonoBehaviour
             if (movement != null)
             {
                 movement.skipMove = true;
+                movement.flashCharacter = false;
             }
         }
     }

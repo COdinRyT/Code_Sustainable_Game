@@ -23,8 +23,20 @@ public class PointClickMovement : MonoBehaviour
 
     private Vector3 targetPosition;
 
+
+    private Vector3 additionPos = new Vector3(0,0.1f,0);
+    // Flashing variables
+    public bool flashCharacter = false;
+    private bool flashup = true;
+    private bool flashdown;
+    public GameObject cube;
+
+    public float moveSpeedCube = 50f;
+    private float speedFactor;
+
     // Skip flag for skipping movement
     public bool skipMove = false;
+
 
     private void Awake()
     {
@@ -45,6 +57,33 @@ public class PointClickMovement : MonoBehaviour
 
     private void Update()
     {
+        speedFactor = moveSpeedCube * Time.deltaTime;
+        if (flashCharacter)
+        {
+            cube.SetActive(true);
+            if (flashup)
+            {
+                cube.transform.position = cube.transform.position + additionPos * speedFactor;
+                if (cube.transform.position.y > 5)
+                {
+                    flashup = false;
+                    flashdown = true;
+                }
+            }
+            if (flashdown)
+            {
+                cube.transform.position = cube.transform.position - additionPos * speedFactor;
+                if (cube.transform.position.y < 3)
+                {
+                    flashup = true;
+                    flashdown = false;
+                }
+            }
+        }
+        else
+        {
+            cube.SetActive(false);
+        }
         // Handle player selection here if needed (already done by GameManager)
     }
 
@@ -66,8 +105,10 @@ public class PointClickMovement : MonoBehaviour
     // Move the player when this function is called and wait for the player to click
     public IEnumerator MovePlayer()
     {
+        flashCharacter = true;
         if (selectedPlayer == null)
         {
+            flashCharacter = false;
             Debug.LogError("No player selected!");
             yield break;
         }
@@ -76,6 +117,7 @@ public class PointClickMovement : MonoBehaviour
         NavMeshAgent playerAgent = selectedPlayer.GetComponent<NavMeshAgent>();
         if (playerAgent == null)
         {
+            flashCharacter = false;
             Debug.LogError("Selected player does not have a NavMeshAgent!");
             yield break;
         }
@@ -87,6 +129,7 @@ public class PointClickMovement : MonoBehaviour
         if (skipMove)
         {
             Debug.Log("Move skipped due to skip flag.");
+            flashCharacter = false;
             skipMove = false;  // Reset skip flag
             yield break;  // Exit the coroutine early
         }
@@ -95,6 +138,7 @@ public class PointClickMovement : MonoBehaviour
         if (EventSystem.current.IsPointerOverGameObject())
         {
             // Skip raycasting if mouse is over UI
+            flashCharacter = false;
             Debug.Log("Pointer is over UI, skipping raycast.");
             yield break;
         }
@@ -124,7 +168,7 @@ public class PointClickMovement : MonoBehaviour
             {
                 yield return null;  // Continue waiting until the movement is complete
             }
-
+            flashCharacter = false;
             Debug.Log("Movement complete!");
         }
     }
