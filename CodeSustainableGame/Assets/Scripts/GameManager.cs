@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
 
         if (skipButton != null)
         {
-            //skipButton.onClick.AddListener(OnSkipButtonClick);
+            skipButton.onClick.AddListener(OnSkipButtonClick);
         }
 
         if (updateUI == null)
