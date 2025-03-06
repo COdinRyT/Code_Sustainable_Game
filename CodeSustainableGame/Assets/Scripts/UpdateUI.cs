@@ -14,9 +14,6 @@ public class UpdateUI : MonoBehaviour
     public Image garbageBar;
     public Image happyBar;
 
-    public GameObject sideBar;
-
-
     void Start()
     {
         UpdateUIElements();
