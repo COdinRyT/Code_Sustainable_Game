@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public UpdateUI updateUI;
 
     public Queue<GameObject> characters = new Queue<GameObject>(); // Character queue
+    public GameObject newVolunteers;
     public GameObject prefab;
 
     public float stepDelay = 0.2f;  // Delay between tile movements 
@@ -33,6 +34,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject TerrainGroup;
     public GameObject Garbage;
+    public GameObject[] garbagePiles;
     public List<GameObject> tag_targets = new List<GameObject>();
     public Transform parentTransform;
     Camera camera;
@@ -89,6 +91,7 @@ public class GameManager : MonoBehaviour
             if (movement != null)
             {
                 movement.skipMove = false;
+                updateUI.IncreaseTurnCount();
             }
         }
     }
@@ -181,7 +184,7 @@ public class GameManager : MonoBehaviour
     {
         if (garbageLevel == 1)
         {
-            currentGarbageAmount = 100;
+            currentGarbageAmount = 500;
         }
     }
 
@@ -289,6 +292,18 @@ public class GameManager : MonoBehaviour
     public void MediumTrashPile(int mediumTrashPileValue)
     {
         currentGarbageAmount -= mediumTrashPileValue;
+    }
+
+    public void InstantiateVolunteer()
+    {
+        if(currentGarbageAmount > 0)
+        {
+            Debug.Log("Can't get involved yet, clean more garbage");
+        }
+        else
+        {
+            Instantiate(newVolunteers);
+        }        
     }
 
     public void WebsiteLink() //This is to link the Pollution Probe website 

@@ -48,6 +48,7 @@ public class Garbage : MonoBehaviour
 
         if (currentHealth <= 0)
         {
+            GameManager.Instance.SmallTrashPile(50);
             Destroy(gameObject);
         }
     }

@@ -8,6 +8,8 @@ public class AdvertisngManager : MonoBehaviour
     public Button yesButton;
     public Button noButton;
     public int awarenessIncrease = 1;
+
+    public GameObject[] volunteers;
     private void Start()
     {
         adPanel.SetActive(false);
@@ -33,5 +35,15 @@ public class AdvertisngManager : MonoBehaviour
     {
         Debug.Log("Advertisement skipped.");
         adPanel.SetActive(false);
+    }
+
+    public void SpawnVolunteers()
+    {
+        //Spawn volunteer
+        int volunteerAmount = volunteers.Length;
+        for(int i = 0; i < volunteerAmount; i++)
+        {
+            Instantiate(volunteers[i], new Vector3(1,0,1), Quaternion.identity);
+        }
     }
 }

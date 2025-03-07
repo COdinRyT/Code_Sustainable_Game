@@ -9,10 +9,13 @@ public class UpdateUI : MonoBehaviour
     public TMP_Text Turns;
     public TMP_Text People;
     public TMP_Text Money;
+    public TMP_Text GarbageLeft;
 
     public Image moneyBar;
     public Image garbageBar;
     public Image happyBar;
+
+    private int startingTurn = 0;
 
     public TextMeshProUGUI queueText;
 
@@ -20,7 +23,8 @@ public class UpdateUI : MonoBehaviour
 
     void Start()
     {
-        UpdateUIElements();
+        GameManager.Instance.currentTurn = startingTurn;
+        UpdateUIElements();        
     }
 
     void Update()
@@ -30,13 +34,20 @@ public class UpdateUI : MonoBehaviour
 
     public void UpdateUIElements()
     {
-        Turns.text = GameManager.Instance.currentTurn.ToString() + "/" + GameManager.Instance.maxTurn.ToString();
+        Turns.text = "Turns: " + GameManager.Instance.currentTurn.ToString() + "/" + GameManager.Instance.maxTurn.ToString();
         People.text = GameManager.Instance.currentPeople.ToString() + "/" + GameManager.Instance.maxPeople.ToString();
         Money.text = GameManager.Instance.currentMoney.ToString() + "$";
+        GarbageLeft.text = "Garbage Left: " + GameManager.Instance.currentGarbageAmount.ToString();
 
         moneyBar.fillAmount = GameManager.Instance.currentMoney / 9999f; // If the money amount is larger than 9999 than the bar will not fill up any more.
         garbageBar.fillAmount = GameManager.Instance.currentGarbageAmount / 100f;
         happyBar.fillAmount = GameManager.Instance.happiness / 100f;
+    }
+
+    public void IncreaseTurnCount()
+    {
+        GameManager.Instance.currentTurn++;
+        UpdateUIElements();
     }
 
     public void UpdateQueueUI(List<GameObject> characterQueue)
@@ -53,4 +64,6 @@ public class UpdateUI : MonoBehaviour
             queueText.text = "Queue: \n" + string.Join("\n", characterNames);
         }
     }
+
+    //--------------------------------------------------------------------------------------------------------------------------------
 }
