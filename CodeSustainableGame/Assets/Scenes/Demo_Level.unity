@@ -3552,6 +3552,7 @@ GameObject:
   - component: {fileID: 335472421}
   - component: {fileID: 335472420}
   - component: {fileID: 335472419}
+  - component: {fileID: 335472422}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3633,6 +3634,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 67.405, y: 0, z: 0}
+--- !u!114 &335472422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335472418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12e4eefc59051ac409a15548e765986b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 335472420}
+  cameraPanSpeed: 0.5
+  cameraZoomSpeed: 0
+  cameraBoundaries: {x: 0, y: 0, z: 0}
+  zoomStep: 6
+  minCamSize: 1
+  maxCamSize: 10
 --- !u!4 &338600431 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6563235072332255082, guid: 6a7971c1cabb13946a61bfdc400e0d58, type: 3}
@@ -7520,6 +7540,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a67ff507cf21d394cb1c97aa2386079c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Turns: {fileID: 0}
+  People: {fileID: 0}
+  Money: {fileID: 0}
+  moneyBar: {fileID: 0}
+  garbageBar: {fileID: 0}
+  happyBar: {fileID: 0}
   queueText: {fileID: 1976074740}
 --- !u!114 &777638272
 MonoBehaviour:
@@ -12686,7 +12712,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1273317373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14114,8 +14140,13 @@ MonoBehaviour:
   currentPeople: 1
   maxPeople: 15
   currentMoney: 1000
+  happiness: 0
+  awarenessLevel: 0
+  currentPlantedTrees: 0
+  garbageLevel: 1
+  currentGarbageAmount: 0
+  readyForGetInvolved: 0
   endTurn: 0
-  skipButton: {fileID: 1529252070}
   TerrainGroup: {fileID: 1033029125}
   Garbage: {fileID: 4305437803015692794, guid: c33e2faaad1ed2c468d696b7e45b2364, type: 3}
   tag_targets: []
@@ -20415,6 +20446,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a67ff507cf21d394cb1c97aa2386079c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Turns: {fileID: 0}
+  People: {fileID: 0}
+  Money: {fileID: 0}
+  moneyBar: {fileID: 0}
+  garbageBar: {fileID: 0}
+  happyBar: {fileID: 0}
   queueText: {fileID: 0}
 --- !u!1001 &1978266209
 PrefabInstance:
