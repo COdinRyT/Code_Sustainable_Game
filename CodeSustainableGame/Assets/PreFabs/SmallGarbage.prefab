@@ -89,6 +89,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   garbageHealthBar: {fileID: 886382464948455984}
+  mainCamera: {fileID: 6158468113512480423, guid: ce651738c2eaa884385f491b1b6b17c0, type: 3}
+  target: {fileID: 0}
 --- !u!1 &2122636465905902762
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,14 +459,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5870264706359872344}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.55488074, y: 0, z: 0, w: 0.83193}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1703642722785371953}
   m_Father: {fileID: 7933340534159042142}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 67.405, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
