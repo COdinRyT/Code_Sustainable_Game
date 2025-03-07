@@ -7643,7 +7643,6 @@ GameObject:
   - component: {fileID: 777638270}
   - component: {fileID: 777638273}
   - component: {fileID: 777638272}
-  - component: {fileID: 777638271}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -7674,26 +7673,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -50}
   m_SizeDelta: {x: 900, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &777638271
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 777638269}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a67ff507cf21d394cb1c97aa2386079c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Turns: {fileID: 0}
-  People: {fileID: 0}
-  Money: {fileID: 0}
-  GarbageLeft: {fileID: 0}
-  moneyBar: {fileID: 0}
-  garbageBar: {fileID: 0}
-  happyBar: {fileID: 0}
-  queueText: {fileID: 1976074740}
 --- !u!114 &777638272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14278,7 +14257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97a12d01999ccd94aa6b16385c08f9f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  updateUI: {fileID: 777638271}
+  updateUI: {fileID: 0}
   newVolunteers: {fileID: 7873070105978103635, guid: c441bbf72cd3a5141bd46892fa7ad1ae, type: 3}
   prefab: {fileID: 5803732622442556610, guid: 29871d086386fb54198d5bda5efb9845, type: 3}
   stepDelay: 0.2
@@ -20459,7 +20438,6 @@ GameObject:
   - component: {fileID: 1976074739}
   - component: {fileID: 1976074741}
   - component: {fileID: 1976074740}
-  - component: {fileID: 1976074742}
   m_Layer: 5
   m_Name: QueueText
   m_TagString: Untagged
@@ -20583,26 +20561,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1976074738}
   m_CullTransparentMesh: 1
---- !u!114 &1976074742
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1976074738}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a67ff507cf21d394cb1c97aa2386079c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Turns: {fileID: 0}
-  People: {fileID: 0}
-  Money: {fileID: 0}
-  GarbageLeft: {fileID: 0}
-  moneyBar: {fileID: 0}
-  garbageBar: {fileID: 0}
-  happyBar: {fileID: 0}
-  queueText: {fileID: 0}
 --- !u!1001 &1978266209
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21318,9 +21276,6 @@ MonoBehaviour:
   People: {fileID: 499359383}
   Money: {fileID: 1918649785}
   GarbageLeft: {fileID: 677112347}
-  moneyBar: {fileID: 0}
-  garbageBar: {fileID: 0}
-  happyBar: {fileID: 0}
   queueText: {fileID: 1976074740}
 --- !u!4 &2060474994
 Transform:

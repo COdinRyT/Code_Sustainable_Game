@@ -125,7 +125,11 @@ public class GameManager : MonoBehaviour
         {
             EndGame();
         }
-        if (currentTurn >= 20)// This is how you lose the game
+        if (currentTurn >= 50)// This is how you lose the game
+        {
+            EndGame();
+        }
+        if(currentGarbageAmount <= 0)
         {
             EndGame();
         }
