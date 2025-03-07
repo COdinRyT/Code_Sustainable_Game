@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject TerrainGroup;
     public GameObject Garbage;
+    public GameObject[] garbagePiles;
     public List<GameObject> tag_targets = new List<GameObject>();
     public Transform parentTransform;
     Camera camera;
@@ -90,6 +91,7 @@ public class GameManager : MonoBehaviour
             if (movement != null)
             {
                 movement.skipMove = false;
+                updateUI.IncreaseTurnCount();
             }
         }
     }
@@ -182,7 +184,7 @@ public class GameManager : MonoBehaviour
     {
         if (garbageLevel == 1)
         {
-            currentGarbageAmount = 100;
+            currentGarbageAmount = 500;
         }
     }
 
