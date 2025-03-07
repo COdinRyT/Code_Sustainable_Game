@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CleanGarbage : MonoBehaviour
 {
     [Header("Progress Bar Settings/Variables")]
-    public Slider progressBar;
+    private Image progressBar;
     [SerializeField] private Camera camera;
     [SerializeField] private Transform target;
     [SerializeField] private Vector3 offset;
@@ -19,7 +19,7 @@ public class CleanGarbage : MonoBehaviour
     void Start()
     {
         gameManager = GetComponent<GameManager>();
-        progressBar = GetComponentInChildren<Slider>();
+        progressBar = GetComponentInChildren<Image>();
         progressBar.gameObject.SetActive(false);
 
         trash = gameManager.Garbage;

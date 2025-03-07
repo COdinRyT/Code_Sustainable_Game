@@ -41,6 +41,10 @@ public class Garbage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if ( Name == "SmallGarbage")
+        {
+            healthBar.UpdateHealthBar(currentHealth, smallGarbageHealth);
+        }
 
         if (currentHealth <= 0)
         {
