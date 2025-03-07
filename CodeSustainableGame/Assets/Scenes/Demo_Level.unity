@@ -1463,7 +1463,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 103335195}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1378037139}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: InstantiateVolunteer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &103335195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3649,10 +3661,9 @@ MonoBehaviour:
   mainCamera: {fileID: 335472420}
   cameraPanSpeed: 0.5
   cameraZoomSpeed: 0
-  cameraBoundaries: {x: 0, y: 0, z: 0}
-  zoomStep: 6
-  minCamSize: 1
-  maxCamSize: 10
+  cameraBoundaryX: 15
+  cameraBoundaryY: 10
+  zoomStep: 100
 --- !u!4 &338600431 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6563235072332255082, guid: 6a7971c1cabb13946a61bfdc400e0d58, type: 3}
@@ -12712,7 +12723,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1273317373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14132,6 +14143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   updateUI: {fileID: 777638271}
+  newVolunteers: {fileID: 7873070105978103635, guid: c441bbf72cd3a5141bd46892fa7ad1ae, type: 3}
   prefab: {fileID: 5803732622442556610, guid: 29871d086386fb54198d5bda5efb9845, type: 3}
   stepDelay: 0.2
   currentTurn: 0
@@ -21135,6 +21147,57 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6563235072332255082, guid: 6a7971c1cabb13946a61bfdc400e0d58, type: 3}
   m_PrefabInstance: {fileID: 286804539}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2060474992
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2060474994}
+  - component: {fileID: 2060474993}
+  m_Layer: 0
+  m_Name: UIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2060474993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060474992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67ff507cf21d394cb1c97aa2386079c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Turns: {fileID: 36969551}
+  People: {fileID: 0}
+  Money: {fileID: 0}
+  moneyBar: {fileID: 0}
+  garbageBar: {fileID: 0}
+  happyBar: {fileID: 0}
+  queueText: {fileID: 1976074740}
+--- !u!4 &2060474994
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060474992}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.653299, y: 1.5388509, z: -7.7305007}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2071845010 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6563235072332255082, guid: 6a7971c1cabb13946a61bfdc400e0d58, type: 3}
@@ -21873,3 +21936,4 @@ SceneRoots:
   - {fileID: 764393113}
   - {fileID: 771144807}
   - {fileID: 384494654}
+  - {fileID: 2060474994}

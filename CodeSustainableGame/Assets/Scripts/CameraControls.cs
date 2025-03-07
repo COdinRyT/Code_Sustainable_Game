@@ -31,7 +31,7 @@ public class CameraControls : MonoBehaviour
     {
         CameraMovement();
         ScrollZoom();
-        CameraBoundaries();      
+        //CameraBoundaries();      
     }
 
     private void CameraMovement()

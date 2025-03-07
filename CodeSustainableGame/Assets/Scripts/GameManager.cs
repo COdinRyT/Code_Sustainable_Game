@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public UpdateUI updateUI;
 
     public Queue<GameObject> characters = new Queue<GameObject>(); // Character queue
+    public GameObject newVolunteers;
     public GameObject prefab;
 
     public float stepDelay = 0.2f;  // Delay between tile movements 
@@ -289,6 +290,18 @@ public class GameManager : MonoBehaviour
     public void MediumTrashPile(int mediumTrashPileValue)
     {
         currentGarbageAmount -= mediumTrashPileValue;
+    }
+
+    public void InstantiateVolunteer()
+    {
+        if(currentGarbageAmount > 0)
+        {
+            Debug.Log("Can't get involved yet, clean more garbage");
+        }
+        else
+        {
+            Instantiate(newVolunteers);
+        }        
     }
 
     public void WebsiteLink() //This is to link the Pollution Probe website 
