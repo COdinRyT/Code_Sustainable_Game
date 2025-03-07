@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Garbage : MonoBehaviour
 {
@@ -9,6 +10,15 @@ public class Garbage : MonoBehaviour
     public int largeGarbageHealth = 200;
     public int currentHealth;
     public string Name;
+
+    [SerializeField]
+    private FloatingHealthBar healthBar;
+
+    private void Awake()
+    {
+        healthBar = GetComponentInChildren<FloatingHealthBar>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,6 +26,7 @@ public class Garbage : MonoBehaviour
         if (Name == "SmallGarbage")
         {
             currentHealth = smallGarbageHealth;
+            healthBar.UpdateHealthBar(currentHealth, smallGarbageHealth);
         }
     }
     // Ensure the garbage has a trigger collider
@@ -30,6 +41,7 @@ public class Garbage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (currentHealth <= 0)
         {
             Destroy(gameObject);
