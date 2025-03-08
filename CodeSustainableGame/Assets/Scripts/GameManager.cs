@@ -258,13 +258,25 @@ public class GameManager : MonoBehaviour
     {
         //Debug.Log("Spawn garbo");
         GameObject GarbageClone;
+        if(Garbage == null)
+        {
+            Debug.Log("Garbage prefab is not assigned in inspector");
+            return;
+        }
+        if(TerrainGroup == null)
+        {
+            Debug.Log("Terraingroup is not assigned");
+            return;
+        }
         foreach (Transform child in TerrainGroup.transform)
         {
             GameObject obj = child.gameObject;
             //Debug.Log("obj: " + obj.name);
+            Debug.Log($"Checking {obj.name}, layer: {obj.layer}");
             if (obj.layer == 7)
             {
                 // Debug.Log("Random num");
+                Debug.Log($"Tile {obj.name} is in layer 7");
                 randomNumber = UnityEngine.Random.Range(0, 10);
                 if (randomNumber >= chanceOfGarbage)
                 {

@@ -134,14 +134,14 @@ public class PointClickMovement : MonoBehaviour
             yield break;  // Exit the coroutine early
         }
 
-        // Only proceed with raycast if we are not over UI (like a button)
-        if (EventSystem.current.IsPointerOverGameObject())
-        {
-            // Skip raycasting if mouse is over UI
-            flashCharacter = false;
-            Debug.Log("Pointer is over UI, skipping raycast.");
-            yield break;
-        }
+        //// Only proceed with raycast if we are not over UI (like a button)
+        //if (EventSystem.current.IsPointerOverGameObject())
+        //{
+        //    // Skip raycasting if mouse is over UI
+        //    flashCharacter = false;
+        //    Debug.Log("Pointer is over UI, skipping raycast.");
+        //    yield break;
+        //}
 
         // Get the click position (convert mouse position to world position)
         Ray ray = camera.ScreenPointToRay(Input.mousePosition);

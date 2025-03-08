@@ -13,7 +13,6 @@ public class CameraControls : MonoBehaviour
     [SerializeField] private float cameraBoundaryX;
     [SerializeField] private float cameraBoundaryY;
     [SerializeField]
-    private float zoomStep;
 
 
     
@@ -64,11 +63,11 @@ public class CameraControls : MonoBehaviour
         Debug.Log("Scroll value: " + scroll);
         if (scroll > 0)
         {
-            transform.position = transform.position + transform.forward * zoomStep * Time.deltaTime;
+            transform.position = transform.position + transform.forward * cameraZoomSpeed * Time.deltaTime;
         }
         else if (scroll < 0)
         {
-            transform.position = transform.position - transform.forward * zoomStep * Time.deltaTime;
+            transform.position = transform.position - transform.forward * cameraZoomSpeed * Time.deltaTime;
         }
     }
 
