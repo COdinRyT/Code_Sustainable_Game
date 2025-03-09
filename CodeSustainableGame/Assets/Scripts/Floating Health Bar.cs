@@ -7,11 +7,6 @@ public class FloatingHealthBar : MonoBehaviour
 {
     [SerializeField]
     private Image garbageHealthBar;
-    [SerializeField]
-    private Camera mainCamera;
-    [SerializeField]
-    private Transform target;
-
 
     public void UpdateHealthBar (float currentValue, float maxValue)
     {
@@ -21,6 +16,6 @@ public class FloatingHealthBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.rotation = mainCamera.transform.rotation;
+
     }
 }
