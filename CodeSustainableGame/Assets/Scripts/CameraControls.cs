@@ -34,20 +34,41 @@ public class CameraControls : MonoBehaviour
 
     private void CameraMovement()
     {
-        if (Input.GetMouseButton(2))
+        //if (Input.GetMouseButton(2))
+        //{
+        //    Vector3 currentMousePosition = Input.mousePosition;
+        //    if (lastMousePos != Vector3.zero)
+        //    {
+        //        Vector3 mouseMovement = currentMousePosition - lastMousePos;
+
+        //        Vector3 pan = new Vector3(mouseMovement.x * cameraPanSpeed * Time.deltaTime, 0f, mouseMovement.y * cameraPanSpeed * Time.deltaTime);
+
+        //        transform.Translate(pan, Space.World);
+        //    }
+        //    //Resett the last mouse position when the middle mouse button is released
+        //    lastMousePos = Input.mousePosition;
+        //}
+        if (Input.GetKey(KeyCode.A))
         {
-            Vector3 currentMousePosition = Input.mousePosition;
-            if (lastMousePos != Vector3.zero)
-            {
-                Vector3 mouseMovement = currentMousePosition - lastMousePos;
-
-                Vector3 pan = new Vector3(mouseMovement.x * cameraPanSpeed * Time.deltaTime, 0f, mouseMovement.y * cameraPanSpeed * Time.deltaTime);
-
-                transform.Translate(pan, Space.World);
-            }
-            //Resett the last mouse position when the middle mouse button is released
-            lastMousePos = Input.mousePosition;
+            Vector3 left = -Vector3.forward;
+            transform.localPosition += left * cameraPanSpeed * Time.deltaTime;
         }
+        if (Input.GetKey(KeyCode.D))
+        {
+            Vector3 right = Vector3.forward;
+            transform.localPosition += right * cameraPanSpeed * Time.deltaTime;
+        }
+        if (Input.GetKey(KeyCode.W))
+        {
+            Vector3 up = Vector3.left;
+            transform.localPosition += up * cameraPanSpeed * Time.deltaTime;
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            Vector3 down = Vector3.right;
+            transform.localPosition += down * cameraPanSpeed * Time.deltaTime;
+        }
+
         else
         {
            lastMousePos = Vector3.zero;

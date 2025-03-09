@@ -20,6 +20,7 @@ public class PointClickMovement : MonoBehaviour
     private Rigidbody rb;
     public GameObject selectedPlayer = null;  // The character that the player selects
     public GameObject selectedTile = null;   // The tile that the player selects
+    
 
     private Vector3 targetPosition;
 
