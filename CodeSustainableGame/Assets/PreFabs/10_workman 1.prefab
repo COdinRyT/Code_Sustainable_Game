@@ -964,6 +964,7 @@ MonoBehaviour:
   selectedTile: {fileID: 0}
   flashCharacter: 0
   cube: {fileID: 1169119004203619508}
+  moveSpeedCube: 50
   skipMove: 0
 --- !u!195 &154995269878496638
 NavMeshAgent:
