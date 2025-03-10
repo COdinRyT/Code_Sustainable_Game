@@ -26,6 +26,9 @@ public class GameManager : MonoBehaviour
     public int awarenessLevel;
     public int currentPlantedTrees = 0;
 
+    public float involvedAmount;
+    public float involvedNeededLevelUp = 100;
+
     public float garbageLevel = 1;
     public float maxGarbage;
     public float currentGarbageAmount; // An example is garbage will start at 100. 
@@ -140,6 +143,7 @@ public class GameManager : MonoBehaviour
     public void resetGarbage()
     {
         currentGarbageAmount = garbageLevel * 100;
+        //involvedAmount += 20;
         happiness += 10;
         readyToGetInvolved = true;
     }
@@ -147,10 +151,14 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (involvedAmount >= involvedNeededLevelUp)
+        {
+            spawnUnit = true;
+            involvedAmount = 0;
+        }
         if (currentGarbageAmount <= 0 && hasStarted == true)
         {
             Debug.Log("Set happiness");
-            spawnUnit = true;
             resetGarbage();
         }
         if (happiness >= 100) // This is how you win the game
@@ -217,7 +225,7 @@ public class GameManager : MonoBehaviour
     public void GetInvolvedIsTrue()
     {
         Debug.Log("Update glow");
-        GlowAndSparkle.Instance.transparency = 100;
+        //GlowAndSparkle.Instance.transparency = 100;
     }
     void StartGame()
     {

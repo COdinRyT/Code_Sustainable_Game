@@ -14143,6 +14143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   updateUI: {fileID: 0}
+  volunterSpawnPosition: {fileID: 0}
   newVolunteers: {fileID: 7873070105978103635, guid: c441bbf72cd3a5141bd46892fa7ad1ae, type: 3}
   prefab: {fileID: 5803732622442556610, guid: 29871d086386fb54198d5bda5efb9845, type: 3}
   stepDelay: 0.2
@@ -14156,6 +14157,7 @@ MonoBehaviour:
   awarenessLevel: 0
   currentPlantedTrees: 0
   garbageLevel: 1
+  maxGarbage: 0
   currentGarbageAmount: 0
   readyForGetInvolved: 0
   endTurn: 0
@@ -14164,6 +14166,8 @@ MonoBehaviour:
   garbagePiles: []
   tag_targets: []
   parentTransform: {fileID: 764393113}
+  garbageParentTransform: {fileID: 0}
+  Volunteer: {fileID: 0}
 --- !u!4 &1378037140
 Transform:
   m_ObjectHideFlags: 0
@@ -15157,7 +15161,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1378037139}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: OnClick
+        m_MethodName: OnSkipButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
