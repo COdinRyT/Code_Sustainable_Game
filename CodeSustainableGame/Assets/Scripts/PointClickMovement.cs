@@ -21,9 +21,7 @@ public class PointClickMovement : MonoBehaviour
     public GameObject selectedPlayer = null;  // The character that the player selects
     public GameObject selectedTile = null;   // The tile that the player selects
 
-
     private Vector3 targetPosition;
-
 
     private Vector3 additionPos = new Vector3(0, 0.1f, 0);
     // Flashing variables
@@ -121,7 +119,6 @@ public class PointClickMovement : MonoBehaviour
             Debug.LogError("Selected player does not have a NavMeshAgent!");
             yield break;
         }
-
         // Wait for a click or check if we need to skip the move
         yield return StartCoroutine(WaitForClick());
 
@@ -151,7 +148,7 @@ public class PointClickMovement : MonoBehaviour
 
                 // Move the player to the snapped position
                 playerAgent.SetDestination(targetPosition);
-                Debug.Log($"Moving to snapped position: {targetPosition}");
+                //Debug.Log($"Moving to snapped position: {targetPosition}");
 
                 // Create marker on tile
                 Instantiate(Marker, targetPosition, Quaternion.identity);
@@ -170,10 +167,21 @@ public class PointClickMovement : MonoBehaviour
     private IEnumerator WaitForClick()
     {
         bool clicked = false;
-
+        /*
+        if (skipMove)
+        {
+            yield return null;
+        }
+        */
         // While we haven't clicked and haven't skipped, keep waiting
         while (!clicked && !skipMove)
         {
+            
+            if (skipMove)
+            {
+                yield return null;
+            }
+            
             if (Input.GetMouseButtonDown(0))  // Left mouse button clicked
             {
                 Ray ray = camera.ScreenPointToRay(Input.mousePosition);

@@ -36,12 +36,18 @@ public class CheckIfOnGarbage : MonoBehaviour
             if (allChildren[i].transform.position.x == madeUpVector3.x && allChildren[i].transform.position.z == madeUpVector3.z)
             {
                 Vector3 currentScale = allChildren[i].transform.localScale;
-                allChildren[i].GetComponent<Garbage>().currentHealth -= 25;
-                allChildren[i].transform.localScale = currentScale * 0.8f;
-                Debug.Log(allChildren[i].GetComponent<Garbage>().currentHealth);
-                //Destroy(allChildren[i]);
-                Debug.Log("Same spot, We have collision.");
-                PlayerAndGarbageCollision = true;
+                if (allChildren[i].GetComponent<Garbage>())
+                {
+                    if (allChildren[i].GetComponent<Garbage>().currentHealth > 0)
+                    {
+                        allChildren[i].GetComponent<Garbage>().currentHealth -= 25;
+                        allChildren[i].transform.localScale = currentScale * 0.8f;
+                        Debug.Log(allChildren[i].GetComponent<Garbage>().currentHealth);
+                        //Destroy(allChildren[i]);
+                        Debug.Log("Same spot, We have collision.");
+                        PlayerAndGarbageCollision = true;
+                    }
+                }
             }
         }
 

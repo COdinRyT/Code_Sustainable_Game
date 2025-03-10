@@ -38,13 +38,14 @@ public class UpdateUI : MonoBehaviour
         Money.text = GameManager.Instance.currentMoney.ToString() + "$";
 
         moneyBar.fillAmount = GameManager.Instance.currentMoney / 9999f; // If the money amount is larger than 9999 than the bar will not fill up any more.
-        garbageBar.fillAmount = GameManager.Instance.currentGarbageAmount / 100f;
+        garbageBar.fillAmount = GameManager.Instance.currentGarbageAmount / GameManager.Instance.maxGarbage;
         happyBar.fillAmount = GameManager.Instance.happiness / 100f;
     }
 
     public void IncreaseTurnCount()
     {
         GameManager.Instance.currentTurn++;
+        GameManager.Instance.garbageLevel++;
         UpdateUIElements();
     }
 
@@ -62,6 +63,4 @@ public class UpdateUI : MonoBehaviour
             queueText.text = "Queue: \n" + string.Join("\n", characterNames);
         }
     }
-
-    //--------------------------------------------------------------------------------------------------------------------------------
 }

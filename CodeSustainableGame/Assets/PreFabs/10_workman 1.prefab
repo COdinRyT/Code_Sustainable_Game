@@ -962,13 +962,13 @@ MonoBehaviour:
   stepDelay: 0.2
   selectedPlayer: {fileID: 0}
   selectedTile: {fileID: 0}
-  raycastLayerMask:
-    serializedVersion: 2
-    m_Bits: 4
   flashCharacter: 0
   cube: {fileID: 1169119004203619508}
   moveSpeedCube: 50
   skipMove: 0
+  raycastLayerMask:
+    serializedVersion: 2
+    m_Bits: 896
 --- !u!195 &154995269878496638
 NavMeshAgent:
   m_ObjectHideFlags: 0

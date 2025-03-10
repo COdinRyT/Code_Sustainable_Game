@@ -17,5 +17,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/EndGame.unity
     guid: 018e2b029b38d4c479ad349f64d81dd8
+  - enabled: 1
+    path: Assets/Scenes/WinScreen.unity
+    guid: 2217ab4a5ae112d4ca3d62970b056158
+  - enabled: 1
+    path: Assets/Scenes/LostScreen.unity
+    guid: 908eea718c7925e4a96719c5e9430d79
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: ea2f33f076d0bd24fafd2ddf587e4de5, type: 2}
