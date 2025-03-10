@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class EndTurn : MonoBehaviour
 {
-    //public GameObject advertisementPanel;
 
     public void OnClick()
     {
+        Debug.Log("CLicked");
         if (GameManager.Instance == null)
         {
             Debug.LogError("GameManager.Instance is null");
@@ -17,8 +18,7 @@ public class EndTurn : MonoBehaviour
         if (GameManager.Instance.endTurn == false)
         {
             GameManager.Instance.endTurn = true;
-
-            //advertisementPanel.SetActive(true);
+            Debug.Log("End turn end turn");
         }
     }
 }

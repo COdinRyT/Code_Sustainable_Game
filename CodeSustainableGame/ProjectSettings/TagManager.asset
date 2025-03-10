@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - GridTile
+  - Button
   layers:
   - Default
   - TransparentFX

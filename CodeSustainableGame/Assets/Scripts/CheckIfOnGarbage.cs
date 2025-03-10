@@ -33,16 +33,6 @@ public class CheckIfOnGarbage : MonoBehaviour
         GetChildren();
         for (int i = 0; i < allChildren.Length; i++)
         {
-            //Debug.Log("Garbage:" + allChildren[i].transform.position);
-            //Debug.Log("Player:" + Player.transform.position);
-            /*
-            if (allChildren[i].transform.position == madeUpVector3)
-            {
-                Debug.Log("At same spot. We have collision");
-            }
-            */
-            //Debug.Log("Garbage: " + allChildren[i].transform.position);
-            //Debug.Log("Player x: " + madeUpVector3.x + " z: "+ madeUpVector3.z);
             if (allChildren[i].transform.position.x == madeUpVector3.x && allChildren[i].transform.position.z == madeUpVector3.z)
             {
                 Vector3 currentScale = allChildren[i].transform.localScale;
@@ -53,12 +43,9 @@ public class CheckIfOnGarbage : MonoBehaviour
                 Debug.Log("Same spot, We have collision.");
                 PlayerAndGarbageCollision = true;
             }
-            //child is your child transform
         }
 
     }
-
-    // Start is called before the first frame update
     private void GetChildren()
     {
         allChildren = new GameObject[GarbageStorage.transform.childCount];
@@ -66,10 +53,5 @@ public class CheckIfOnGarbage : MonoBehaviour
         {
             allChildren[i] = GarbageStorage.transform.GetChild(i).gameObject;
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
     }
 }

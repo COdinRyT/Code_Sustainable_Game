@@ -108,19 +108,24 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-
     public void FirstPlayer()
     {
         Debug.Log("First player function");
         DoTask();
     }
+    public void resetGarbage()
+    {
+        currentGarbageAmount = 200;
+        happiness += 50;
+    }
 
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log("End turn: " + endTurn);
-        //Debug.Log(" Current Turn: " + currentTurn);
-        //Debug.Log("Max turn: " + maxTurn);
+        if (currentGarbageAmount <= 0)
+        {
+            resetGarbage();
+        }
         if (happiness >= 100) // This is how you win the game
         {
             EndGame();
@@ -138,6 +143,7 @@ public class GameManager : MonoBehaviour
         {
             GameManager.Instance.GetInvolvedIsTrue();
             updateUI.UpdateQueueUI(new List<GameObject>(characters));
+            //Debug.Log("Brh");
             if (endTurn && currentTurn < maxTurn)
             {
                 // Find all game objects with the tag "Player" (or any tag you've assigned to your characters)
@@ -186,9 +192,11 @@ public class GameManager : MonoBehaviour
     }
     void SetupVariables()
     {
+        currentMoney = 0;
+
         if (garbageLevel == 1)
         {
-            currentGarbageAmount = 500;
+            currentGarbageAmount = 200;
         }
     }
 
@@ -251,7 +259,7 @@ public class GameManager : MonoBehaviour
         }
         // End the turn after all characters have moved
         hasTaskStarted = false;  // Reset task flag
-        Debug.Log("Turn ended");
+        //Debug.Log("Turn ended");
     }
 
     private void SpawnGarbage()
@@ -272,11 +280,11 @@ public class GameManager : MonoBehaviour
         {
             GameObject obj = child.gameObject;
             //Debug.Log("obj: " + obj.name);
-            Debug.Log($"Checking {obj.name}, layer: {obj.layer}");
+            //Debug.Log($"Checking {obj.name}, layer: {obj.layer}");
             if (obj.layer == 7)
             {
                 // Debug.Log("Random num");
-                Debug.Log($"Tile {obj.name} is in layer 7");
+                //Debug.Log($"Tile {obj.name} is in layer 7");
                 randomNumber = UnityEngine.Random.Range(0, 10);
                 if (randomNumber >= chanceOfGarbage)
                 {

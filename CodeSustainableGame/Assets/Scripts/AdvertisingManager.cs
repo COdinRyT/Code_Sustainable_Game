@@ -15,14 +15,12 @@ public class AdvertisngManager : MonoBehaviour
         adPanel.SetActive(false);
 
         yesButton.onClick.AddListener(AdAccepted);
-        //noButton.onClick.AddListener(AdDeclined);
     }
 
     public void AdAccepted()
     {
         Debug.Log("Advertisement sent!");
 
-        //GameManager.Instance.currentPeople++;
         GameManager.Instance.SpreadAwareness(awarenessIncrease);
         GameManager.Instance.GetInvolvedIsTrue();
         FindObjectOfType<UpdateUI>().UpdateUIElements();
@@ -39,7 +37,6 @@ public class AdvertisngManager : MonoBehaviour
 
     public void SpawnVolunteers()
     {
-        //Spawn volunteer
         int volunteerAmount = volunteers.Length;
         for(int i = 0; i < volunteerAmount; i++)
         {
