@@ -7,6 +7,6 @@ public class GoToMenu : MonoBehaviour
 {
     public void OnClick()
     {
-        SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene("StartScreen");
     }
 }
