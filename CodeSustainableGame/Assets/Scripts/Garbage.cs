@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.UI;
 
 public class Garbage : MonoBehaviour
@@ -10,6 +11,7 @@ public class Garbage : MonoBehaviour
     public int largeGarbageHealth = 200;
     public int currentHealth;
     public string Name;
+    public bool isCollected = false;
 
     [SerializeField]
     private FloatingHealthBar healthBar;
@@ -48,8 +50,10 @@ public class Garbage : MonoBehaviour
 
         if (currentHealth <= 0)
         {
+            isCollected = true;
             GameManager.Instance.SmallTrashPile(50);
+            isCollected = false;
             Destroy(gameObject);
         }
-    }
+    }   
 }

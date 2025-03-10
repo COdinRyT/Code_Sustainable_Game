@@ -10,8 +10,12 @@ using UnityEngine.UIElements;
 
 public class Shop : MonoBehaviour
 {
-    public Text ShopButton;
+    //public Text ShopButton;
     public GameObject Panel;
+    public GameObject smallTruck;
+    public Vector3 spawnPos;
+
+    [SerializeField] int smallTruckCost = 125000;
     public void ShopButtonClick()
     {
         if (Panel.activeSelf)
@@ -34,5 +38,22 @@ public class Shop : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void SpawnTruck()
+    {
+        if(GameManager.Instance.currentMoney >= 125000)
+        {
+            if (smallTruck != null)
+            {
+                Instantiate(smallTruck, spawnPos, Quaternion.identity);
+                GameManager.Instance.currentMoney -= smallTruckCost;
+            }
+            else
+            {
+                Debug.Log("Small truck prefab is not assgined");
+            }
+        }       
+
     }
 }

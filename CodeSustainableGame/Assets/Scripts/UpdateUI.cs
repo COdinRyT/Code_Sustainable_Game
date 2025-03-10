@@ -10,6 +10,7 @@ public class UpdateUI : MonoBehaviour
     public TMP_Text People;
     public TMP_Text Money;
     //public TMP_Text GarbageLeft;
+    Garbage garbage;
 
     public Image moneyBar;
     public Image garbageBar;
@@ -25,6 +26,7 @@ public class UpdateUI : MonoBehaviour
     {
         GameManager.Instance.currentTurn = startingTurn;
         UpdateUIElements();        
+        garbage = FindAnyObjectByType<Garbage>();
     }
 
     void Update()
@@ -42,6 +44,11 @@ public class UpdateUI : MonoBehaviour
         moneyBar.fillAmount = GameManager.Instance.currentMoney / 9999f; // If the money amount is larger than 9999 than the bar will not fill up any more.
         garbageBar.fillAmount = GameManager.Instance.currentGarbageAmount / 100f;
         happyBar.fillAmount = GameManager.Instance.happiness / 100f;
+    }
+
+    public void UpdatePileSliderUI()
+    {
+        
     }
 
     public void IncreaseTurnCount()

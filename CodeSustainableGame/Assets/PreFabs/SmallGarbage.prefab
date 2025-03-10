@@ -310,6 +310,7 @@ MonoBehaviour:
   largeGarbageHealth: 200
   currentHealth: 0
   Name: 
+  isCollected: 0
   healthBar: {fileID: 0}
 --- !u!65 &7048255108866793762
 BoxCollider:
