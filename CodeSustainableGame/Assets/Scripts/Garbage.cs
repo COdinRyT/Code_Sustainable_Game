@@ -53,8 +53,9 @@ public class Garbage : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            isCollected = true;
-            GameManager.Instance.SmallTrashPile(50);            
+            isCollected = true;           
+            GameManager.Instance.SmallTrashPile(50);
+            GameManager.Instance.involvedAmount += 20;
             Destroy(gameObject);
             empty.RegisterGarbageDestruction();
         }

@@ -14,8 +14,6 @@ public class CleanGarbage : MonoBehaviour
     [Header("Trash Collection Settings/Variables")]
     GameManager gameManager;
     public GameObject trash;
-    
-    // Start is called before the first frame update
     void Start()
     {
         gameManager = GetComponent<GameManager>();
@@ -24,15 +22,12 @@ public class CleanGarbage : MonoBehaviour
 
         trash = gameManager.Garbage;
     }
-
-    // Update is called once per frame
     void Update()
     {
         TrashDetection();
         progressBar.transform.rotation = camera.transform.rotation;
         progressBar.transform.position = target.position + offset;
     }
-
     public void TrashDetection()
     {
        

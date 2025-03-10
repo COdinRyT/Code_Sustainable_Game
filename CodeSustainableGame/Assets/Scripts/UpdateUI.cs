@@ -15,6 +15,7 @@ public class UpdateUI : MonoBehaviour
     public Image moneyBar;
     public Image garbageBar;
     public Image happyBar;
+    public Image involvedBar;
 
     private int startingTurn = 0;
 
@@ -39,11 +40,12 @@ public class UpdateUI : MonoBehaviour
         Turns.text = "Turns: " + GameManager.Instance.currentTurn.ToString() + "/" + GameManager.Instance.maxTurn.ToString();
         People.text = GameManager.Instance.currentPeople.ToString() + "/" + GameManager.Instance.maxPeople.ToString();
         Money.text = GameManager.Instance.currentMoney.ToString() + "$";
-        //GarbageLeft.text = "Garbage Left: " + GameManager.Instance.currentGarbageAmount.ToString();
 
         moneyBar.fillAmount = GameManager.Instance.currentMoney / 9999f; // If the money amount is larger than 9999 than the bar will not fill up any more.
-        garbageBar.fillAmount = GameManager.Instance.currentGarbageAmount / 100f;
+        garbageBar.fillAmount = GameManager.Instance.currentGarbageAmount / GameManager.Instance.maxGarbage;
         happyBar.fillAmount = GameManager.Instance.happiness / 100f;
+        involvedBar.fillAmount = GameManager.Instance.involvedAmount / GameManager.Instance.involvedNeededLevelUp;
+        Debug.Log(GameManager.Instance.involvedAmount / GameManager.Instance.involvedNeededLevelUp);
     }
 
     public void UpdatePileSliderUI()
@@ -54,6 +56,7 @@ public class UpdateUI : MonoBehaviour
     public void IncreaseTurnCount()
     {
         GameManager.Instance.currentTurn++;
+        GameManager.Instance.garbageLevel++;
         UpdateUIElements();
     }
 
@@ -71,6 +74,4 @@ public class UpdateUI : MonoBehaviour
             queueText.text = "Queue: \n" + string.Join("\n", characterNames);
         }
     }
-
-    //--------------------------------------------------------------------------------------------------------------------------------
 }

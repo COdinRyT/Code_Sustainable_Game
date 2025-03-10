@@ -14,40 +14,20 @@ public class CameraControls : MonoBehaviour
     [SerializeField] private float cameraBoundaryY;
     [SerializeField]
 
-
-    
-
-    // Start is called before the first frame update
     void Start()
     {
         if(mainCamera == null)
         mainCamera = Camera.main;
     }
 
-    // Update is called once per frame
     void Update()
     {
         CameraMovement();
-        ScrollZoom();
-        //CameraBoundaries();      
+        ScrollZoom();   
     }
 
     private void CameraMovement()
     {
-        //if (Input.GetMouseButton(2))
-        //{
-        //    Vector3 currentMousePosition = Input.mousePosition;
-        //    if (lastMousePos != Vector3.zero)
-        //    {
-        //        Vector3 mouseMovement = currentMousePosition - lastMousePos;
-
-        //        Vector3 pan = new Vector3(mouseMovement.x * cameraPanSpeed * Time.deltaTime, 0f, mouseMovement.y * cameraPanSpeed * Time.deltaTime);
-
-        //        transform.Translate(pan, Space.World);
-        //    }
-        //    //Resett the last mouse position when the middle mouse button is released
-        //    lastMousePos = Input.mousePosition;
-        //}
         if (Input.GetKey(KeyCode.A))
         {
             Vector3 left = -Vector3.forward;
@@ -81,7 +61,7 @@ public class CameraControls : MonoBehaviour
 
         //Using the New Input system to get the value of the scroll wheel
         float scroll = Mouse.current.scroll.ReadValue().y;
-        Debug.Log("Scroll value: " + scroll);
+        //Debug.Log("Scroll value: " + scroll);
         if (scroll > 0)
         {
             transform.position = transform.position + transform.forward * cameraZoomSpeed * Time.deltaTime;

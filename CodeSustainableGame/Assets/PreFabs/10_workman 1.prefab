@@ -936,7 +936,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: -4.05, y: 0.5, z: -6.92}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4138098262595890090}
@@ -964,7 +964,11 @@ MonoBehaviour:
   selectedTile: {fileID: 0}
   flashCharacter: 0
   cube: {fileID: 1169119004203619508}
+  moveSpeedCube: 50
   skipMove: 0
+  raycastLayerMask:
+    serializedVersion: 2
+    m_Bits: 896
 --- !u!195 &154995269878496638
 NavMeshAgent:
   m_ObjectHideFlags: 0
