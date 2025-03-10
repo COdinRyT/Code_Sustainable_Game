@@ -158,8 +158,11 @@ public class GameManager : MonoBehaviour
         }
         if (currentGarbageAmount <= 0 && hasStarted == true)
         {
+            garbageLevel += 1;
+            maxGarbage = garbageLevel * 100;
             Debug.Log("Set happiness");
             resetGarbage();
+           
         }
         if (happiness >= 100) // This is how you win the game
         {

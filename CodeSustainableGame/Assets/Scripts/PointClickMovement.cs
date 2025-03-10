@@ -119,6 +119,10 @@ public class PointClickMovement : MonoBehaviour
             Debug.LogError("Selected player does not have a NavMeshAgent!");
             yield break;
         }
+
+        Vector3 cameraPosition = new Vector3(gameObject.transform.position.x + 6, gameObject.transform.position.y + 4, gameObject.transform.position.z );
+        camera.transform.position = cameraPosition;
+
         // Wait for a click or check if we need to skip the move
         yield return StartCoroutine(WaitForClick());
 
@@ -191,7 +195,9 @@ public class PointClickMovement : MonoBehaviour
             {
                 yield return null;
             }
+
             
+
             if (Input.GetMouseButtonDown(0))  // Left mouse button clicked
             {
                 Ray ray = camera.ScreenPointToRay(Input.mousePosition);
