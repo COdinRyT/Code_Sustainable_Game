@@ -8,6 +8,8 @@ public class TruckAI : MonoBehaviour
     private Vector3 targetDestination; // Assign this in inspector
     public NavMeshAgent agent;
     public float truckSpeed = 5f;
+    EmptyTrashCollection emptyTrash;
+    private int timesCollected = 2;
 
     private void Awake()
     {
@@ -16,6 +18,7 @@ public class TruckAI : MonoBehaviour
 
         agent.speed = truckSpeed;
         agent.isStopped = false; // Ensure the agent is moving
+        emptyTrash = FindAnyObjectByType<EmptyTrashCollection>();
     }
 
     private void Start()
@@ -37,6 +40,16 @@ public class TruckAI : MonoBehaviour
             Debug.LogError("No valid Nav");
         }
 
+    }
+
+    public void CollectTrash()
+    {
+        if (emptyTrash.isDisposed)
+        {
+            Debug.Log("Trash ");
+            timesCollected--;
+            emptyTrash.isDisposed = false;
+        }
     }
 
     private void Update()

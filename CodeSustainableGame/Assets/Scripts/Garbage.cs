@@ -13,12 +13,15 @@ public class Garbage : MonoBehaviour
     public string Name;
     public bool isCollected = false;
 
+    EmptyTrashCollection empty;
+
     [SerializeField]
     private FloatingHealthBar healthBar;
 
     private void Awake()
     {
         healthBar = GetComponentInChildren<FloatingHealthBar>();
+        empty = FindAnyObjectByType<EmptyTrashCollection>();
     }
 
     // Start is called before the first frame update
@@ -51,9 +54,9 @@ public class Garbage : MonoBehaviour
         if (currentHealth <= 0)
         {
             isCollected = true;
-            GameManager.Instance.SmallTrashPile(50);
-            isCollected = false;
+            GameManager.Instance.SmallTrashPile(50);            
             Destroy(gameObject);
+            empty.RegisterGarbageDestruction();
         }
     }   
 }
