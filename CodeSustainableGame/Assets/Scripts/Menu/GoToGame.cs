@@ -9,4 +9,9 @@ public class GoToGame : MonoBehaviour
     {
         SceneManager.LoadScene("Demo_Level");
     }
+
+    public void GoToLevel()
+    {
+        SceneManager.LoadScene("The Actual Level");
+    }
 }

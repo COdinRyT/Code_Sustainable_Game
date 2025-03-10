@@ -10,7 +10,7 @@ public class TruckAI : MonoBehaviour
     public float truckSpeed = 5f;
     EmptyTrashCollection emptyTrash;
     Shop shop;
-    private int timesCollected = 2;
+    private int timesCollected;
 
     public GameObject[] collectCounters;
 
@@ -28,6 +28,9 @@ public class TruckAI : MonoBehaviour
         {
             emptyTrash.OnTrashEmptied += CollectTrash; //Subscribe to trash emptied event
         }
+
+        timesCollected = collectCounters.Length; //The amount of times the truck collects trash
+        //is equal to the amount of box trackers on top of the truck
     }
 
     private void Start()
@@ -52,7 +55,7 @@ public class TruckAI : MonoBehaviour
                 Debug.LogError("No valid Nav");
             }
         }
-        else
+        if(timesCollected <= 0)
         {
             Vector3 moveToSpawnPosition = shop.spawnPos;
             NavMeshHit hit;
@@ -66,6 +69,20 @@ public class TruckAI : MonoBehaviour
                 targetDestination = new Vector3(0, 0, 0); // Example fallback position
             }
             agent.SetDestination(targetDestination);
+            if (gameObject.transform.position == shop.spawnPos)
+            {
+                gameObject.SetActive(false);
+                timesCollected = 2;
+                if (timesCollected > 0 && gameObject != null)
+                {
+                    int index = collectCounters.Length;
+                    for (int i = 0; i < index; i++)
+                    {
+                        collectCounters[index].SetActive(true);
+                    }
+                }
+            }
+            
         }
 
     }
@@ -98,10 +115,11 @@ public class TruckAI : MonoBehaviour
         //Debug.Log("Path Status: " + agent.pathStatus);
 
         RaycastHit hit;
-        if(Physics.Raycast(transform.position, Vector3.down, out hit, 5f))
+        if(Physics.Raycast(transform.position, Vector3.down, out hit, 10f))
         {
             transform.position = new Vector3(transform.position.x, hit.point.y, transform.position.z);
         }
+        MoveTruck();
     }
 
     private void OnDestroy()
