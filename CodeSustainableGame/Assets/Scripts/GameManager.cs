@@ -4,11 +4,13 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using System;
+using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 public class GameManager : MonoBehaviour
 {
-
+    private bool hasStarted = false;
     public UpdateUI updateUI;
-
+    public GameObject volunterSpawnPosition;
     public Queue<GameObject> characters = new Queue<GameObject>(); // Character queue
     public GameObject newVolunteers;
     public GameObject prefab;
@@ -24,8 +26,12 @@ public class GameManager : MonoBehaviour
     public int awarenessLevel;
     public int currentPlantedTrees = 0;
 
-    public int garbageLevel = 1;
-    public int currentGarbageAmount; // An example is garbage will start at 100. 
+    public float involvedAmount;
+    public float involvedNeededLevelUp = 100;
+
+    public float garbageLevel = 1;
+    public float maxGarbage;
+    public float currentGarbageAmount; // An example is garbage will start at 100. 
 
     public bool readyForGetInvolved = false;
     public bool endTurn = false;
@@ -37,19 +43,26 @@ public class GameManager : MonoBehaviour
     public GameObject[] garbagePiles;
     public List<GameObject> tag_targets = new List<GameObject>();
     public Transform parentTransform;
+    public Transform garbageParentTransform;
     Camera camera;
-
+    private bool spawnUnit = false;
     private float chanceOfGarbage = 9;
     private float randomNumber;
-    private Vector3 spot;
 
-    //private returnVal;
+    private bool readyToGetInvolved;
+    public GameObject Volunteer;
     private bool hasTaskStarted = false;  // Add a flag to track if the task has started
 
     public static GameManager Instance { get; private set; }
 
     void Awake()
     {
+        if (hasStarted == false)
+        {
+            hasStarted = true;
+            maxGarbage = garbageLevel * 100;
+            currentGarbageAmount = garbageLevel * 100;
+        }
         if (Instance == null)
         {
             Instance = this;
@@ -63,12 +76,13 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         camera = Camera.main;
         currentTurn = startTurn;
         StartGame();
         SpawnGarbage();
         updateUI = FindAnyObjectByType<UpdateUI>();
-        updateUI.UpdateQueueUI(new List<GameObject>(characters));
+        //updateUI.UpdateQueueUI(new List<GameObject>(characters));
 
         if (skipButton != null)
         {
@@ -81,6 +95,17 @@ public class GameManager : MonoBehaviour
         }
         FirstPlayer();
     }
+    /*
+    public void GetInvolvedClick()
+    {
+        if (readyToGetInvolved)
+        {
+            Volunteer = Instantiate(Volunteer, volunterSpawnPosition.transform.position, Quaternion.identity, garbageParentTransform);
+            Volunteer.name = "Worker";
+            //VolunterClone.transform.rotation *= Quaternion.Euler(0, 90f, 0);
+        }
+    }
+    */
     // This method is called when the skip button is clicked
     public void OnEndTurnClick()
     {
@@ -95,7 +120,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-    void OnSkipButtonClick()
+    public void OnSkipButtonClick()
     {
         // Set the skip flag to true for all characters
         foreach (GameObject character in characters)
@@ -108,38 +133,61 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-
     public void FirstPlayer()
     {
+        Volunteer = Instantiate(Volunteer, volunterSpawnPosition.transform.position, Quaternion.identity, garbageParentTransform);
+        Volunteer.name = "Worker";
         Debug.Log("First player function");
         DoTask();
+    }
+    public void resetGarbage()
+    {
+        currentGarbageAmount = garbageLevel * 100;
+        //involvedAmount += 20;
+        happiness += 10;
+        readyToGetInvolved = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log("End turn: " + endTurn);
-        //Debug.Log(" Current Turn: " + currentTurn);
-        //Debug.Log("Max turn: " + maxTurn);
+        if (involvedAmount >= involvedNeededLevelUp)
+        {
+            spawnUnit = true;
+            involvedAmount = 0;
+        }
+        if (currentGarbageAmount <= 0 && hasStarted == true)
+        {
+            garbageLevel += 1;
+            maxGarbage = garbageLevel * 100;
+            Debug.Log("Set happiness");
+            resetGarbage();
+           
+        }
         if (happiness >= 100) // This is how you win the game
         {
-            EndGame();
+            Debug.Log("Won by happiness");
+            EndGameWin();
         }
         if (currentTurn >= 50)// This is how you lose the game
         {
-            EndGame();
+            Debug.Log("Loss by turns");
+            EndGameLose();
         }
-        if(currentGarbageAmount <= 0)
-        {
-            EndGame();
-        }
-
+        //updateUI.UpdateQueueUI(new List<GameObject>(characters));
         if (endTurn && currentTurn < maxTurn)
         {
             GameManager.Instance.GetInvolvedIsTrue();
-            updateUI.UpdateQueueUI(new List<GameObject>(characters));
+            //updateUI.UpdateQueueUI(new List<GameObject>(characters));
+            //Debug.Log("Brh");
             if (endTurn && currentTurn < maxTurn)
             {
+                if (spawnUnit)
+                {
+                    Volunteer = Instantiate(Volunteer, volunterSpawnPosition.transform.position, Quaternion.identity, garbageParentTransform);
+                    Volunteer.name = "Worker";
+                    spawnUnit = false;
+                }
                 // Find all game objects with the tag "Player" (or any tag you've assigned to your characters)
                 GameObject[] allCharacters = GameObject.FindGameObjectsWithTag("Player");
 
@@ -162,7 +210,6 @@ public class GameManager : MonoBehaviour
                         Debug.LogWarning($"Player {character.name} does not have the CheckIfOnGarbage script attached.");
                     }
                 }
-
                 Debug.Log("Up");
                 endTurn = false;
                 currentTurn++;
@@ -170,14 +217,18 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-    void EndGame()
+    void EndGameLose()
     {
-        SceneManager.LoadScene("EndGame");
+        SceneManager.LoadScene("LostScreen");
+    }
+    void EndGameWin()
+    {
+        SceneManager.LoadScene("WinScreen");
     }
     public void GetInvolvedIsTrue()
     {
         Debug.Log("Update glow");
-        GlowAndSparkle.Instance.transparency = 100;
+        //GlowAndSparkle.Instance.transparency = 100;
     }
     void StartGame()
     {
@@ -186,10 +237,7 @@ public class GameManager : MonoBehaviour
     }
     void SetupVariables()
     {
-        if (garbageLevel == 1)
-        {
-            currentGarbageAmount = 500;
-        }
+        currentMoney = 0;
     }
 
     // Add character object into queue when function is called
@@ -217,7 +265,6 @@ public class GameManager : MonoBehaviour
     {
         // Save a temporary list of all characters in the queue
         List<GameObject> charactersInCurrentTurn = new List<GameObject>(characters);
-
         while (characters.Count > 0)
         {
             GameObject currentCharacter = characters.Dequeue();
@@ -226,7 +273,7 @@ public class GameManager : MonoBehaviour
             Debug.Log($"Dequeued Character: {currentCharacter.name}");
             Debug.Log($"Remaining Characters in Queue: {characters.Count}");
 
-            updateUI.UpdateQueueUI(new List<GameObject>(characters));
+            //updateUI.UpdateQueueUI(new List<GameObject>(characters));
 
             // Get the PointClickMovement component from the current character
             PointClickMovement characterMovement = currentCharacter.GetComponent<PointClickMovement>();
@@ -251,12 +298,10 @@ public class GameManager : MonoBehaviour
         }
         // End the turn after all characters have moved
         hasTaskStarted = false;  // Reset task flag
-        Debug.Log("Turn ended");
     }
 
     private void SpawnGarbage()
     {
-        //Debug.Log("Spawn garbo");
         GameObject GarbageClone;
         if(Garbage == null)
         {
@@ -271,12 +316,8 @@ public class GameManager : MonoBehaviour
         foreach (Transform child in TerrainGroup.transform)
         {
             GameObject obj = child.gameObject;
-            //Debug.Log("obj: " + obj.name);
-            Debug.Log($"Checking {obj.name}, layer: {obj.layer}");
             if (obj.layer == 7)
             {
-                // Debug.Log("Random num");
-                Debug.Log($"Tile {obj.name} is in layer 7");
                 randomNumber = UnityEngine.Random.Range(0, 10);
                 if (randomNumber >= chanceOfGarbage)
                 {
@@ -288,6 +329,7 @@ public class GameManager : MonoBehaviour
 
                     // Instantiate the garbage at the calculated spawn position
                     GarbageClone = Instantiate(Garbage, spawnPosition, Quaternion.identity, parentTransform);
+                    GarbageClone.transform.rotation *= Quaternion.Euler(0, 90f, 0);
                     GarbageClone.name = Garbage.name;
                 }
             }
@@ -309,19 +351,6 @@ public class GameManager : MonoBehaviour
     {
         currentGarbageAmount -= mediumTrashPileValue;
     }
-
-    public void InstantiateVolunteer()
-    {
-        if(currentGarbageAmount > 0)
-        {
-            Debug.Log("Can't get involved yet, clean more garbage");
-        }
-        else
-        {
-            Instantiate(newVolunteers);
-        }        
-    }
-
     public void WebsiteLink() //This is to link the Pollution Probe website 
     {
         Application.OpenURL("https://www.pollutionprobe.org"); // When a player selects a button, this function will be called

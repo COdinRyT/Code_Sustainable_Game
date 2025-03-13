@@ -9,4 +9,9 @@ public class GoToMenu : MonoBehaviour
     {
         SceneManager.LoadScene("StartScreen");
     }
+
+    public void OnApplicationQuit()
+    {
+        Application.Quit();
+    }
 }

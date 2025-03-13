@@ -10,14 +10,16 @@ public class UpdateUI : MonoBehaviour
     public TMP_Text People;
     public TMP_Text Money;
     //public TMP_Text GarbageLeft;
+    Garbage garbage;
 
     public Image moneyBar;
     public Image garbageBar;
     public Image happyBar;
+    public Image involvedBar;
 
     private int startingTurn = 0;
 
-    public TextMeshProUGUI queueText;
+    //public TextMeshProUGUI queueText;
 
     private List<string> characterNames = new List<string>();
 
@@ -25,6 +27,7 @@ public class UpdateUI : MonoBehaviour
     {
         GameManager.Instance.currentTurn = startingTurn;
         UpdateUIElements();        
+        garbage = FindAnyObjectByType<Garbage>();
     }
 
     void Update()
@@ -37,33 +40,38 @@ public class UpdateUI : MonoBehaviour
         Turns.text = "Turns: " + GameManager.Instance.currentTurn.ToString() + "/" + GameManager.Instance.maxTurn.ToString();
         People.text = GameManager.Instance.currentPeople.ToString() + "/" + GameManager.Instance.maxPeople.ToString();
         Money.text = GameManager.Instance.currentMoney.ToString() + "$";
-        //GarbageLeft.text = "Garbage Left: " + GameManager.Instance.currentGarbageAmount.ToString();
 
         moneyBar.fillAmount = GameManager.Instance.currentMoney / 9999f; // If the money amount is larger than 9999 than the bar will not fill up any more.
-        garbageBar.fillAmount = GameManager.Instance.currentGarbageAmount / 100f;
+        garbageBar.fillAmount = GameManager.Instance.currentGarbageAmount / GameManager.Instance.maxGarbage;
         happyBar.fillAmount = GameManager.Instance.happiness / 100f;
+        involvedBar.fillAmount = GameManager.Instance.involvedAmount / GameManager.Instance.involvedNeededLevelUp;
+        Debug.Log(GameManager.Instance.involvedAmount / GameManager.Instance.involvedNeededLevelUp);
+    }
+
+    public void UpdatePileSliderUI()
+    {
+        
     }
 
     public void IncreaseTurnCount()
     {
         GameManager.Instance.currentTurn++;
+        GameManager.Instance.garbageLevel++;
         UpdateUIElements();
     }
 
-    public void UpdateQueueUI(List<GameObject> characterQueue)
-    {
-        characterNames.Clear();
+    //public void UpdateQueueUI(List<GameObject> characterQueue)
+    //{
+    //    characterNames.Clear();
 
-        foreach (GameObject character in characterQueue)
-        {
-            characterNames.Add(character.name);
-        }
-        if (queueText != null)
-        {
-            Debug.Log("Updating");
-            queueText.text = "Queue: \n" + string.Join("\n", characterNames);
-        }
-    }
-
-    //--------------------------------------------------------------------------------------------------------------------------------
+    //    foreach (GameObject character in characterQueue)
+    //    {
+    //        characterNames.Add(character.name);
+    //    }
+    //    if (queueText != null)
+    //    {
+    //        Debug.Log("Updating");
+    //        queueText.text = "Queue: \n" + string.Join("\n", characterNames);
+    //    }
+    //}
 }
