@@ -7,6 +7,6 @@ public class GoToGame : MonoBehaviour
 {
     public void OnClick()
     {
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("Demo_Level");
     }
 }
