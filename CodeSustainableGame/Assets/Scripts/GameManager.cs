@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
         StartGame();
         SpawnGarbage();
         updateUI = FindAnyObjectByType<UpdateUI>();
-        updateUI.UpdateQueueUI(new List<GameObject>(characters));
+        //updateUI.UpdateQueueUI(new List<GameObject>(characters));
 
         if (skipButton != null)
         {
@@ -174,11 +174,11 @@ public class GameManager : MonoBehaviour
             Debug.Log("Loss by turns");
             EndGameLose();
         }
-        updateUI.UpdateQueueUI(new List<GameObject>(characters));
+        //updateUI.UpdateQueueUI(new List<GameObject>(characters));
         if (endTurn && currentTurn < maxTurn)
         {
             GameManager.Instance.GetInvolvedIsTrue();
-            updateUI.UpdateQueueUI(new List<GameObject>(characters));
+            //updateUI.UpdateQueueUI(new List<GameObject>(characters));
             //Debug.Log("Brh");
             if (endTurn && currentTurn < maxTurn)
             {
@@ -273,7 +273,7 @@ public class GameManager : MonoBehaviour
             Debug.Log($"Dequeued Character: {currentCharacter.name}");
             Debug.Log($"Remaining Characters in Queue: {characters.Count}");
 
-            updateUI.UpdateQueueUI(new List<GameObject>(characters));
+            //updateUI.UpdateQueueUI(new List<GameObject>(characters));
 
             // Get the PointClickMovement component from the current character
             PointClickMovement characterMovement = currentCharacter.GetComponent<PointClickMovement>();
