@@ -370,6 +370,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 9063742853540714710}
   truckSpeed: 5
+  collectCounters:
+  - {fileID: 252592447515631067}
+  - {fileID: 3525790668035048224}
 --- !u!4 &1434563026015829755 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 89fe87e50c7a31e4d9b0c953e66900c8, type: 3}

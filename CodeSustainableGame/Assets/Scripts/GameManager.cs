@@ -237,7 +237,7 @@ public class GameManager : MonoBehaviour
     }
     void SetupVariables()
     {
-        currentMoney = 0;
+        //currentMoney = 0;
     }
 
     // Add character object into queue when function is called

@@ -19,6 +19,7 @@ public class TruckAI : MonoBehaviour
         if (agent == null)
             agent = GetComponent<NavMeshAgent>();
 
+        gameObject.SetActive(true);
         agent.speed = truckSpeed;
         agent.isStopped = false; // Ensure the agent is moving
         emptyTrash = FindAnyObjectByType<EmptyTrashCollection>();
