@@ -14156,6 +14156,8 @@ MonoBehaviour:
   happiness: 0
   awarenessLevel: 0
   currentPlantedTrees: 0
+  involvedAmount: 0
+  involvedNeededLevelUp: 100
   garbageLevel: 1
   maxGarbage: 0
   currentGarbageAmount: 0

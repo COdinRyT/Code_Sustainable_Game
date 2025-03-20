@@ -19,7 +19,7 @@ public class UpdateUI : MonoBehaviour
 
     private int startingTurn = 0;
 
-    public TextMeshProUGUI queueText;
+    //public TextMeshProUGUI queueText;
 
     private List<string> characterNames = new List<string>();
 
@@ -60,18 +60,18 @@ public class UpdateUI : MonoBehaviour
         UpdateUIElements();
     }
 
-    public void UpdateQueueUI(List<GameObject> characterQueue)
-    {
-        characterNames.Clear();
+    //public void UpdateQueueUI(List<GameObject> characterQueue)
+    //{
+    //    characterNames.Clear();
 
-        foreach (GameObject character in characterQueue)
-        {
-            characterNames.Add(character.name);
-        }
-        if (queueText != null)
-        {
-            Debug.Log("Updating");
-            queueText.text = "Queue: \n" + string.Join("\n", characterNames);
-        }
-    }
+    //    foreach (GameObject character in characterQueue)
+    //    {
+    //        characterNames.Add(character.name);
+    //    }
+    //    if (queueText != null)
+    //    {
+    //        Debug.Log("Updating");
+    //        queueText.text = "Queue: \n" + string.Join("\n", characterNames);
+    //    }
+    //}
 }
