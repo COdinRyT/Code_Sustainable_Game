@@ -19,12 +19,14 @@ public class UpdateUI : MonoBehaviour
 
     private int startingTurn = 0;
 
+    //public TextMeshProUGUI queueText;
+
     private List<string> characterNames = new List<string>();
 
     void Start()
     {
         GameManager.Instance.currentTurn = startingTurn;
-        UpdateUIElements();
+        UpdateUIElements();        
         garbage = FindAnyObjectByType<Garbage>();
     }
 
@@ -43,11 +45,12 @@ public class UpdateUI : MonoBehaviour
         garbageBar.fillAmount = GameManager.Instance.currentGarbageAmount / GameManager.Instance.maxGarbage;
         happyBar.fillAmount = GameManager.Instance.happiness / 100f;
         //involvedBar.fillAmount = GameManager.Instance.involvedAmount / GameManager.Instance.involvedNeededLevelUp;
+        Debug.Log(GameManager.Instance.involvedAmount / GameManager.Instance.involvedNeededLevelUp);
     }
 
     public void UpdatePileSliderUI()
     {
-
+        
     }
 
     public void IncreaseTurnCount()
