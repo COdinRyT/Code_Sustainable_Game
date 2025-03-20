@@ -7,9 +7,10 @@ using UnityEngine.UI;
 public class EmptyTrashCollection : MonoBehaviour
 {
 
-    public int totalGarbage;
+    [SerializeField] private Slider progressSlider;
+    [SerializeField] private int totalGarbage = 10;
     TruckAI truck;
-    public int garbageDestroyed = 0; 
+    private int garbageDestroyed = 0;
     public bool isDisposed = false;
 
     public event Action OnTrashEmptied; //Event to notify the truck
@@ -18,24 +19,36 @@ public class EmptyTrashCollection : MonoBehaviour
     [SerializeField]
     private void Start()
     {
+        if (progressSlider != null)
+        {
+            progressSlider.maxValue = totalGarbage;
+            progressSlider.value = 0; //Start at 0
+        }
         truck = FindAnyObjectByType<TruckAI>();
-        garbageDestroyed = 5;
     }
 
     public void RegisterGarbageDestruction()
     {
-        if(garbageDestroyed != totalGarbage)
-        {
-            garbageDestroyed++;
-        }       
+        garbageDestroyed++;
+        UpdateProgressBar();
     }
 
+    private void UpdateProgressBar()
+    {
+        if (progressSlider != null)
+        {
+            progressSlider.value = garbageDestroyed;
+        }
+    }
 
     public void EmptyTrash()
     {
         if (garbageDestroyed > 0 && truck != null)
         {
             isDisposed = true;
+            progressSlider.value -= (totalGarbage / 2);
+            garbageDestroyed = (int)progressSlider.value;
+            Debug.Log("Empty Trash was called! New slider value: " + progressSlider.value);
             OnTrashEmptied?.Invoke();
         }
         else

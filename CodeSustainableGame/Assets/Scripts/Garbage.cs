@@ -46,18 +46,19 @@ public class Garbage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ( Name == "SmallGarbage")
+        if (Name == "SmallGarbage")
         {
             healthBar.UpdateHealthBar(currentHealth, smallGarbageHealth);
         }
 
         if (currentHealth <= 0)
         {
-            isCollected = true;           
+            isCollected = true;
             GameManager.Instance.SmallTrashPile(50);
-            GameManager.Instance.involvedAmount += 20;
+            //GameManager.Instance.involvedAmount += 20;
             Destroy(gameObject);
             empty.RegisterGarbageDestruction();
         }
-    }   
+    }
 }
+
