@@ -26,8 +26,8 @@ public class GameManager : MonoBehaviour
     public int awarenessLevel;
     public int currentPlantedTrees = 0;
 
-    public float involvedAmount;
-    public float involvedNeededLevelUp = 100;
+    //public float involvedAmount;
+    //public float involvedNeededLevelUp = 100;
 
     public float garbageLevel = 1;
     public float maxGarbage;
@@ -151,11 +151,11 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (involvedAmount >= involvedNeededLevelUp)
-        {
-            spawnUnit = true;
-            involvedAmount = 0;
-        }
+        //if (involvedAmount >= involvedNeededLevelUp)
+        //{
+        //    spawnUnit = true;
+        //    involvedAmount = 0;
+        //}
         if (currentGarbageAmount <= 0 && hasStarted == true)
         {
             garbageLevel += 1;

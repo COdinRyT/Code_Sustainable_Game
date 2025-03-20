@@ -7,9 +7,9 @@ using UnityEngine.UI;
 public class EmptyTrashCollection : MonoBehaviour
 {
 
-    [SerializeField] private int totalGarbage = 10;
+    public int totalGarbage;
     TruckAI truck;
-    private int garbageDestroyed = 0; 
+    public int garbageDestroyed = 0; 
     public bool isDisposed = false;
 
     public event Action OnTrashEmptied; //Event to notify the truck
@@ -18,19 +18,18 @@ public class EmptyTrashCollection : MonoBehaviour
     [SerializeField]
     private void Start()
     {
-        truck = FindAnyObjectByType<TruckAI>();        
+        truck = FindAnyObjectByType<TruckAI>();
+        garbageDestroyed = 5;
     }
 
     public void RegisterGarbageDestruction()
     {
-        garbageDestroyed++;
-        UpdateProgressBar();
+        if(garbageDestroyed != totalGarbage)
+        {
+            garbageDestroyed++;
+        }       
     }
 
-    private void UpdateProgressBar()
-    {
-        
-    }
 
     public void EmptyTrash()
     {

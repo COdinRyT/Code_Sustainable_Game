@@ -116,7 +116,7 @@ public class TruckAI : MonoBehaviour
         //Debug.Log("Path Status: " + agent.pathStatus);
 
         RaycastHit hit;
-        if(Physics.Raycast(transform.position, Vector3.down, out hit, 10f))
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, 10f))
         {
             transform.position = new Vector3(transform.position.x, hit.point.y, transform.position.z);
         }

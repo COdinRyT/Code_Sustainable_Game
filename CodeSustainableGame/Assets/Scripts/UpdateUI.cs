@@ -10,6 +10,8 @@ public class UpdateUI : MonoBehaviour
     public TMP_Text People;
     public TMP_Text Money;
     //public TMP_Text GarbageLeft;
+    public TextMeshProUGUI garbageCounter;
+    EmptyTrashCollection emptyTrash;
     Garbage garbage;
 
     public Image moneyBar;
@@ -28,6 +30,7 @@ public class UpdateUI : MonoBehaviour
         GameManager.Instance.currentTurn = startingTurn;
         UpdateUIElements();        
         garbage = FindAnyObjectByType<Garbage>();
+        emptyTrash = FindAnyObjectByType<EmptyTrashCollection>();
     }
 
     void Update()
@@ -40,6 +43,7 @@ public class UpdateUI : MonoBehaviour
         Turns.text = "Turns: " + GameManager.Instance.currentTurn.ToString() + "/" + GameManager.Instance.maxTurn.ToString();
         People.text = GameManager.Instance.currentPeople.ToString() + "/" + GameManager.Instance.maxPeople.ToString();
         Money.text = "$" + GameManager.Instance.currentMoney.ToString();
+        garbageCounter.text = $"{emptyTrash.garbageDestroyed}/{emptyTrash.totalGarbage}";
 
         moneyBar.fillAmount = GameManager.Instance.currentMoney / 9999f; // If the money amount is larger than 9999 than the bar will not fill up any more.
         garbageBar.fillAmount = GameManager.Instance.currentGarbageAmount / GameManager.Instance.maxGarbage;
