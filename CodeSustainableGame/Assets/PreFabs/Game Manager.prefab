@@ -45,13 +45,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97a12d01999ccd94aa6b16385c08f9f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  updateUI: {fileID: 0}
+  volunterSpawnPosition: {fileID: 0}
+  newVolunteers: {fileID: 7873070105978103635, guid: c441bbf72cd3a5141bd46892fa7ad1ae, type: 3}
+  prefab: {fileID: 5803732622442556610, guid: 29871d086386fb54198d5bda5efb9845, type: 3}
+  stepDelay: 0.2
   currentTurn: 0
   startTurn: 1
   maxTurn: 50
   currentPeople: 1
   maxPeople: 15
-  currentMoney: 1000
+  currentMoney: 0
+  happiness: 0
+  awarenessLevel: 0
+  currentPlantedTrees: 0
+  involvedAmount: 0
+  involvedNeededLevelUp: 100
+  garbageLevel: 1
+  maxGarbage: 0
+  currentGarbageAmount: 0
+  readyForGetInvolved: 0
   endTurn: 0
+  TerrainGroup: {fileID: 0}
+  Garbage: {fileID: 4305437803015692794, guid: c33e2faaad1ed2c468d696b7e45b2364, type: 3}
+  garbagePiles: []
+  tag_targets: []
+  parentTransform: {fileID: 0}
+  garbageParentTransform: {fileID: 0}
+  Volunteer: {fileID: 0}
 --- !u!114 &2732921023525076430
 MonoBehaviour:
   m_ObjectHideFlags: 0
