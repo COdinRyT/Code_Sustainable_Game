@@ -8,7 +8,6 @@ public class EmptyTrashCollection : MonoBehaviour
 {
 
     [SerializeField] private Slider progressSlider;
-    [SerializeField] private Image progressImage;
     [SerializeField] private int totalGarbage = 10;
     TruckAI truck;
     private int garbageDestroyed = 0;
