@@ -12,6 +12,7 @@ public class EmptyTrashCollection : MonoBehaviour
     [SerializeField] private int trashToRemovePerEmpty = 5;
     TruckAI truck;
     public int garbageDestroyed = 0;
+    private int totalDepositedTrash = 0;
     public bool isDisposed = false;
     [SerializeField]private GameObject player;
 
@@ -32,7 +33,6 @@ public class EmptyTrashCollection : MonoBehaviour
         if (garbageDestroyed < totalGarbage)
         {
             garbageDestroyed++;
-            UpdateProgressBar();
         }
         else
         {
@@ -44,7 +44,7 @@ public class EmptyTrashCollection : MonoBehaviour
     {
         if (progressSlider != null)
         {
-            progressSlider.value = garbageDestroyed;
+            progressSlider.value += totalDepositedTrash;
         }
     }
 
