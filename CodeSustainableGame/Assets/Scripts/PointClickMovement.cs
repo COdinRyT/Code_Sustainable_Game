@@ -8,7 +8,7 @@ using UnityEngine.Timeline;
 
 public class PointClickMovement : MonoBehaviour
 {
-    private Camera camera;
+    private new Camera camera;
     public NavMeshAgent agent;
     GameManager gameManager;
 

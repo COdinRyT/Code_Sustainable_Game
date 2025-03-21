@@ -7,7 +7,7 @@ public class CleanGarbage : MonoBehaviour
 {
     [Header("Progress Bar Settings/Variables")]
     private Image progressBar;
-    [SerializeField] private Camera camera;
+    [SerializeField] private new Camera camera;
     [SerializeField] private Transform target;
     [SerializeField] private Vector3 offset;
 

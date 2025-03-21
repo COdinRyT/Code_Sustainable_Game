@@ -9,7 +9,6 @@ public class UpdateUI : MonoBehaviour
     public TMP_Text Turns;
     public TMP_Text People;
     public TMP_Text Money;
-    //public TMP_Text GarbageLeft;
     Garbage garbage;
 
     public Image moneyBar;
@@ -18,8 +17,6 @@ public class UpdateUI : MonoBehaviour
     public Image involvedBar;
 
     private int startingTurn = 0;
-
-    //public TextMeshProUGUI queueText;
 
     private List<string> characterNames = new List<string>();
 

@@ -26,9 +26,6 @@ public class GameManager : MonoBehaviour
     public int awarenessLevel;
     public int currentPlantedTrees = 0;
 
-    //public float involvedAmount;
-    //public float involvedNeededLevelUp = 100;
-
     public float garbageLevel = 1;
     public float maxGarbage;
     public float currentGarbageAmount; // An example is garbage will start at 100. 
@@ -44,12 +41,12 @@ public class GameManager : MonoBehaviour
     public List<GameObject> tag_targets = new List<GameObject>();
     public Transform parentTransform;
     public Transform garbageParentTransform;
-    Camera camera;
+    public new Camera camera;
     private bool spawnUnit = false;
-    private float chanceOfGarbage = 9;
+    private float chanceOfGarbage = 99;
     private float randomNumber;
 
-    private bool readyToGetInvolved;
+    //private bool readyToGetInvolved = false;
     public GameObject Volunteer;
     private bool hasTaskStarted = false;  // Add a flag to track if the task has started
 
@@ -145,7 +142,7 @@ public class GameManager : MonoBehaviour
         currentGarbageAmount = garbageLevel * 100;
         //involvedAmount += 20;
         happiness += 10;
-        readyToGetInvolved = true;
+        //readyToGetInvolved = true;
     }
 
     // Update is called once per frame
@@ -318,7 +315,7 @@ public class GameManager : MonoBehaviour
             GameObject obj = child.gameObject;
             if (obj.layer == 7)
             {
-                randomNumber = UnityEngine.Random.Range(0, 10);
+                randomNumber = UnityEngine.Random.Range(0, 100);
                 if (randomNumber >= chanceOfGarbage)
                 {
                     // Get the center of the tile (obj.transform.position should be the center of the tile)
