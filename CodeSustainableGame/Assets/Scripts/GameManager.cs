@@ -36,16 +36,21 @@ public class GameManager : MonoBehaviour
     public Button skipButton;  // Drag the Skip Button here from the Unity Editor
 
     public GameObject TerrainGroup;
-    public GameObject Garbage;
+    public GameObject SmallGarbage;
+    public GameObject MediumGarbage;
     public GameObject[] garbagePiles;
     public List<GameObject> tag_targets = new List<GameObject>();
     public Transform parentTransform;
     public Transform garbageParentTransform;
     public new Camera camera;
     private bool spawnUnit = false;
-    private float chanceOfGarbage = 99;
+    private float chanceOfSmallGarbage = 800;
+    private float chanceOfMediumGarbage = 950;
     private float randomNumber;
+    private float randomNumberTwo;
 
+    // To store tile positions with garbage already spawned
+    private HashSet<Vector3> tilesWithGarbage = new HashSet<Vector3>();
     //private bool readyToGetInvolved = false;
     public GameObject Volunteer;
     private bool hasTaskStarted = false;  // Add a flag to track if the task has started
@@ -297,38 +302,58 @@ public class GameManager : MonoBehaviour
         hasTaskStarted = false;  // Reset task flag
     }
 
+    // Method to spawn garbage
     private void SpawnGarbage()
     {
         GameObject GarbageClone;
-        if(Garbage == null)
+        GameObject GarbageCloneMedium;
+
+        if (SmallGarbage == null || MediumGarbage == null || TerrainGroup == null)
         {
-            Debug.Log("Garbage prefab is not assigned in inspector");
+            Debug.Log("Garbage prefab or TerrainGroup is not assigned.");
             return;
         }
-        if(TerrainGroup == null)
-        {
-            Debug.Log("Terraingroup is not assigned");
-            return;
-        }
+
         foreach (Transform child in TerrainGroup.transform)
         {
             GameObject obj = child.gameObject;
-            if (obj.layer == 7)
+
+            // Skip tiles that don't have the garbage layer
+            if (obj.layer != 7) // Assuming layer 7 is for tiles with garbage potential
+                continue;
+
+            // Get the center of the tile
+            Vector3 tileCenter = obj.transform.position;
+
+            // Check if garbage already exists on this tile
+            if (tilesWithGarbage.Contains(tileCenter))
             {
-                randomNumber = UnityEngine.Random.Range(0, 100);
-                if (randomNumber >= chanceOfGarbage)
-                {
-                    // Get the center of the tile (obj.transform.position should be the center of the tile)
-                    Vector3 tileCenter = obj.transform.position;
+                continue; // Skip spawning garbage if it's already on this tile
+            }
 
-                    // Set the garbage spawn position to be slightly above the tile (e.g., 1 unit above)
-                    Vector3 spawnPosition = new Vector3(tileCenter.x, tileCenter.y + 1f, tileCenter.z);
+            // Random chance for spawning small or medium garbage
+            float randomNumber = UnityEngine.Random.Range(0f, 1000f);
+            if (randomNumber >= 993f)  // Chance for small garbage
+            {
+                // Spawn small garbage above the tile
+                Vector3 spawnPosition = new Vector3(tileCenter.x, tileCenter.y + 1f, tileCenter.z);
+                GarbageClone = Instantiate(SmallGarbage, spawnPosition, Quaternion.identity, parentTransform);
+                GarbageClone.name = SmallGarbage.name;
 
-                    // Instantiate the garbage at the calculated spawn position
-                    GarbageClone = Instantiate(Garbage, spawnPosition, Quaternion.identity, parentTransform);
-                    GarbageClone.transform.rotation *= Quaternion.Euler(0, 90f, 0);
-                    GarbageClone.name = Garbage.name;
-                }
+                // Mark this tile as having garbage
+                tilesWithGarbage.Add(tileCenter);
+            }
+
+            randomNumber = UnityEngine.Random.Range(0f, 1000f);
+            if (randomNumber >= 997f)  // Chance for medium garbage
+            {
+                // Spawn medium garbage above the tile
+                Vector3 spawnPosition = new Vector3(tileCenter.x, tileCenter.y + 1f, tileCenter.z);
+                GarbageCloneMedium = Instantiate(MediumGarbage, spawnPosition, Quaternion.identity, parentTransform);
+                GarbageCloneMedium.name = MediumGarbage.name;
+
+                // Mark this tile as having garbage
+                tilesWithGarbage.Add(tileCenter);
             }
         }
     }

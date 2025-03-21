@@ -20,7 +20,7 @@ public class CleanGarbage : MonoBehaviour
         progressBar = GetComponentInChildren<Image>();
         progressBar.gameObject.SetActive(false);
 
-        trash = gameManager.Garbage;
+        trash = gameManager.SmallGarbage;
     }
     void Update()
     {
