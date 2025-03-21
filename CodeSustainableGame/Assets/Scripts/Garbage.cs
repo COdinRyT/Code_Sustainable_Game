@@ -13,7 +13,7 @@ public class Garbage : MonoBehaviour
     public string Name;
     public bool isCollected = false;
 
-    public EmptyTrashCollection empty;
+    EmptyTrashCollection empty;
 
     [SerializeField]
     private FloatingHealthBar healthBar;
@@ -33,6 +33,11 @@ public class Garbage : MonoBehaviour
             currentHealth = smallGarbageHealth;
             healthBar.UpdateHealthBar(currentHealth, smallGarbageHealth);
         }
+        if (Name == "MediumGarbage")
+        {
+            currentHealth = mediumGarbageHealth;
+            healthBar.UpdateHealthBar(currentHealth, mediumGarbageHealth);
+        }
     }
     // Ensure the garbage has a trigger collider
     private void OnTriggerEnter(Collider other)
@@ -50,21 +55,24 @@ public class Garbage : MonoBehaviour
         {
             healthBar.UpdateHealthBar(currentHealth, smallGarbageHealth);
         }
-
-        if (currentHealth <= 0)
+        if (Name == "MediumGarbage")
         {
-            if (empty.CanDestroyMoreGarbage())
-            {
-                isCollected = true;
-                GameManager.Instance.SmallTrashPile(50);
-                //GameManager.Instance.involvedAmount += 20;
-                Destroy(gameObject);
-                empty.RegisterGarbageDestruction();
-            }
-            else
-            {
-                Debug.Log("Can't carry any more garbage, empty in truck");
-            }
+            healthBar.UpdateHealthBar(currentHealth, mediumGarbageHealth);
+        }
+        if (currentHealth <= 0 && Name == "SmallGarbage")
+        {
+            isCollected = true;
+            GameManager.Instance.SmallTrashPile(50);
+            //GameManager.Instance.involvedAmount += 20;
+            Destroy(gameObject);
+            //empty.RegisterGarbageDestruction();
+        }else if (currentHealth <= 0 && Name == "MediumGarbage") {
+            isCollected = true;
+            Debug.Log("Destroyed");
+            GameManager.Instance.MediumTrashPile(100);
+            //GameManager.Instance.involvedAmount += 20;
+            Destroy(gameObject);
+            //empty.RegisterGarbageDestruction();
         }
     }
 }

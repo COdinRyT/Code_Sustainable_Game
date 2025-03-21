@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5200642228592418421}
   - component: {fileID: 6817312910991051896}
-  - component: {fileID: 2732921023525076430}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -50,7 +49,7 @@ MonoBehaviour:
   newVolunteers: {fileID: 7873070105978103635, guid: c441bbf72cd3a5141bd46892fa7ad1ae, type: 3}
   prefab: {fileID: 5803732622442556610, guid: 29871d086386fb54198d5bda5efb9845, type: 3}
   stepDelay: 0.2
-  currentTurn: 0
+  currentTurn: 1
   startTurn: 1
   maxTurn: 50
   currentPeople: 1
@@ -59,8 +58,6 @@ MonoBehaviour:
   happiness: 0
   awarenessLevel: 0
   currentPlantedTrees: 0
-  involvedAmount: 0
-  involvedNeededLevelUp: 100
   garbageLevel: 1
   maxGarbage: 0
   currentGarbageAmount: 0
@@ -72,16 +69,5 @@ MonoBehaviour:
   tag_targets: []
   parentTransform: {fileID: 0}
   garbageParentTransform: {fileID: 0}
+  camera: {fileID: 0}
   Volunteer: {fileID: 0}
---- !u!114 &2732921023525076430
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2163947816726695925}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b91b4ae530afd354d854977815317fda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

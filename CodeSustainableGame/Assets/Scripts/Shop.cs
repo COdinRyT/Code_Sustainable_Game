@@ -15,9 +15,9 @@ public class Shop : MonoBehaviour
     public GameObject smallTruck;
 
     [SerializeField] int smallTruckCost = 125000;
-    private int turnsUntilNewTruck = 4;
-    private int currentTurn;
-    private bool truckSpawns;
+    //private int turnsUntilNewTruck = 4;
+    //private int currentTurn;
+    //private bool truckSpawns;
     public void ShopButtonClick()
     {
         if (Panel.activeSelf)
