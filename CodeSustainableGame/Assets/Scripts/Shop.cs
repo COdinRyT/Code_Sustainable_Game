@@ -13,7 +13,6 @@ public class Shop : MonoBehaviour
     //public Text ShopButton;
     public GameObject Panel;
     public GameObject smallTruck;
-    public Vector3 spawnPos;
 
     [SerializeField] int smallTruckCost = 125000;
     private int turnsUntilNewTruck = 4;
@@ -49,7 +48,7 @@ public class Shop : MonoBehaviour
         {
             if (smallTruck != null)
             {
-                Instantiate(smallTruck, spawnPos, Quaternion.identity);
+                Instantiate(smallTruck, smallTruck.transform.position, Quaternion.identity);
                 GameManager.Instance.currentMoney -= smallTruckCost;
             }
             else

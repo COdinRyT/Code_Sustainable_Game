@@ -15,7 +15,7 @@ public class UpdateUI : MonoBehaviour
     public Image moneyBar;
     public Image garbageBar;
     public Image happyBar;
-    public Image involvedBar;
+    //public Image involvedBar;
 
     private int startingTurn = 0;
 

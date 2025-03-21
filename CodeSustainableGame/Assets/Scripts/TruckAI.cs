@@ -5,12 +5,13 @@ using UnityEngine.AI;
 
 public class TruckAI : MonoBehaviour
 {
-    private Vector3 targetDestination; // Assign this in inspector
+    [SerializeField]private Vector3 targetDestination; // Assign this in inspector
     public NavMeshAgent agent;
     public float truckSpeed = 5f;
     EmptyTrashCollection emptyTrash;
     Shop shop;
     private int timesCollected;
+    [SerializeField]private Vector3 spawnPositions;
 
     public GameObject[] collectCounters;
 
@@ -36,6 +37,7 @@ public class TruckAI : MonoBehaviour
 
     private void Start()
     {
+        transform.position = spawnPositions; 
         MoveTruck();
         CollectTrash();
     }
@@ -44,7 +46,7 @@ public class TruckAI : MonoBehaviour
     {
         if(timesCollected > 0)
         {
-            Vector3 position = new Vector3(29f, transform.position.y, -50f);
+            Vector3 position = targetDestination;
             NavMeshHit hit;
             if (NavMesh.SamplePosition(position, out hit, 5f, NavMesh.AllAreas))
             {
@@ -58,7 +60,7 @@ public class TruckAI : MonoBehaviour
         }
         if(timesCollected <= 0)
         {
-            Vector3 moveToSpawnPosition = shop.spawnPos;
+            Vector3 moveToSpawnPosition = spawnPositions;
             NavMeshHit hit;
             if (NavMesh.SamplePosition(moveToSpawnPosition, out hit, 10f, NavMesh.AllAreas))
             {
@@ -70,7 +72,7 @@ public class TruckAI : MonoBehaviour
                 targetDestination = new Vector3(0, 0, 0); // Example fallback position
             }
             agent.SetDestination(targetDestination);
-            if (gameObject.transform.position == shop.spawnPos)
+            if (gameObject.transform.position == spawnPositions)
             {
                 gameObject.SetActive(false);
                 timesCollected = 2;
