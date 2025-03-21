@@ -12,7 +12,6 @@ public class CameraControls : MonoBehaviour
     private Vector3 lastMousePos;
     [SerializeField] private float cameraBoundaryX;
     [SerializeField] private float cameraBoundaryY;
-    [SerializeField]
 
     void Start()
     {

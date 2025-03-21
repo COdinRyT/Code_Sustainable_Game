@@ -69,7 +69,7 @@ public class TruckAI : MonoBehaviour
             else
             {
                 Debug.LogWarning("No valid NavMesh position found! Moving truck to a fallback location.");
-                targetDestination = new Vector3(0, 0, 0); // Example fallback position
+                //targetDestination = new Vector3(0, 0, 0); // Example fallback position
             }
             agent.SetDestination(targetDestination);
             if (gameObject.transform.position == spawnPositions)
