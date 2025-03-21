@@ -9,28 +9,35 @@ public class EmptyTrashCollection : MonoBehaviour
 
     [SerializeField] private Slider progressSlider;
     [SerializeField] private int totalGarbage = 10;
+    [SerializeField] private int trashToRemovePerEmpty = 5;
     TruckAI truck;
-    private int garbageDestroyed = 0;
+    public int garbageDestroyed = 0;
     public bool isDisposed = false;
+    [SerializeField]private GameObject player;
 
     public event Action OnTrashEmptied; //Event to notify the truck
 
-    // Start is called before the first frame update
-    [SerializeField]
     private void Start()
     {
+        // Ensure progress bar is initialized
         if (progressSlider != null)
         {
             progressSlider.maxValue = totalGarbage;
-            progressSlider.value = 0; //Start at 0
+            progressSlider.value = 0;
         }
-        truck = FindAnyObjectByType<TruckAI>();
     }
 
     public void RegisterGarbageDestruction()
     {
-        garbageDestroyed++;
-        UpdateProgressBar();
+        if (garbageDestroyed < totalGarbage)
+        {
+            garbageDestroyed++;
+            UpdateProgressBar();
+        }
+        else
+        {
+            Debug.Log("Garbage storage is full, empty before collecting more");
+        }
     }
 
     private void UpdateProgressBar()
@@ -43,17 +50,27 @@ public class EmptyTrashCollection : MonoBehaviour
 
     public void EmptyTrash()
     {
-        if (garbageDestroyed > 0 && truck != null)
+        if (garbageDestroyed > 0)
         {
             isDisposed = true;
-            progressSlider.value -= (totalGarbage / 2);
-            garbageDestroyed = (int)progressSlider.value;
-            Debug.Log("Empty Trash was called! New slider value: " + progressSlider.value);
+
+            // Ensure we don't remove more than available
+            int trashRemoved = Mathf.Min(trashToRemovePerEmpty, garbageDestroyed);
+            garbageDestroyed -= trashRemoved;
+            progressSlider.value += trashRemoved;
+
+            Debug.Log($"Trash emptied! Removed {trashRemoved} garbage. Remaining: {garbageDestroyed}");
             OnTrashEmptied?.Invoke();
+            UpdateProgressBar();
         }
         else
         {
-            Debug.Log("There's no garbage for truck pick up");
+            Debug.Log("No garbage to empty.");
         }
+    }
+
+    public bool CanDestroyMoreGarbage()
+    {
+        return garbageDestroyed < totalGarbage;
     }
 }

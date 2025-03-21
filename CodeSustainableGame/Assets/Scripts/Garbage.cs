@@ -13,7 +13,7 @@ public class Garbage : MonoBehaviour
     public string Name;
     public bool isCollected = false;
 
-    EmptyTrashCollection empty;
+    public EmptyTrashCollection empty;
 
     [SerializeField]
     private FloatingHealthBar healthBar;
@@ -53,11 +53,18 @@ public class Garbage : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            isCollected = true;
-            GameManager.Instance.SmallTrashPile(50);
-            //GameManager.Instance.involvedAmount += 20;
-            Destroy(gameObject);
-            empty.RegisterGarbageDestruction();
+            if (empty.CanDestroyMoreGarbage())
+            {
+                isCollected = true;
+                GameManager.Instance.SmallTrashPile(50);
+                //GameManager.Instance.involvedAmount += 20;
+                Destroy(gameObject);
+                empty.RegisterGarbageDestruction();
+            }
+            else
+            {
+                Debug.Log("Can't carry any more garbage, empty in truck");
+            }
         }
     }
 }
