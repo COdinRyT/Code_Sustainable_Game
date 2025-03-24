@@ -2116,7 +2116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   garbageHealthBar: {fileID: 886382464948455984}
   mainCamera: {fileID: 6158468113512480423, guid: ce651738c2eaa884385f491b1b6b17c0, type: 3}
-  target: {fileID: 0}
+  target: {fileID: 1703642722785371953}
 --- !u!1 &2020781359098227988
 GameObject:
   m_ObjectHideFlags: 0
@@ -5989,9 +5989,9 @@ MonoBehaviour:
   mediumGarbageHealth: 100
   largeGarbageHealth: 200
   currentHealth: 0
-  Name: 
+  Name: SmallGarbage
   isCollected: 0
-  healthBar: {fileID: 0}
+  healthBar: {fileID: 9100570945500003902}
 --- !u!65 &7048255108866793762
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6855,6 +6855,7 @@ GameObject:
   - component: {fileID: 936135385187149913}
   - component: {fileID: 7991763005600733833}
   - component: {fileID: 7457491118465022527}
+  - component: {fileID: 1900133417716811450}
   m_Layer: 9
   m_Name: Garbage Health Canvas
   m_TagString: Untagged
@@ -6945,6 +6946,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1900133417716811450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5383011114417878439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 647e22e4c2d80d04bad9963b6897414a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 0}
 --- !u!1 &5539221936037968793
 GameObject:
   m_ObjectHideFlags: 0
