@@ -11,7 +11,7 @@ public class TruckAI : MonoBehaviour
     EmptyTrashCollection emptyTrash;
     Shop shop;
     private int timesCollected;
-    [SerializeField]private Vector3 spawnPositions;
+    public Vector3 spawnPositions;
 
     public GameObject[] collectCounters;
 

@@ -13,6 +13,7 @@ public class Shop : MonoBehaviour
     //public Text ShopButton;
     public GameObject Panel;
     public GameObject smallTruck;
+    TruckAI truck;
 
     [SerializeField] int smallTruckCost = 125000;
     //private int turnsUntilNewTruck = 4;
@@ -33,6 +34,7 @@ public class Shop : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        truck = FindAnyObjectByType<TruckAI>();
         
     }
 
@@ -53,7 +55,7 @@ public class Shop : MonoBehaviour
             }
             else
             {
-                Debug.Log("Small truck prefab is not assgined");
+                Debug.LogWarning("Small truck prefab is not assgined");
             }
         }       
 

@@ -91,9 +91,13 @@ public class GameManager : MonoBehaviour
             //skipButton.onClick.AddListener(OnSkipButtonClick);
         }
 
-        if (updateUI == null)
+        if (volunterSpawnPosition == null)
         {
-            Debug.Log("UI manager is not assigned to game manager!");
+            volunterSpawnPosition = GameObject.Find("VolunteerSpawn");
+            if (volunterSpawnPosition == null)
+            {
+                Debug.LogError("VolunteerSpawn object not found in the scene!");
+            }
         }
         FirstPlayer();
     }

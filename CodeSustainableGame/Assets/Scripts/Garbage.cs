@@ -65,14 +65,15 @@ public class Garbage : MonoBehaviour
             GameManager.Instance.SmallTrashPile(50);
             //GameManager.Instance.involvedAmount += 20;
             Destroy(gameObject);
-            //empty.RegisterGarbageDestruction();
-        }else if (currentHealth <= 0 && Name == "MediumGarbage") {
+            empty.RegisterGarbageDestruction();
+        }
+        else if (currentHealth <= 0 && Name == "MediumGarbage") {
             isCollected = true;
             Debug.Log("Destroyed");
             GameManager.Instance.MediumTrashPile(100);
             //GameManager.Instance.involvedAmount += 20;
             Destroy(gameObject);
-            //empty.RegisterGarbageDestruction();
+            empty.RegisterGarbageDestruction();
         }
     }
 }

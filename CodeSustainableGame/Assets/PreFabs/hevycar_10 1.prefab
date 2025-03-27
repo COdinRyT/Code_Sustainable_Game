@@ -241,10 +241,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 762a160953b218740abb4a2525aab410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetDestination: {x: 4, y: 0.5, z: -86}
+  targetDestination: {x: 6, y: 0.5, z: -62}
   agent: {fileID: 9063742853540714710}
   truckSpeed: 5
-  spawnPositions: {x: 6, y: 0.5, z: -84}
+  spawnPositions: {x: 5, y: 0.5, z: -86}
   collectCounters:
   - {fileID: 0}
   - {fileID: 0}
