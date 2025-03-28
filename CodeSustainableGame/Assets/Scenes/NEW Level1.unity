@@ -12012,9 +12012,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 226574183653452026, guid: 4fbc8e1d5207d9b438de2fe903f1f88b, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1145930508756129529, guid: 4fbc8e1d5207d9b438de2fe903f1f88b, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1434563026015658715, guid: 4fbc8e1d5207d9b438de2fe903f1f88b, type: 3}
       propertyPath: m_Name
       value: hevycar_10 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1434563026015658715, guid: 4fbc8e1d5207d9b438de2fe903f1f88b, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1434563026015658715, guid: 4fbc8e1d5207d9b438de2fe903f1f88b, type: 3}
       propertyPath: m_IsActive
@@ -12060,6 +12072,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1842168999392506246, guid: 4fbc8e1d5207d9b438de2fe903f1f88b, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1934826851618066448, guid: 4fbc8e1d5207d9b438de2fe903f1f88b, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032279729557096441, guid: 4fbc8e1d5207d9b438de2fe903f1f88b, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2231548601184366899, guid: 4fbc8e1d5207d9b438de2fe903f1f88b, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3479697037518675481, guid: 4fbc8e1d5207d9b438de2fe903f1f88b, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3627122242048705570, guid: 4fbc8e1d5207d9b438de2fe903f1f88b, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5492404987683260707, guid: 4fbc8e1d5207d9b438de2fe903f1f88b, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -12075,6 +12111,10 @@ PrefabInstance:
     - target: {fileID: 6111704891559354107, guid: 4fbc8e1d5207d9b438de2fe903f1f88b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: TruckAI, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7265638665353649753, guid: 4fbc8e1d5207d9b438de2fe903f1f88b, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8028156808947099326, guid: 4fbc8e1d5207d9b438de2fe903f1f88b, type: 3}
       propertyPath: player
@@ -12092,7 +12132,10 @@ PrefabInstance:
     - {fileID: 8028156808947099326, guid: 4fbc8e1d5207d9b438de2fe903f1f88b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1434563026015658715, guid: 4fbc8e1d5207d9b438de2fe903f1f88b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1609249410}
   m_SourcePrefab: {fileID: 100100000, guid: 4fbc8e1d5207d9b438de2fe903f1f88b, type: 3}
 --- !u!1 &136833813
 GameObject:
@@ -144884,6 +144927,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 762a160953b218740abb4a2525aab410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!135 &1609249410
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609249403}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 2
+  m_Center: {x: 0, y: 0.2413, z: -0.03809999}
 --- !u!1 &1609367854
 GameObject:
   m_ObjectHideFlags: 0

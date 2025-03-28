@@ -245,9 +245,11 @@ MonoBehaviour:
   agent: {fileID: 9063742853540714710}
   truckSpeed: 5
   spawnPositions: {x: 5, y: 0.5, z: -86}
-  collectCounters:
-  - {fileID: 0}
-  - {fileID: 0}
+  collectionRange: 3
+  collectionSlider: {fileID: 0}
+  garbageCollected: 0
+  maxGarbageCollect: 10
+  isDisposed: 0
 --- !u!4 &1434563026015829755 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 89fe87e50c7a31e4d9b0c953e66900c8, type: 3}

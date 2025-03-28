@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -74,7 +75,7 @@ public class TruckAI : MonoBehaviour
                 Debug.LogError("No valid Nav");
             }
         }
-        if(timesCollected <= 0)
+        if(collectionSlider.value == maxGarbageCollect)
         {
             Vector3 moveToSpawnPosition = spawnPositions;
             NavMeshHit hit;
@@ -115,7 +116,7 @@ public class TruckAI : MonoBehaviour
 
     private void UpdateSlider()
     {
-        Debug.Log("Updating Slider: " + garbageCollected);
+        //Debug.Log("Updating Slider: " + garbageCollected);
         collectionSlider.value = garbageCollected;
     }
 
@@ -131,5 +132,20 @@ public class TruckAI : MonoBehaviour
         }
         MoveTruck();
         UpdateSlider();
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(255, 0, 0, 0.5f);
+        Gizmos.DrawSphere(transform.position, 14);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            withinRange = true;
+            Debug.Log($"Character {other.gameObject.name} is within range");
+        }
     }
 }
