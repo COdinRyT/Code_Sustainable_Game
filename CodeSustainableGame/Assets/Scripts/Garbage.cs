@@ -11,9 +11,9 @@ public class Garbage : MonoBehaviour
     public int largeGarbageHealth = 200;
     public int currentHealth;
     public string Name;
-    public bool isCollected = false;
+    //public bool isCollected = false;
 
-    EmptyTrashCollection empty;
+    TruckAI truck;
 
     [SerializeField]
     private FloatingHealthBar healthBar;
@@ -21,7 +21,7 @@ public class Garbage : MonoBehaviour
     private void Awake()
     {
         healthBar = GetComponentInChildren<FloatingHealthBar>();
-        empty = FindAnyObjectByType<EmptyTrashCollection>();
+        truck = FindAnyObjectByType<TruckAI>();
     }
 
     // Start is called before the first frame update
@@ -61,19 +61,31 @@ public class Garbage : MonoBehaviour
         }
         if (currentHealth <= 0 && Name == "SmallGarbage")
         {
-            isCollected = true;
+            truck.isDisposed = true;
             GameManager.Instance.SmallTrashPile(50);
             //GameManager.Instance.involvedAmount += 20;
             Destroy(gameObject);
-            empty.RegisterGarbageDestruction();
+            if (truck.isDisposed)
+            {
+                GameManager.Instance.trashCollected++;
+                truck.isDisposed = false;
+                Debug.Log("Trash Collected!");
+                return;
+            }            
         }
         else if (currentHealth <= 0 && Name == "MediumGarbage") {
-            isCollected = true;
+            truck.isDisposed = true;
             Debug.Log("Destroyed");
             GameManager.Instance.MediumTrashPile(100);
             //GameManager.Instance.involvedAmount += 20;
             Destroy(gameObject);
-            empty.RegisterGarbageDestruction();
+            if (truck.isDisposed)
+            {
+                GameManager.Instance.trashCollected++;
+                truck.isDisposed = false;
+                Debug.Log("Trash Collected!");
+                return;
+            }
         }
     }
 }

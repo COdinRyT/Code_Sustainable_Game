@@ -55,6 +55,8 @@ public class GameManager : MonoBehaviour
     public GameObject Volunteer;
     private bool hasTaskStarted = false;  // Add a flag to track if the task has started
 
+    public int trashCollected;
+
     public static GameManager Instance { get; private set; }
 
     void Awake()

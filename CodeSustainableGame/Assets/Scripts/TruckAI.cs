@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class TruckAI : MonoBehaviour
 {
@@ -13,7 +14,14 @@ public class TruckAI : MonoBehaviour
     private int timesCollected;
     public Vector3 spawnPositions;
 
-    public GameObject[] collectCounters;
+    private GameObject player;
+    [SerializeField]public float collectionRange = 3f;
+    private bool withinRange;
+
+    public Slider collectionSlider;
+    [SerializeField] private int garbageCollected = 0;
+    [SerializeField] private int maxGarbageCollect = 10;
+    public bool isDisposed;
 
     private void Awake()
     {
@@ -26,20 +34,28 @@ public class TruckAI : MonoBehaviour
         emptyTrash = FindAnyObjectByType<EmptyTrashCollection>();
         shop = FindAnyObjectByType<Shop>();
 
-        if(emptyTrash != null)
-        {
-            emptyTrash.OnTrashEmptied += CollectTrash; //Subscribe to trash emptied event
-        }
-
-        timesCollected = collectCounters.Length; //The amount of times the truck collects trash
+        //timesCollected = collectCounters.Length; //The amount of times the truck collects trash
         //is equal to the amount of box trackers on top of the truck
     }
 
     private void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
         transform.position = spawnPositions; 
         MoveTruck();
-        CollectTrash();
+        if(collectionSlider != null)
+        {
+            collectionSlider = GetComponentInChildren<Slider>();
+            collectionSlider.value = garbageCollected;
+            collectionSlider.maxValue = maxGarbageCollect;
+        }
+        else
+        {
+            Debug.Log("Collection slider is null! ensure it is assigned");
+        }
+        withinRange = false;
+        gameObject.SetActive(true);
+        //CollectTrash();
     }
 
     public void MoveTruck()
@@ -76,40 +92,31 @@ public class TruckAI : MonoBehaviour
             {
                 gameObject.SetActive(false);
                 timesCollected = 2;
-                if (timesCollected > 0 && gameObject != null)
-                {
-                    int index = collectCounters.Length;
-                    for (int i = 0; i < index; i++)
-                    {
-                        collectCounters[index].SetActive(true);
-                    }
-                }
             }
             
         }
 
     }
 
-    public void CollectTrash()
+    public void TrashCollection()
     {
-        if (emptyTrash != null && emptyTrash.isDisposed)
+        
+        if(GameManager.Instance.trashCollected > 0 && withinRange)
         {
-            Debug.Log("Trash was collected");
-            emptyTrash.isDisposed = false;
-
-            if(timesCollected > 0)
-            {
-                timesCollected--;
-                if(collectCounters.Length > 0)
-                {
-                    int indexToDisable = collectCounters.Length - timesCollected - 1;
-                    if(indexToDisable >= 0 && indexToDisable < collectCounters.Length)
-                    {
-                        collectCounters[indexToDisable].SetActive(false);
-                    }
-                }
-            }
+            garbageCollected++;
+            UpdateSlider();
+            GameManager.Instance.trashCollected--;
         }
+        else
+        {
+            Debug.Log("No garbage to collect or get closer");
+        }
+    }
+
+    private void UpdateSlider()
+    {
+        Debug.Log("Updating Slider: " + garbageCollected);
+        collectionSlider.value = garbageCollected;
     }
 
     private void Update()
@@ -123,15 +130,6 @@ public class TruckAI : MonoBehaviour
             transform.position = new Vector3(transform.position.x, hit.point.y, transform.position.z);
         }
         MoveTruck();
+        UpdateSlider();
     }
-
-    private void OnDestroy()
-    {
-        if(emptyTrash != null)
-        {
-            emptyTrash.OnTrashEmptied -= CollectTrash; //Unsubscribe from event
-        }
-    }
-
-
 }
