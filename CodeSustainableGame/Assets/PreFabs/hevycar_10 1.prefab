@@ -246,10 +246,13 @@ MonoBehaviour:
   truckSpeed: 5
   spawnPositions: {x: 5, y: 0.5, z: -86}
   collectionRange: 3
-  collectionSlider: {fileID: 0}
+  withinRange: 0
+  isLeft: 0
+  collectionSlider: {fileID: 615968618478694025}
   garbageCollected: 0
-  maxGarbageCollect: 10
+  maxGarbageCollect: 1
   isDisposed: 0
+  turnCounter: 3
 --- !u!4 &1434563026015829755 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 89fe87e50c7a31e4d9b0c953e66900c8, type: 3}
@@ -370,6 +373,10 @@ PrefabInstance:
     - target: {fileID: 3725422476428870466, guid: 52537d4176ce1ff48869d05317ce431b, type: 3}
       propertyPath: m_Name
       value: TrashCollection
+      objectReference: {fileID: 0}
+    - target: {fileID: 4004460265088524897, guid: 52537d4176ce1ff48869d05317ce431b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5864255743966904123, guid: 52537d4176ce1ff48869d05317ce431b, type: 3}
       propertyPath: m_AnchorMax.x

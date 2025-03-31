@@ -14,15 +14,18 @@ public class TruckAI : MonoBehaviour
     Shop shop;
     private int timesCollected;
     public Vector3 spawnPositions;
+    DepositTrash depositTrash;
 
     private GameObject player;
     [SerializeField]public float collectionRange = 3f;
-    private bool withinRange;
+    public bool withinRange;
+    public bool isLeft;
 
     public Slider collectionSlider;
     [SerializeField] private int garbageCollected = 0;
-    [SerializeField] private int maxGarbageCollect = 10;
+    [SerializeField] private int maxGarbageCollect = 5;
     public bool isDisposed;
+    public int turnCounter = 3;
 
     private void Awake()
     {
@@ -34,17 +37,35 @@ public class TruckAI : MonoBehaviour
         agent.isStopped = false; // Ensure the agent is moving
         emptyTrash = FindAnyObjectByType<EmptyTrashCollection>();
         shop = FindAnyObjectByType<Shop>();
+        depositTrash = FindAnyObjectByType<DepositTrash>();
 
         //timesCollected = collectCounters.Length; //The amount of times the truck collects trash
         //is equal to the amount of box trackers on top of the truck
     }
 
+    private IEnumerator DelayedMoveTruck()
+    {
+        yield return new WaitForFixedUpdate(); // Wait until physics update
+        MoveTruck(); // Now call MoveTruck safely
+    }
+
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        transform.position = spawnPositions; 
-        MoveTruck();
-        if(collectionSlider != null)
+
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(spawnPositions, out hit, 5f, NavMesh.AllAreas))
+        {
+            transform.position = hit.position;
+        }
+        else
+        {
+            Debug.LogError("Truck spawn position is NOT on the NavMesh!");
+        }
+
+        StartCoroutine(DelayedMoveTruck()); // Delay movement to avoid NavMesh issues
+
+        if (collectionSlider != null)
         {
             collectionSlider = GetComponentInChildren<Slider>();
             collectionSlider.value = garbageCollected;
@@ -52,16 +73,56 @@ public class TruckAI : MonoBehaviour
         }
         else
         {
-            Debug.Log("Collection slider is null! ensure it is assigned");
+            Debug.LogWarning("Collection slider is null! Ensure it is assigned.");
         }
+
         withinRange = false;
+        isLeft = false;
         gameObject.SetActive(true);
-        //CollectTrash();
+    }
+
+    private int turnDisappear = -1; // Store the turn when the truck disappears
+
+    private void Update()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, 10f))
+        {
+            transform.position = new Vector3(transform.position.x, hit.point.y, transform.position.z);
+        }
+
+        MoveTruck();
+        UpdateSlider();
+
+        //if (isLeft && GameManager.Instance.currentTurn >= GameManager.Instance.currentTurn + 3)
+        //{
+        //    gameObject.GetComponent<Renderer>().enabled = true; // Make it reappear
+        //    MoveTruck() ;
+
+        //}
     }
 
     public void MoveTruck()
     {
-        if(timesCollected > 0)
+        if (agent == null)
+        {
+            Debug.LogError("NavMeshAgent is missing on TruckAI!");
+            return;
+        }
+
+        if (!agent.isActiveAndEnabled)
+        {
+            Debug.LogError("NavMeshAgent is not active or enabled!");
+            return;
+        }
+
+        if (!agent.isOnNavMesh)
+        {
+            Debug.LogError("Truck is NOT on a NavMesh!");
+            return;
+        }
+
+        if (collectionSlider.value >= 0)
         {
             Vector3 position = targetDestination;
             NavMeshHit hit;
@@ -72,10 +133,11 @@ public class TruckAI : MonoBehaviour
             }
             else
             {
-                Debug.LogError("No valid Nav");
+                Debug.LogError("No valid NavMesh position found for target destination!");
             }
         }
-        if(collectionSlider.value == maxGarbageCollect)
+
+        if (collectionSlider.value == maxGarbageCollect)
         {
             Vector3 moveToSpawnPosition = spawnPositions;
             NavMeshHit hit;
@@ -85,18 +147,17 @@ public class TruckAI : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("No valid NavMesh position found! Moving truck to a fallback location.");
-                //targetDestination = new Vector3(0, 0, 0); // Example fallback position
+                Debug.LogWarning("No valid NavMesh position found! Moving truck to fallback location.");
             }
             agent.SetDestination(targetDestination);
-            if (gameObject.transform.position == spawnPositions)
-            {
-                gameObject.SetActive(false);
-                timesCollected = 2;
-            }
-            
-        }
 
+            if (Vector3.Distance(transform.position, spawnPositions) < 0.5f) // Check if the truck reached the spawn
+            {
+                collectionSlider.value = 0;
+                isLeft = true;
+                Destroy(gameObject);
+            }
+        }
     }
 
     public void TrashCollection()
@@ -120,19 +181,7 @@ public class TruckAI : MonoBehaviour
         collectionSlider.value = garbageCollected;
     }
 
-    private void Update()
-    {
-        //Debug.Log("Has Path: " + agent.hasPath);
-        //Debug.Log("Path Status: " + agent.pathStatus);
-
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, 10f))
-        {
-            transform.position = new Vector3(transform.position.x, hit.point.y, transform.position.z);
-        }
-        MoveTruck();
-        UpdateSlider();
-    }
+    
 
     private void OnDrawGizmos()
     {
@@ -146,6 +195,16 @@ public class TruckAI : MonoBehaviour
         {
             withinRange = true;
             Debug.Log($"Character {other.gameObject.name} is within range");
+            TrashCollection();
+            //if (withinRange)
+            //{
+            //    depositTrash.UpdateProgress();
+            //    if(depositTrash.depositSlider.value == depositTrash.depositSlider.maxValue)
+            //    {
+            //        TrashCollection();
+            //    }
+            //}
+            
         }
     }
 }

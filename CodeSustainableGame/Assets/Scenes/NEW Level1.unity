@@ -12124,6 +12124,10 @@ PrefabInstance:
       propertyPath: collectionSlider
       value: 
       objectReference: {fileID: 2114224865}
+    - target: {fileID: 8644594726860172813, guid: 4fbc8e1d5207d9b438de2fe903f1f88b, type: 3}
+      propertyPath: maxGarbageCollect
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8946774662610767178, guid: 4fbc8e1d5207d9b438de2fe903f1f88b, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -74552,6 +74556,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1936699948}
     m_Modifications:
+    - target: {fileID: 1311950858028864421, guid: c441bbf72cd3a5141bd46892fa7ad1ae, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2310010020621737471, guid: c441bbf72cd3a5141bd46892fa7ad1ae, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -74628,6 +74636,10 @@ PrefabInstance:
       propertyPath: PlayerTransform
       value: 
       objectReference: {fileID: 1171689931}
+    - target: {fileID: 4353262556252349658, guid: c441bbf72cd3a5141bd46892fa7ad1ae, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7873070105978103635, guid: c441bbf72cd3a5141bd46892fa7ad1ae, type: 3}
       propertyPath: m_Name
       value: 10_workman 1
@@ -190522,6 +190534,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1228913395}
     - target: {fileID: 6817312910991051896, guid: c4d5398d823a637458faf1c8be0166f3, type: 3}
+      propertyPath: currentMoney
+      value: 125000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6817312910991051896, guid: c4d5398d823a637458faf1c8be0166f3, type: 3}
       propertyPath: MediumGarbage
       value: 
       objectReference: {fileID: 4305437803015692794, guid: e2a504ce5f846064daee788180f6f3e9, type: 3}
@@ -191506,8 +191522,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Panel: {fileID: 0}
-  smallTruck: {fileID: 1609249403}
+  smallTruck: {fileID: 1434563026015658715, guid: 4fbc8e1d5207d9b438de2fe903f1f88b, type: 3}
   smallTruckCost: 125000
+  turnsuntilnewtruck: 4
+  truckSpawns: 0
 --- !u!1 &2094823451
 GameObject:
   m_ObjectHideFlags: 0

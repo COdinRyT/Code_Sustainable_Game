@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public Queue<GameObject> characters = new Queue<GameObject>(); // Character queue
     public GameObject newVolunteers;
     public GameObject prefab;
+    TruckAI truckAI;
 
     public float stepDelay = 0.2f;  // Delay between tile movements 
     public int currentTurn;
@@ -86,6 +87,7 @@ public class GameManager : MonoBehaviour
         StartGame();
         SpawnGarbage();
         updateUI = FindAnyObjectByType<UpdateUI>();
+        truckAI = FindAnyObjectByType<TruckAI>();
         //updateUI.UpdateQueueUI(new List<GameObject>(characters));
 
         if (skipButton != null)
