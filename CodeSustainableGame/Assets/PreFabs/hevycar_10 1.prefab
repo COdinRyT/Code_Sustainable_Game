@@ -243,6 +243,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetDestination: {x: 6, y: 0.5, z: -62}
   agent: {fileID: 9063742853540714710}
+  surface: {fileID: 7108585114863004879, guid: f5d78ceb29afa1342a56425535b99f60, type: 3}
   truckSpeed: 5
   spawnPositions: {x: 5, y: 0.5, z: -86}
   collectionRange: 3

@@ -1,5 +1,7 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
@@ -9,6 +11,7 @@ public class TruckAI : MonoBehaviour
 {
     [SerializeField]private Vector3 targetDestination; // Assign this in inspector
     public NavMeshAgent agent;
+    public NavMeshSurface surface;
     public float truckSpeed = 5f;
     EmptyTrashCollection emptyTrash;
     Shop shop;
@@ -31,6 +34,7 @@ public class TruckAI : MonoBehaviour
     {
         if (agent == null)
             agent = GetComponent<NavMeshAgent>();
+        agent.enabled = false;
 
         gameObject.SetActive(true);
         agent.speed = truckSpeed;
@@ -41,17 +45,27 @@ public class TruckAI : MonoBehaviour
 
         //timesCollected = collectCounters.Length; //The amount of times the truck collects trash
         //is equal to the amount of box trackers on top of the truck
+
+        Invoke("EnableNavMesh", 0.025f);
+    }
+
+    private void EnableNavMesh()
+    {
+        agent.enabled = true;
     }
 
     private IEnumerator DelayedMoveTruck()
     {
-        yield return new WaitForFixedUpdate(); // Wait until physics update
+        yield return new WaitForSeconds(0.1f); // Wait for 0.1 seconds to ensure agent registers
         MoveTruck(); // Now call MoveTruck safely
     }
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        if(surface == null)
+        {
+            surface = FindObjectOfType<NavMeshSurface>();
+        }     
 
         NavMeshHit hit;
         if (NavMesh.SamplePosition(spawnPositions, out hit, 5f, NavMesh.AllAreas))
