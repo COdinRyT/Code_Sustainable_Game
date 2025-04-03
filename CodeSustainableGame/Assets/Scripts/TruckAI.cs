@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Unity.AI.Navigation;
 using UnityEditor;
 using UnityEngine;
@@ -9,7 +10,7 @@ using UnityEngine.UI;
 
 public class TruckAI : MonoBehaviour
 {
-    [SerializeField]private Vector3[] targetDestination; // Assign this in inspector
+    [SerializeField]private Vector3 targetDestination; // Assign this in inspector
     public NavMeshAgent agent;
     public NavMeshSurface surface;
     public float truckSpeed = 5f;
@@ -26,7 +27,7 @@ public class TruckAI : MonoBehaviour
 
     public Slider collectionSlider;
     [SerializeField] private int garbageCollected = 0;
-    [SerializeField] private int maxGarbageCollect;
+    [SerializeField] private int maxGarbageCollect = 5;
     public bool isDisposed;
     public int turnCounter = 3;
 
@@ -95,10 +96,8 @@ public class TruckAI : MonoBehaviour
         withinRange = false;
         isLeft = false;
         gameObject.SetActive(true);
-
-
     }
-
+    private int turnDisappear = -1; // Ryan is this where this goes?
     private void Update()
     {
         RaycastHit hit;
@@ -140,14 +139,17 @@ public class TruckAI : MonoBehaviour
 
         if (collectionSlider.value >= 0)
         {
-            int randomPoint = Random.Range(0, targetDestination.Length);
+            Vector3 position = targetDestination;
+            //int randomPoint = Random.Range(0, targetDestination.Length);
 
-            Vector3 position = targetDestination[randomPoint];
+            //Vector3 position = targetDestination[randomPoint];
             NavMeshHit hit;
             if (NavMesh.SamplePosition(position, out hit, 5f, NavMesh.AllAreas))
             {
-                targetDestination[randomPoint] = hit.position;
-                agent.SetDestination(targetDestination[randomPoint]);
+                targetDestination = hit.position;
+                agent.SetDestination(targetDestination);
+                //targetDestination[randomPoint] = hit.position;
+                //agent.SetDestination(targetDestination[randomPoint]);
             }
             else
             {
@@ -157,18 +159,20 @@ public class TruckAI : MonoBehaviour
 
         if (collectionSlider.value == maxGarbageCollect)
         {
-            int randomPos = Random.Range(0, targetDestination.Length);
+            //int randomPos = Random.Range(0, targetDestination.Length);
             Vector3 moveToSpawnPosition = spawnPositions;
             NavMeshHit hit;
             if (NavMesh.SamplePosition(moveToSpawnPosition, out hit, 10f, NavMesh.AllAreas))
             {
-                targetDestination[randomPos] = hit.position;
+                targetDestination = hit.position;
+                //targetDestination[randomPos] = hit.position;
             }
             else
             {
                 Debug.LogWarning("No valid NavMesh position found! Moving truck to fallback location.");
             }
-            agent.SetDestination(targetDestination[randomPos]);
+            agent.SetDestination(targetDestination);
+            //agent.SetDestination(targetDestination[randomPos]);
 
             if (Vector3.Distance(transform.position, spawnPositions) < 0.5f) // Check if the truck reached the spawn
             {
