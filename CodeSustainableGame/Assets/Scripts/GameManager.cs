@@ -335,7 +335,7 @@ public class GameManager : MonoBehaviour
         foreach (Transform child in TerrainGroup.transform)
         {
             GameObject obj = child.gameObject;
-            if (obj.layer == 7) // Assuming layer 7 is for tiles with garbage potential
+            if (obj.layer != 7) // Assuming layer 7 is for tiles with garbage potential
                 continue;
 
             // Get the center of the title
