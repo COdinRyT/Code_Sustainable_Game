@@ -40,6 +40,7 @@ public class CheckIfOnGarbage : MonoBehaviour
                 {
                     if (allChildren[i].GetComponent<Garbage>().currentHealth > 0)
                     {
+                        Player.GetComponent<CharacterGarbage>().garbageHolding += 25;
                         allChildren[i].GetComponent<Garbage>().currentHealth -= 25;
                         allChildren[i].transform.localScale = currentScale * 0.8f;
                         Debug.Log(allChildren[i].GetComponent<Garbage>().currentHealth);

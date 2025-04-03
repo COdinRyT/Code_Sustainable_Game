@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
 
         FirstPlayer();
     }
-    /*
+    
     public void GetInvolvedClick()
     {
         if (readyToGetInvolved)
@@ -123,7 +123,7 @@ public class GameManager : MonoBehaviour
             //VolunterClone.transform.rotation *= Quaternion.Euler(0, 90f, 0);
         }
     }
-    */
+    
     // This method is called when the skip button is clicked
     public void OnEndTurnClick()
     {
@@ -163,7 +163,7 @@ public class GameManager : MonoBehaviour
         currentGarbageAmount = garbageLevel * 100;
         //involvedAmount += 20;
         happiness += 10;
-        //readyToGetInvolved = true;
+        readyToGetInvolved = true;
     }
 
     // Update is called once per frame
@@ -288,8 +288,8 @@ public class GameManager : MonoBehaviour
             GameObject currentCharacter = characters.Dequeue();
 
             // Debug logs to check queue sizes
-            Debug.Log($"Dequeued Character: {currentCharacter.name}");
-            Debug.Log($"Remaining Characters in Queue: {characters.Count}");
+            //Debug.Log($"Dequeued Character: {currentCharacter.name}");
+            //Debug.Log($"Remaining Characters in Queue: {characters.Count}");
 
             //updateUI.UpdateQueueUI(new List<GameObject>(characters));
 
@@ -335,7 +335,7 @@ public class GameManager : MonoBehaviour
         foreach (Transform child in TerrainGroup.transform)
         {
             GameObject obj = child.gameObject;
-            if (obj.layer == 7) // Assuming layer 7 is for tiles with garbage potential
+            if (obj.layer != 7) // Assuming layer 7 is for tiles with garbage potential
                 continue;
 
             // Get the center of the title
