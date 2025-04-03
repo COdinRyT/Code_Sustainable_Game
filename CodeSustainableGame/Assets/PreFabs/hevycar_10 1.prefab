@@ -241,7 +241,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 762a160953b218740abb4a2525aab410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetDestination: {x: 6, y: 0.5, z: -62}
+  targetDestination:
+  - {x: 18, y: 0.52, z: -84}
+  - {x: 6, y: 0.52, z: -63}
+  - {x: 6, y: 0.52, z: -73}
   agent: {fileID: 9063742853540714710}
   surface: {fileID: 7108585114863004879, guid: f5d78ceb29afa1342a56425535b99f60, type: 3}
   truckSpeed: 5

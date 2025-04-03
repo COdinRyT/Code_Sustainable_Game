@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class CleanGarbage : MonoBehaviour
 {
+    /*
     [Header("Progress Bar Settings/Variables")]
     private Image progressBar;
     [SerializeField] private new Camera camera;
@@ -20,7 +21,7 @@ public class CleanGarbage : MonoBehaviour
         progressBar = GetComponentInChildren<Image>();
         progressBar.gameObject.SetActive(false);
 
-        trash = gameManager.SmallGarbage;
+        //trash = gameManager.SmallGarbage;
     }
     void Update()
     {
@@ -32,4 +33,5 @@ public class CleanGarbage : MonoBehaviour
     {
        
     }
+    */
 }

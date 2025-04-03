@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
     public Queue<GameObject> characters = new Queue<GameObject>(); // Character queue
     public GameObject newVolunteers;
     public GameObject prefab;
-    TruckAI truckAI;
 
     public float stepDelay = 0.2f;  // Delay between tile movements 
     public int currentTurn;
@@ -27,6 +26,9 @@ public class GameManager : MonoBehaviour
     public int awarenessLevel;
     public int currentPlantedTrees = 0;
 
+    //public float involvedAmount;
+    //public float involvedNeededLevelUp = 100;
+
     public float garbageLevel = 1;
     public float maxGarbage;
     public float currentGarbageAmount; // An example is garbage will start at 100. 
@@ -37,22 +39,17 @@ public class GameManager : MonoBehaviour
     public Button skipButton;  // Drag the Skip Button here from the Unity Editor
 
     public GameObject TerrainGroup;
-    public GameObject SmallGarbage;
-    public GameObject MediumGarbage;
+    public GameObject Garbage;
     public GameObject[] garbagePiles;
     public List<GameObject> tag_targets = new List<GameObject>();
     public Transform parentTransform;
     public Transform garbageParentTransform;
-    public new Camera camera;
+    Camera camera;
     private bool spawnUnit = false;
-    private float chanceOfSmallGarbage = 800;
-    private float chanceOfMediumGarbage = 950;
+    private float chanceOfGarbage = 9;
     private float randomNumber;
-    private float randomNumberTwo;
 
-    // To store tile positions with garbage already spawned
-    private HashSet<Vector3> tilesWithGarbage = new HashSet<Vector3>();
-    //private bool readyToGetInvolved = false;
+    private bool readyToGetInvolved;
     public GameObject Volunteer;
     private bool hasTaskStarted = false;  // Add a flag to track if the task has started
 
@@ -81,13 +78,12 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
         camera = Camera.main;
         currentTurn = startTurn;
         StartGame();
         SpawnGarbage();
         updateUI = FindAnyObjectByType<UpdateUI>();
-        truckAI = FindAnyObjectByType<TruckAI>();
         //updateUI.UpdateQueueUI(new List<GameObject>(characters));
 
         if (skipButton != null)
@@ -95,13 +91,9 @@ public class GameManager : MonoBehaviour
             //skipButton.onClick.AddListener(OnSkipButtonClick);
         }
 
-        if (volunterSpawnPosition == null)
+        if (updateUI == null)
         {
-            volunterSpawnPosition = GameObject.Find("VolunteerSpawn");
-            if (volunterSpawnPosition == null)
-            {
-                Debug.LogError("VolunteerSpawn object not found in the scene!");
-            }
+            Debug.Log("UI manager is not assigned to game manager!");
         }
         FirstPlayer();
     }
@@ -155,7 +147,7 @@ public class GameManager : MonoBehaviour
         currentGarbageAmount = garbageLevel * 100;
         //involvedAmount += 20;
         happiness += 10;
-        //readyToGetInvolved = true;
+        readyToGetInvolved = true;
     }
 
     // Update is called once per frame
@@ -172,7 +164,7 @@ public class GameManager : MonoBehaviour
             maxGarbage = garbageLevel * 100;
             Debug.Log("Set happiness");
             resetGarbage();
-           
+
         }
         if (happiness >= 100) // This is how you win the game
         {
@@ -310,58 +302,38 @@ public class GameManager : MonoBehaviour
         hasTaskStarted = false;  // Reset task flag
     }
 
-    // Method to spawn garbage
     private void SpawnGarbage()
     {
         GameObject GarbageClone;
-        GameObject GarbageCloneMedium;
-
-        if (SmallGarbage == null || MediumGarbage == null || TerrainGroup == null)
+        if (Garbage == null)
         {
-            Debug.Log("Garbage prefab or TerrainGroup is not assigned.");
+            Debug.Log("Garbage prefab is not assigned in inspector");
             return;
         }
-
+        if (TerrainGroup == null)
+        {
+            Debug.Log("Terraingroup is not assigned");
+            return;
+        }
         foreach (Transform child in TerrainGroup.transform)
         {
             GameObject obj = child.gameObject;
-
-            // Skip tiles that don't have the garbage layer
-            if (obj.layer != 7) // Assuming layer 7 is for tiles with garbage potential
-                continue;
-
-            // Get the center of the tile
-            Vector3 tileCenter = obj.transform.position;
-
-            // Check if garbage already exists on this tile
-            if (tilesWithGarbage.Contains(tileCenter))
+            if (obj.layer == 7)
             {
-                continue; // Skip spawning garbage if it's already on this tile
-            }
+                randomNumber = UnityEngine.Random.Range(0, 10);
+                if (randomNumber >= chanceOfGarbage)
+                {
+                    // Get the center of the tile (obj.transform.position should be the center of the tile)
+                    Vector3 tileCenter = obj.transform.position;
 
-            // Random chance for spawning small or medium garbage
-            float randomNumber = UnityEngine.Random.Range(0f, 1000f);
-            if (randomNumber >= 993f)  // Chance for small garbage
-            {
-                // Spawn small garbage above the tile
-                Vector3 spawnPosition = new Vector3(tileCenter.x, tileCenter.y + 1f, tileCenter.z);
-                GarbageClone = Instantiate(SmallGarbage, spawnPosition, Quaternion.identity, parentTransform);
-                GarbageClone.name = SmallGarbage.name;
+                    // Set the garbage spawn position to be slightly above the tile (e.g., 1 unit above)
+                    Vector3 spawnPosition = new Vector3(tileCenter.x, tileCenter.y + 1f, tileCenter.z);
 
-                // Mark this tile as having garbage
-                tilesWithGarbage.Add(tileCenter);
-            }
-
-            randomNumber = UnityEngine.Random.Range(0f, 1000f);
-            if (randomNumber >= 997f)  // Chance for medium garbage
-            {
-                // Spawn medium garbage above the tile
-                Vector3 spawnPosition = new Vector3(tileCenter.x, tileCenter.y + 1f, tileCenter.z);
-                GarbageCloneMedium = Instantiate(MediumGarbage, spawnPosition, Quaternion.identity, parentTransform);
-                GarbageCloneMedium.name = MediumGarbage.name;
-
-                // Mark this tile as having garbage
-                tilesWithGarbage.Add(tileCenter);
+                    // Instantiate the garbage at the calculated spawn position
+                    GarbageClone = Instantiate(Garbage, spawnPosition, Quaternion.identity, parentTransform);
+                    GarbageClone.transform.rotation *= Quaternion.Euler(0, 90f, 0);
+                    GarbageClone.name = Garbage.name;
+                }
             }
         }
     }

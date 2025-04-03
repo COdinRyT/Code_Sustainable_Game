@@ -144,7 +144,6 @@ public class PointClickMovement : MonoBehaviour
         yield return StartCoroutine(WaitForClick());
 
         madeUpVector3 = new Vector3(gameObject.transform.position.x, y, gameObject.transform.position.z);
-        /*
         for (int i = 0; i < allChildren.Length; i++)
         {
             if (allChildren[i].transform.position.x == madeUpVector3.x && allChildren[i].transform.position.z == madeUpVector3.z)
@@ -152,7 +151,7 @@ public class PointClickMovement : MonoBehaviour
                 yield break;  // Exit the coroutine early
             }
         }
-        */
+
         // If skipMove is true, immediately skip the movement
         if (skipMove)
         {
@@ -209,7 +208,6 @@ public class PointClickMovement : MonoBehaviour
     {
         madeUpVector3 = new Vector3(gameObject.transform.position.x, y, gameObject.transform.position.z);
 
-        /*
         for (int i = 0; i < allChildren.Length; i++)
         {
             if (allChildren[i].transform.position.x == madeUpVector3.x && allChildren[i].transform.position.z == madeUpVector3.z)
@@ -217,7 +215,6 @@ public class PointClickMovement : MonoBehaviour
                 yield break;  // Exit the coroutine early
             }
         }
-        */
         bool clicked = false;
         /*
         if (skipMove)
