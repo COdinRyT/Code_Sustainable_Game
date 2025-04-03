@@ -54,12 +54,12 @@ public class PointClickMovement : MonoBehaviour
 
         if (this.enabled == true)
         {
-            Debug.Log($"Agent {gameObject.name} has been added to queue");
+            //Debug.Log($"Agent {gameObject.name} has been added to queue");
             gameManager.ConfirmVolunteer(gameObject);
         }
         else
         {
-            Debug.Log("Agent is not in the queue");
+            //Debug.Log("Agent is not in the queue");
         }
     }
 
@@ -100,14 +100,14 @@ public class PointClickMovement : MonoBehaviour
     {
         selectedPlayer = player;
 
-        Debug.Log("Player has been Selected");
+        //Debug.Log("Player has been Selected");
     }
 
     public void SelectTile(GameObject tile, GameObject marker)
     {
         selectedTile = tile;
         Instantiate(marker, selectedTile.transform.position, Quaternion.identity);
-        Debug.Log("Tile selected");
+        //Debug.Log("Tile selected");
     }
     private void GetChildren()
     {
@@ -124,7 +124,7 @@ public class PointClickMovement : MonoBehaviour
         if (selectedPlayer == null)
         {
             flashCharacter = false;
-            Debug.LogError("No player selected!");
+            //Debug.LogError("No player selected!");
             yield break;
         }
 
@@ -133,7 +133,7 @@ public class PointClickMovement : MonoBehaviour
         if (playerAgent == null)
         {
             flashCharacter = false;
-            Debug.LogError("Selected player does not have a NavMeshAgent!");
+            //Debug.LogError("Selected player does not have a NavMeshAgent!");
             yield break;
         }
 
@@ -142,7 +142,7 @@ public class PointClickMovement : MonoBehaviour
 
         // Wait for a click or check if we need to skip the move
         yield return StartCoroutine(WaitForClick());
-
+        /*
         madeUpVector3 = new Vector3(gameObject.transform.position.x, y, gameObject.transform.position.z);
         for (int i = 0; i < allChildren.Length; i++)
         {
@@ -151,11 +151,11 @@ public class PointClickMovement : MonoBehaviour
                 yield break;  // Exit the coroutine early
             }
         }
-
+        */
         // If skipMove is true, immediately skip the movement
         if (skipMove)
         {
-            Debug.Log("Move skipped due to skip flag.");
+            //Debug.Log("Move skipped due to skip flag.");
             flashCharacter = false;
             skipMove = false;  // Reset skip flag
             yield break;  // Exit the coroutine early
@@ -178,7 +178,7 @@ public class PointClickMovement : MonoBehaviour
         {
             if (hit.collider != null)
             {
-                Debug.Log("Ray hit" + hit.transform.gameObject.layer);
+                //Debug.Log("Ray hit" + hit.transform.gameObject.layer);
                 targetPosition = hit.point;  // Set the target position to where the player clicked
 
                 // Round the target position to the nearest whole unit for tile-based movement
@@ -199,7 +199,7 @@ public class PointClickMovement : MonoBehaviour
                     yield return null;  // Continue waiting until the movement is complete
                 }
                 flashCharacter = false;
-                Debug.Log("Movement complete!");
+                //Debug.Log("Movement complete!");
             }
         }
     }
@@ -207,7 +207,7 @@ public class PointClickMovement : MonoBehaviour
     private IEnumerator WaitForClick()
     {
         madeUpVector3 = new Vector3(gameObject.transform.position.x, y, gameObject.transform.position.z);
-
+        /*
         for (int i = 0; i < allChildren.Length; i++)
         {
             if (allChildren[i].transform.position.x == madeUpVector3.x && allChildren[i].transform.position.z == madeUpVector3.z)
@@ -215,6 +215,7 @@ public class PointClickMovement : MonoBehaviour
                 yield break;  // Exit the coroutine early
             }
         }
+        */
         bool clicked = false;
         /*
         if (skipMove)
@@ -243,7 +244,7 @@ public class PointClickMovement : MonoBehaviour
                 }
                 else if (Physics.Raycast(ray, out hit))
                 {
-                    Debug.Log(hit.collider.gameObject.layer);
+                    //Debug.Log(hit.collider.gameObject.layer);
                     // Check if the hit object is on a specific layer (e.g., Layer 8)
                     if (hit.collider.gameObject.layer != 5)
                     {

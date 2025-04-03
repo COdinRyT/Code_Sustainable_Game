@@ -42,7 +42,7 @@ public class CheckIfOnGarbage : MonoBehaviour
                     {
                         allChildren[i].GetComponent<Garbage>().currentHealth -= 25;
                         allChildren[i].transform.localScale = currentScale * 0.8f;
-                        Debug.Log(allChildren[i].GetComponent<Garbage>().currentHealth);
+                        //Debug.Log(allChildren[i].GetComponent<Garbage>().currentHealth);
                         //Destroy(allChildren[i]);
                         Debug.Log("Same spot, We have collision.");
                         PlayerAndGarbageCollision = true;

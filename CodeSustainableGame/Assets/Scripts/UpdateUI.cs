@@ -15,7 +15,7 @@ public class UpdateUI : MonoBehaviour
     public Image garbageBar;
     public Image happyBar;
     public Image getInvolved;
-    //public Image involvedBar;
+    public Image involvedBar;
 
     private int startingTurn = 0;
 
@@ -35,14 +35,14 @@ public class UpdateUI : MonoBehaviour
 
     public void UpdateUIElements()
     {
-        //Turns.text = "Turns: " + GameManager.Instance.currentTurn.ToString() + "/" + GameManager.Instance.maxTurn.ToString();
+        Turns.text = "Turns: " + GameManager.Instance.currentTurn.ToString() + "/" + GameManager.Instance.maxTurn.ToString();
         People.text = GameManager.Instance.currentPeople.ToString() + "/" + GameManager.Instance.maxPeople.ToString();
         Money.text = GameManager.Instance.currentMoney.ToString() + "$";
 
         moneyBar.fillAmount = GameManager.Instance.currentMoney / 9999f; // If the money amount is larger than 9999 than the bar will not fill up any more.
         garbageBar.fillAmount = GameManager.Instance.currentGarbageAmount / GameManager.Instance.maxGarbage;
         happyBar.fillAmount = GameManager.Instance.happiness / 100f;
-        getInvolved.fillAmount = GameManager.Instance.maxGarbage - GameManager.Instance.currentGarbageAmount;
+        getInvolved.fillAmount = (GameManager.Instance.maxGarbage - GameManager.Instance.currentGarbageAmount)/100;
         //involvedBar.fillAmount = GameManager.Instance.involvedAmount / GameManager.Instance.involvedNeededLevelUp;
         //Debug.Log(GameManager.Instance.involvedAmount / GameManager.Instance.involvedNeededLevelUp);
     }

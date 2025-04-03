@@ -155,7 +155,7 @@ public class GameManager : MonoBehaviour
     {
         Volunteer = Instantiate(Volunteer, volunterSpawnPosition.transform.position, Quaternion.identity, garbageParentTransform);
         Volunteer.name = "Worker";
-        Debug.Log("First player function");
+        //Debug.Log("First player function");
         DoTask();
     }
     public void resetGarbage()
@@ -212,7 +212,7 @@ public class GameManager : MonoBehaviour
                 // Loop through each character and call a function (e.g., CheckCollisionBetweenPlayerAndGarbage)
                 foreach (GameObject character in allCharacters)
                 {
-                    Debug.Log($"Checking for garbage for character: {character.name}");
+                    //Debug.Log($"Checking for garbage for character: {character.name}");
 
                     // Assuming each character has a script (like CheckIfOnGarbage) attached with a function you want to call
                     CheckIfOnGarbage playerScript = character.GetComponent<CheckIfOnGarbage>();
@@ -225,10 +225,10 @@ public class GameManager : MonoBehaviour
                     }
                     else
                     {
-                        Debug.LogWarning($"Player {character.name} does not have the CheckIfOnGarbage script attached.");
+                        //Debug.LogWarning($"Player {character.name} does not have the CheckIfOnGarbage script attached.");
                     }
                 }
-                Debug.Log("Up");
+                //Debug.Log("Up");
                 endTurn = false;
                 currentTurn++;
                 DoTask();
@@ -245,7 +245,7 @@ public class GameManager : MonoBehaviour
     }
     public void GetInvolvedIsTrue()
     {
-        Debug.Log("Update glow");
+        //Debug.Log("Update glow");
         //GlowAndSparkle.Instance.transparency = 100;
     }
     void StartGame()
@@ -264,7 +264,7 @@ public class GameManager : MonoBehaviour
         if (!characters.Contains(character))
         {
             characters.Enqueue(character);
-            Debug.Log($"Added character: {character.name}, Total characters in queue: {characters.Count}");
+            //Debug.Log($"Added character: {character.name}, Total characters in queue: {characters.Count}");
         }
     }
 
@@ -274,7 +274,7 @@ public class GameManager : MonoBehaviour
         if (hasTaskStarted) return;
         hasTaskStarted = true;
 
-        Debug.Log("Doing Task");
+        //Debug.Log("Doing Task");
         // Start the process to move characters one by one
         StartCoroutine(MoveCharacterSequence());
 
@@ -290,8 +290,8 @@ public class GameManager : MonoBehaviour
             GameObject currentCharacter = characters.Dequeue();
 
             // Debug logs to check queue sizes
-            Debug.Log($"Dequeued Character: {currentCharacter.name}");
-            Debug.Log($"Remaining Characters in Queue: {characters.Count}");
+            //Debug.Log($"Dequeued Character: {currentCharacter.name}");
+            //Debug.Log($"Remaining Characters in Queue: {characters.Count}");
 
             //updateUI.UpdateQueueUI(new List<GameObject>(characters));
 
@@ -326,12 +326,12 @@ public class GameManager : MonoBehaviour
         GameObject GarbageCloneMedium;
         if (SmallGarbage == null || MediumGarbage == null)
         {
-            Debug.Log("Garbage prefab is not assigned in inspector");
+            //Debug.Log("Garbage prefab is not assigned in inspector");
             return;
         }
         if (TerrainGroup == null)
         {
-            Debug.Log("Terraingroup is not assigned");
+            //Debug.Log("Terraingroup is not assigned");
             return;
         }
         foreach (Transform child in TerrainGroup.transform)

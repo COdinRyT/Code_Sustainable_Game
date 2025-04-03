@@ -10,7 +10,7 @@ public class EndTurn : MonoBehaviour
     {
         //Shop.Instance.truckSpawns = true;
 
-        Debug.Log("CLicked");
+        //Debug.Log("CLicked");
         if (GameManager.Instance == null)
         {
             Debug.LogError("GameManager.Instance is null");
@@ -20,7 +20,7 @@ public class EndTurn : MonoBehaviour
         if (GameManager.Instance.endTurn == false)
         {
             GameManager.Instance.endTurn = true;
-            Debug.Log("End turn end turn");
+            //Debug.Log("End turn end turn");
         }
     }
 }

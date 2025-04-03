@@ -121,19 +121,19 @@ public class TruckAI : MonoBehaviour
     {
         if (agent == null)
         {
-            Debug.LogError("NavMeshAgent is missing on TruckAI!");
+           //Debug.LogError("NavMeshAgent is missing on TruckAI!");
             return;
         }
 
         if (!agent.isActiveAndEnabled)
         {
-            Debug.LogError("NavMeshAgent is not active or enabled!");
+            //Debug.LogError("NavMeshAgent is not active or enabled!");
             return;
         }
 
         if (!agent.isOnNavMesh)
         {
-            Debug.LogError("Truck is NOT on a NavMesh!");
+            //Debug.LogError("Truck is NOT on a NavMesh!");
             return;
         }
 
@@ -221,7 +221,7 @@ public class TruckAI : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             withinRange = true;
-            Debug.Log($"Character {other.gameObject.name} is within range");
+            //Debug.Log($"Character {other.gameObject.name} is within range");
             TrashCollection();
             //if (withinRange)
             //{

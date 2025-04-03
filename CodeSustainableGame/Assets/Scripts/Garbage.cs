@@ -42,10 +42,10 @@ public class Garbage : MonoBehaviour
     // Ensure the garbage has a trigger collider
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Other: " + other.name);
+        //Debug.Log("Other: " + other.name);
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Garbage and Character are on the same tile!");
+            //Debug.Log("Garbage and Character are on the same tile!");
         }
     }
     // Update is called once per frame
@@ -65,13 +65,13 @@ public class Garbage : MonoBehaviour
             GameManager.Instance.SmallTrashPile(50);
             //GameManager.Instance.involvedAmount += 20;
             Destroy(gameObject);
-            if (truck.isDisposed)
-            {
-                GameManager.Instance.trashCollected++;
-                //truck.isDisposed = false;
-                Debug.Log("Trash Collected!");
-                return;
-            }
+            //if (truck.isDisposed)
+            //{
+            //    GameManager.Instance.trashCollected++;
+            //    //truck.isDisposed = false;
+            //    Debug.Log("Trash Collected!");
+            //    return;
+            //}
         }
         else if (currentHealth <= 0 && Name == "MediumGarbage") {
             truck.isDisposed = true;
@@ -79,13 +79,13 @@ public class Garbage : MonoBehaviour
             GameManager.Instance.MediumTrashPile(100);
             //GameManager.Instance.involvedAmount += 20;
             Destroy(gameObject);
-            if (truck.isDisposed)
-            {
-                //GameManager.Instance.trashCollected++;
-                //truck.isDisposed = false;
-                Debug.Log("Trash Collected!");
-                return;
-            }
+            //if (truck.isDisposed)
+            //{
+            //    //GameManager.Instance.trashCollected++;
+            //    //truck.isDisposed = false;
+            //    Debug.Log("Trash Collected!");
+            //    return;
+            //}
         }
     }
 }
