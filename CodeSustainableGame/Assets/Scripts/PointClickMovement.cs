@@ -36,6 +36,16 @@ public class PointClickMovement : MonoBehaviour
     // Skip flag for skipping movement
     public bool skipMove = false;
     public LayerMask raycastLayerMask;
+
+    public GameObject[] allChildren;
+    public GameObject GarbageStorage;
+
+    public float x;
+    public float y;
+    public float z;
+
+    private Vector3 madeUpVector3;
+
     private void Awake()
     {
         camera = Camera.main;
@@ -99,7 +109,14 @@ public class PointClickMovement : MonoBehaviour
         Instantiate(marker, selectedTile.transform.position, Quaternion.identity);
         Debug.Log("Tile selected");
     }
-
+    private void GetChildren()
+    {
+        allChildren = new GameObject[GarbageStorage.transform.childCount];
+        for (int i = 0; i < allChildren.Length; i++)
+        {
+            allChildren[i] = GarbageStorage.transform.GetChild(i).gameObject;
+        }
+    }
     // Move the player when this function is called and wait for the player to click
     public IEnumerator MovePlayer()
     {
@@ -111,7 +128,7 @@ public class PointClickMovement : MonoBehaviour
             yield break;
         }
 
-        // Get the NavMeshAgent from the selected player
+        // Get the NavMeshAgent from the selected playerw
         NavMeshAgent playerAgent = selectedPlayer.GetComponent<NavMeshAgent>();
         if (playerAgent == null)
         {
@@ -120,11 +137,21 @@ public class PointClickMovement : MonoBehaviour
             yield break;
         }
 
-        Vector3 cameraPosition = new Vector3(gameObject.transform.position.x + 6, gameObject.transform.position.y + 4, gameObject.transform.position.z );
+        Vector3 cameraPosition = new Vector3(gameObject.transform.position.x + 6, gameObject.transform.position.y + 4, gameObject.transform.position.z);
         camera.transform.position = cameraPosition;
 
         // Wait for a click or check if we need to skip the move
         yield return StartCoroutine(WaitForClick());
+
+        madeUpVector3 = new Vector3(gameObject.transform.position.x, y, gameObject.transform.position.z);
+
+        for (int i = 0; i < allChildren.Length; i++)
+        {
+            if (allChildren[i].transform.position.x == madeUpVector3.x && allChildren[i].transform.position.z == madeUpVector3.z)
+            {
+                yield break;  // Exit the coroutine early
+            }
+        }
 
         // If skipMove is true, immediately skip the movement
         if (skipMove)
@@ -180,6 +207,15 @@ public class PointClickMovement : MonoBehaviour
     // Wait for a click before proceeding
     private IEnumerator WaitForClick()
     {
+        madeUpVector3 = new Vector3(gameObject.transform.position.x, y, gameObject.transform.position.z);
+
+        for (int i = 0; i < allChildren.Length; i++)
+        {
+            if (allChildren[i].transform.position.x == madeUpVector3.x && allChildren[i].transform.position.z == madeUpVector3.z)
+            {
+                yield break;  // Exit the coroutine early
+            }
+        }
         bool clicked = false;
         /*
         if (skipMove)
@@ -190,13 +226,13 @@ public class PointClickMovement : MonoBehaviour
         // While we haven't clicked and haven't skipped, keep waiting
         while (!clicked && !skipMove)
         {
-            
+
             if (skipMove)
             {
                 yield return null;
             }
 
-            
+
 
             if (Input.GetMouseButtonDown(0))  // Left mouse button clicked
             {
@@ -205,7 +241,8 @@ public class PointClickMovement : MonoBehaviour
                 if (EventSystem.current.IsPointerOverGameObject())
                 {
 
-                }else if (Physics.Raycast(ray, out hit))
+                }
+                else if (Physics.Raycast(ray, out hit))
                 {
                     Debug.Log(hit.collider.gameObject.layer);
                     // Check if the hit object is on a specific layer (e.g., Layer 8)
