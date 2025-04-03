@@ -120,11 +120,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 762a160953b218740abb4a2525aab410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetDestination: {x: 3, y: 0, z: -86}
+  targetDestination:
+  - {x: 6, y: 0.5, z: -62}
   agent: {fileID: 0}
+  surface: {fileID: 0}
   truckSpeed: 5
   spawnPositions: {x: 0, y: 0, z: 0}
-  collectCounters: []
+  collectionRange: 3
+  withinRange: 0
+  isLeft: 0
+  collectionSlider: {fileID: 0}
+  garbageCollected: 0
+  maxGarbageCollect: 0
+  isDisposed: 0
+  turnCounter: 3
+  moneyAmount: 0
 --- !u!1 &6129117986661773497
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,7 +253,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   progressSlider: {fileID: 0}
   totalGarbage: 10
+  trashToRemovePerEmpty: 5
+  garbageDestroyed: 0
   isDisposed: 0
+  player: {fileID: 0}
 --- !u!1 &7214760147792936546
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,6 +397,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 580769821665448973}
     m_Modifications:
+    - target: {fileID: 2722159419686411512, guid: 52537d4176ce1ff48869d05317ce431b, type: 3}
+      propertyPath: m_MaxValue
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3515653911366929219, guid: 52537d4176ce1ff48869d05317ce431b, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

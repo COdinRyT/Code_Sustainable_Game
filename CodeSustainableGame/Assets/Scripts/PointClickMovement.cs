@@ -144,7 +144,6 @@ public class PointClickMovement : MonoBehaviour
         yield return StartCoroutine(WaitForClick());
 
         madeUpVector3 = new Vector3(gameObject.transform.position.x, y, gameObject.transform.position.z);
-
         for (int i = 0; i < allChildren.Length; i++)
         {
             if (allChildren[i].transform.position.x == madeUpVector3.x && allChildren[i].transform.position.z == madeUpVector3.z)
