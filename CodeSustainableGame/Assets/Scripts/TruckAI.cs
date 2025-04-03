@@ -30,6 +30,8 @@ public class TruckAI : MonoBehaviour
     public bool isDisposed;
     public int turnCounter = 3;
 
+    public int moneyAmount;
+
     private void Awake()
     {
         if (agent == null)
@@ -169,6 +171,7 @@ public class TruckAI : MonoBehaviour
             {
                 collectionSlider.value = 0;
                 isLeft = true;
+                GainMoney();
                 Destroy(gameObject);
             }
         }
@@ -195,7 +198,10 @@ public class TruckAI : MonoBehaviour
         collectionSlider.value = garbageCollected;
     }
 
-    
+    private void GainMoney()
+    {
+        GameManager.Instance.currentMoney += moneyAmount;
+    }
 
     private void OnDrawGizmos()
     {

@@ -160,6 +160,15 @@ public class PointClickMovement : MonoBehaviour
                 targetPosition.z = Mathf.Round(targetPosition.z);  // Round Z to nearest 1 unit
                 targetPosition.y = hit.point.y;  // Keep the Y as the original height
 
+                if(Physics.Raycast(targetPosition + Vector3.up * 0.5f, Vector3.down, out RaycastHit wallHit, 1f))
+                {
+                    if(wallHit.collider.gameObject.layer == LayerMask.NameToLayer("Walls"))
+                    {
+                        Debug.Log("Wall detected, moving to nearest position");
+                        targetPosition = FindNearestValidTile(selectedPlayer.transform.position, targetPosition);
+                    }
+                }
+
                 // Move the player to the snapped position
                 playerAgent.SetDestination(targetPosition);
                 //Debug.Log($"Moving to snapped position: {targetPosition}");
@@ -218,5 +227,37 @@ public class PointClickMovement : MonoBehaviour
             }
             yield return null;  // Wait until the next frame
         }
+    }
+
+    private Vector3 FindNearestValidTile(Vector3 playerPos, Vector3 blockedPos)
+    {
+        Vector3[] possibleMoves =
+        {
+            Vector3.forward,
+            Vector3.back,
+            Vector3.left,
+            Vector3.right
+        };
+
+        Vector3 bestPosition = playerPos;
+        float shortestDistance = float.MaxValue;
+
+        foreach(Vector3 move in possibleMoves)
+        {
+            Vector3 checkPos = blockedPos + move;
+
+            if(!Physics.Raycast(checkPos + Vector3.up * 0.5f, Vector3.down, out RaycastHit hit, 1f) || 
+                hit.collider.gameObject.layer != LayerMask.NameToLayer("Walls"))
+            {
+                float distance = Vector3.Distance(playerPos, checkPos);
+                if (distance < shortestDistance)
+                {
+                    shortestDistance = distance;
+                    bestPosition = checkPos;
+                }
+            }
+        }
+
+        return bestPosition;
     }
 }
