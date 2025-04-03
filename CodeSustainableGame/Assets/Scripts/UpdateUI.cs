@@ -9,24 +9,21 @@ public class UpdateUI : MonoBehaviour
     public TMP_Text Turns;
     public TMP_Text People;
     public TMP_Text Money;
-    //public TMP_Text GarbageLeft;
     Garbage garbage;
 
     public Image moneyBar;
     public Image garbageBar;
     public Image happyBar;
-    public Image involvedBar;
+    //public Image involvedBar;
 
     private int startingTurn = 0;
-
-    //public TextMeshProUGUI queueText;
 
     private List<string> characterNames = new List<string>();
 
     void Start()
     {
         GameManager.Instance.currentTurn = startingTurn;
-        UpdateUIElements();        
+        //UpdateUIElements();        
         garbage = FindAnyObjectByType<Garbage>();
     }
 
@@ -37,7 +34,7 @@ public class UpdateUI : MonoBehaviour
 
     public void UpdateUIElements()
     {
-        Turns.text = "Turns: " + GameManager.Instance.currentTurn.ToString() + "/" + GameManager.Instance.maxTurn.ToString();
+        //Turns.text = "Turns: " + GameManager.Instance.currentTurn.ToString() + "/" + GameManager.Instance.maxTurn.ToString();
         People.text = GameManager.Instance.currentPeople.ToString() + "/" + GameManager.Instance.maxPeople.ToString();
         Money.text = GameManager.Instance.currentMoney.ToString() + "$";
 
