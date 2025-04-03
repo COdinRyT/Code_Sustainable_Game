@@ -61,17 +61,19 @@ public class Garbage : MonoBehaviour
         }
         if (currentHealth <= 0 && Name == "SmallGarbage")
         {
-            ////truck.isDisposed = true;
+            //truck.isDisposed = true;
             GameManager.Instance.SmallTrashPile(50);
             //GameManager.Instance.involvedAmount += 20;
             Destroy(gameObject);
-            //if (truck.isDisposed)
-            //{
-            //    //GameManager.Instance.trashCollected++;
-            //    //truck.isDisposed = false;
-            //    Debug.Log("Trash Collected!");
-            //    return;
-            //}            
+            /*
+            if (truck.isDisposed)
+            {
+                //GameManager.Instance.trashCollected++;
+                truck.isDisposed = false;
+                Debug.Log("Trash Collected!");
+                return;
+            }     
+            */
         }
         else if (currentHealth <= 0 && Name == "MediumGarbage") {
             //truck.isDisposed = true;
@@ -79,13 +81,15 @@ public class Garbage : MonoBehaviour
             GameManager.Instance.MediumTrashPile(100);
             //GameManager.Instance.involvedAmount += 20;
             Destroy(gameObject);
-            //if (truck.isDisposed)
-            //{
-            //    //GameManager.Instance.trashCollected++;
-            //    //truck.isDisposed = false;
-            //    Debug.Log("Trash Collected!");
-            //    return;
-            //}
+            /*
+            if (truck.isDisposed)
+            {
+                //GameManager.Instance.trashCollected++;
+                truck.isDisposed = false;
+                Debug.Log("Trash Collected!");
+                return;
+            }
+            */
         }
     }
 }

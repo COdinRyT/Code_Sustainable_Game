@@ -84,7 +84,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 4353262556252349658}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 100
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -1314,6 +1314,7 @@ GameObject:
   - component: {fileID: -8604689030315545673}
   - component: {fileID: 7452668035553946900}
   - component: {fileID: 7182806969585647225}
+  - component: {fileID: 2454528342357586999}
   m_Layer: 6
   m_Name: 10_workman 1
   m_TagString: Player
@@ -1365,6 +1366,11 @@ MonoBehaviour:
   raycastLayerMask:
     serializedVersion: 2
     m_Bits: 896
+  allChildren: []
+  GarbageStorage: {fileID: 0}
+  x: 0
+  y: 0
+  z: 0
 --- !u!195 &154995269878496638
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1506,6 +1512,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   progressAmount: 10
   depositSlider: {fileID: 1740919362970021718}
+--- !u!114 &2454528342357586999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7873070105978103635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 884ec682a25e90d43a6ed909d3bcc5f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 153434772868444581}
+  garbageHolding: 0
+  maxGarbageHolding: 100
 --- !u!1 &8016961060085953531
 GameObject:
   m_ObjectHideFlags: 0
