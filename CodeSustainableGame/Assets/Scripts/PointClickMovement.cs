@@ -8,7 +8,7 @@ using UnityEngine.Timeline;
 
 public class PointClickMovement : MonoBehaviour
 {
-    private new Camera camera;
+    private Camera camera;
     public NavMeshAgent agent;
     GameManager gameManager;
 
@@ -36,6 +36,16 @@ public class PointClickMovement : MonoBehaviour
     // Skip flag for skipping movement
     public bool skipMove = false;
     public LayerMask raycastLayerMask;
+
+    public GameObject[] allChildren;
+    public GameObject GarbageStorage;
+
+    public float x;
+    public float y;
+    public float z;
+
+    private Vector3 madeUpVector3;
+
     private void Awake()
     {
         camera = Camera.main;
@@ -99,7 +109,14 @@ public class PointClickMovement : MonoBehaviour
         Instantiate(marker, selectedTile.transform.position, Quaternion.identity);
         Debug.Log("Tile selected");
     }
-
+    private void GetChildren()
+    {
+        allChildren = new GameObject[GarbageStorage.transform.childCount];
+        for (int i = 0; i < allChildren.Length; i++)
+        {
+            allChildren[i] = GarbageStorage.transform.GetChild(i).gameObject;
+        }
+    }
     // Move the player when this function is called and wait for the player to click
     public IEnumerator MovePlayer()
     {
@@ -111,7 +128,7 @@ public class PointClickMovement : MonoBehaviour
             yield break;
         }
 
-        // Get the NavMeshAgent from the selected player
+        // Get the NavMeshAgent from the selected playerw
         NavMeshAgent playerAgent = selectedPlayer.GetComponent<NavMeshAgent>();
         if (playerAgent == null)
         {
@@ -120,12 +137,22 @@ public class PointClickMovement : MonoBehaviour
             yield break;
         }
 
-        Vector3 cameraPosition = new Vector3(gameObject.transform.position.x + 6, gameObject.transform.position.y + 4, gameObject.transform.position.z );
+        Vector3 cameraPosition = new Vector3(gameObject.transform.position.x + 6, gameObject.transform.position.y + 4, gameObject.transform.position.z);
         camera.transform.position = cameraPosition;
 
         // Wait for a click or check if we need to skip the move
         yield return StartCoroutine(WaitForClick());
 
+        madeUpVector3 = new Vector3(gameObject.transform.position.x, y, gameObject.transform.position.z);
+        /*
+        for (int i = 0; i < allChildren.Length; i++)
+        {
+            if (allChildren[i].transform.position.x == madeUpVector3.x && allChildren[i].transform.position.z == madeUpVector3.z)
+            {
+                yield break;  // Exit the coroutine early
+            }
+        }
+        */
         // If skipMove is true, immediately skip the movement
         if (skipMove)
         {
@@ -160,15 +187,6 @@ public class PointClickMovement : MonoBehaviour
                 targetPosition.z = Mathf.Round(targetPosition.z);  // Round Z to nearest 1 unit
                 targetPosition.y = hit.point.y;  // Keep the Y as the original height
 
-                if(Physics.Raycast(targetPosition + Vector3.up * 0.5f, Vector3.down, out RaycastHit wallHit, 1f))
-                {
-                    if(wallHit.collider.gameObject.layer == LayerMask.NameToLayer("Walls"))
-                    {
-                        Debug.Log("Wall detected, moving to nearest position");
-                        targetPosition = FindNearestValidTile(selectedPlayer.transform.position, targetPosition);
-                    }
-                }
-
                 // Move the player to the snapped position
                 playerAgent.SetDestination(targetPosition);
                 //Debug.Log($"Moving to snapped position: {targetPosition}");
@@ -189,6 +207,17 @@ public class PointClickMovement : MonoBehaviour
     // Wait for a click before proceeding
     private IEnumerator WaitForClick()
     {
+        madeUpVector3 = new Vector3(gameObject.transform.position.x, y, gameObject.transform.position.z);
+
+        /*
+        for (int i = 0; i < allChildren.Length; i++)
+        {
+            if (allChildren[i].transform.position.x == madeUpVector3.x && allChildren[i].transform.position.z == madeUpVector3.z)
+            {
+                yield break;  // Exit the coroutine early
+            }
+        }
+        */
         bool clicked = false;
         /*
         if (skipMove)
@@ -199,13 +228,13 @@ public class PointClickMovement : MonoBehaviour
         // While we haven't clicked and haven't skipped, keep waiting
         while (!clicked && !skipMove)
         {
-            
+
             if (skipMove)
             {
                 yield return null;
             }
 
-            
+
 
             if (Input.GetMouseButtonDown(0))  // Left mouse button clicked
             {
@@ -214,7 +243,8 @@ public class PointClickMovement : MonoBehaviour
                 if (EventSystem.current.IsPointerOverGameObject())
                 {
 
-                }else if (Physics.Raycast(ray, out hit))
+                }
+                else if (Physics.Raycast(ray, out hit))
                 {
                     Debug.Log(hit.collider.gameObject.layer);
                     // Check if the hit object is on a specific layer (e.g., Layer 8)
@@ -227,37 +257,5 @@ public class PointClickMovement : MonoBehaviour
             }
             yield return null;  // Wait until the next frame
         }
-    }
-
-    private Vector3 FindNearestValidTile(Vector3 playerPos, Vector3 blockedPos)
-    {
-        Vector3[] possibleMoves =
-        {
-            Vector3.forward,
-            Vector3.back,
-            Vector3.left,
-            Vector3.right
-        };
-
-        Vector3 bestPosition = playerPos;
-        float shortestDistance = float.MaxValue;
-
-        foreach(Vector3 move in possibleMoves)
-        {
-            Vector3 checkPos = blockedPos + move;
-
-            if(!Physics.Raycast(checkPos + Vector3.up * 0.5f, Vector3.down, out RaycastHit hit, 1f) || 
-                hit.collider.gameObject.layer != LayerMask.NameToLayer("Walls"))
-            {
-                float distance = Vector3.Distance(playerPos, checkPos);
-                if (distance < shortestDistance)
-                {
-                    shortestDistance = distance;
-                    bestPosition = checkPos;
-                }
-            }
-        }
-
-        return bestPosition;
     }
 }
