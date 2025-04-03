@@ -23,17 +23,23 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/WinScreen.unity
     guid: 2217ab4a5ae112d4ca3d62970b056158
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/EndGame.unity
     guid: 018e2b029b38d4c479ad349f64d81dd8
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/WinScreen.unity
     guid: 2217ab4a5ae112d4ca3d62970b056158
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/LostScreen.unity
     guid: 908eea718c7925e4a96719c5e9430d79
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/The Actual Level.unity
     guid: 1b479e34b4c537b41955ac105b04118c
+  - enabled: 0
+    path: Assets/Scenes/NEW Level1.unity
+    guid: edb11a8f28d6aed4aa5f7b701fd3e436
+  - enabled: 1
+    path: Assets/Scenes/NEW Level1 1.unity
+    guid: c4d1838cfb6f4ed4ca0c8e060fb94b48
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: ea2f33f076d0bd24fafd2ddf587e4de5, type: 2}

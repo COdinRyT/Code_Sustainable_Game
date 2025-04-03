@@ -12,7 +12,6 @@ public class CameraControls : MonoBehaviour
     private Vector3 lastMousePos;
     [SerializeField] private float cameraBoundaryX;
     [SerializeField] private float cameraBoundaryY;
-    [SerializeField]
 
     void Start()
     {
@@ -81,17 +80,17 @@ public class CameraControls : MonoBehaviour
         {
             transform.position = horizontal;
         }
-        if (transform.position.x <= -horizontal.x)
+        if (transform.position.x <= horizontal.x + 30)
         {
-            transform.position = -horizontal;
+            transform.position = horizontal;
         }
         if (transform.position.z >= vertical.z)
         {
             transform.position = vertical;
         }
-        if (transform.position.z <= -vertical.z)
+        if (transform.position.z <= vertical.z + 30)
         {
-            transform.position = -vertical;
+            transform.position = vertical;
         }
     }
 }

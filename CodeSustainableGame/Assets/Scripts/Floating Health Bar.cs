@@ -9,8 +9,8 @@ public class FloatingHealthBar : MonoBehaviour
     private Image garbageHealthBar;
     [SerializeField]
     private Camera mainCamera;
-    [SerializeField]
-    private Transform target;
+    //[SerializeField]
+    //private Transform target;
 
 
     public void UpdateHealthBar (float currentValue, float maxValue)
