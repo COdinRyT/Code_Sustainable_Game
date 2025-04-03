@@ -274,8 +274,10 @@ public class GameManager : MonoBehaviour
         if (hasTaskStarted) return;
         hasTaskStarted = true;
 
+        Debug.Log("Doing Task");
         // Start the process to move characters one by one
         StartCoroutine(MoveCharacterSequence());
+
     }
 
     // Coroutine to move characters one at a time, waiting for click before each character moves
