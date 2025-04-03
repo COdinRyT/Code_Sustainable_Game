@@ -339,7 +339,6 @@ public class GameManager : MonoBehaviour
     public void SpreadAwareness(int spreadAwarenessValue)
     {
         awarenessLevel += spreadAwarenessValue;
-        //return returnVal;
     }
 
     public void SmallTrashPile(int smallTrashPileValue)
