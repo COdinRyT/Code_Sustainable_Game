@@ -39,6 +39,7 @@ public class TutorialManager : MonoBehaviour
     {
         tutorialDetails = new string[]
         {
+            "Thank you for joining us on this incredible journey in cleaning up our planet. We really think your company is heavily in line with Ocean Probe and is looking forward to our partnership plus hope to see more in the future. With that being said, we are willing to provide/sponsor you with our ads once we believe you have made enough progress and have given you a good foundation of money which will help you hit the ground running. Just note that our contract will expire in 50 turns, so make sure you achieve the goal of bringing life back to this land and the overall viewpoint of people that they can start enjoying this area again. ",
             "This icon at the top shows how many volunteers are working on a task, and which ones have yet to be assigned a task.",
             "The turn counter shows you what turn you are on and once you hit turn 50 it will be game over and you will have the option to restart if you want to try again.",
             "This project is going to require you to manage a lot of funds, and this is where your money will go for easy access of knowing what amount of money you have. ",
@@ -56,6 +57,7 @@ public class TutorialManager : MonoBehaviour
             "Selling  \r\n\r\nBy clicking on this option, you can sell trucks for 70 % of their value. By Selling a selected truck, it will ask you to confirm. You will then immediately go back to the standard gameplay setting following this action. ",
             "Set ideal worker button \r\n\r\nWhen a worker is a new hire or does not have a set task, you can select this button which will locate the volunteer on the map and at this point you will have the character activated to do whatever task you have chosen to do with them next. \r\n\r\nIf you were to click on this button again once this action has already had a volunteer selected, it will randomly start to work on a random trash pile which may or may not be close to them. (Note this might not be best for optimization.) ",
             "Finishing the trial run \r\n\r\nAwesome! You completed it already, so you sure know what you're doing .... Tell you what, let's get you started with a messier stage to play on now and see how well you fair with it! ",
+
         };
 
         panel.SetActive(false);
@@ -67,31 +69,31 @@ public class TutorialManager : MonoBehaviour
         switch(currentDetail)
         {
             case Tutorial.icon:
-                tutorialText.text = tutorialDetails[0];
-                break;
-            case Tutorial.turnCounter:
                 tutorialText.text = tutorialDetails[1];
                 break;
-            case Tutorial.sponsorMoney:
+            case Tutorial.turnCounter:
                 tutorialText.text = tutorialDetails[2];
                 break;
-            case Tutorial.helpTab:
+            case Tutorial.sponsorMoney:
                 tutorialText.text = tutorialDetails[3];
                 break;
-            case Tutorial.menuTab:
+            case Tutorial.helpTab:
                 tutorialText.text = tutorialDetails[4];
                 break;
-            case Tutorial.money:
+            case Tutorial.menuTab:
                 tutorialText.text = tutorialDetails[5];
                 break;
-            case Tutorial.garbage:
+            case Tutorial.money:
                 tutorialText.text = tutorialDetails[6];
                 break;
-            case Tutorial.happiness:
+            case Tutorial.garbage:
                 tutorialText.text = tutorialDetails[7];
                 break;
-            case Tutorial.nextTurnButton:
+            case Tutorial.happiness:
                 tutorialText.text = tutorialDetails[8];
+                break;
+            case Tutorial.nextTurnButton:
+                tutorialText.text = tutorialDetails[9];
                 break;
             case Tutorial.oceanProbeLogo:
                 tutorialText.text = tutorialDetails[10];
@@ -118,6 +120,11 @@ public class TutorialManager : MonoBehaviour
                 tutorialText.text = tutorialDetails[17];
                 break;
         }
+    }
+
+    public void StartingTutorial()
+    {
+
     }
 
     public void PanelActivates()
