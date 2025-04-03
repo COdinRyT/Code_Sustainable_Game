@@ -67,7 +67,7 @@ public class Garbage : MonoBehaviour
             Destroy(gameObject);
             if (truck.isDisposed)
             {
-                GameManager.Instance.trashCollected++;
+                //GameManager.Instance.trashCollected++;
                 truck.isDisposed = false;
                 Debug.Log("Trash Collected!");
                 return;
@@ -81,7 +81,7 @@ public class Garbage : MonoBehaviour
             Destroy(gameObject);
             if (truck.isDisposed)
             {
-                GameManager.Instance.trashCollected++;
+                //GameManager.Instance.trashCollected++;
                 truck.isDisposed = false;
                 Debug.Log("Trash Collected!");
                 return;
