@@ -21,6 +21,7 @@ public class TruckAI : MonoBehaviour
     DepositTrash depositTrash;
     Garbage garbageAsset;
     CharacterGarbage character;
+    TutorialManager tutorialManager;
 
     private GameObject player;
     [SerializeField]public float collectionRange = 3f;
@@ -102,6 +103,7 @@ public class TruckAI : MonoBehaviour
         isLeft = false;
         gameObject.SetActive(true);
         character = FindAnyObjectByType<CharacterGarbage>();
+        tutorialManager = FindAnyObjectByType<TutorialManager>();
     }
 //    private int turnDisappear = -1; // Ryan is this where this goes?
     private void Update()
@@ -185,6 +187,11 @@ public class TruckAI : MonoBehaviour
                 collectionSlider.value = 0;
                 isLeft = true;
                 GainMoney();
+                if(tutorialManager != null)
+                {
+                    string end = "Tutorial:Finish";
+                    tutorialManager.PanelActivates(end);
+                }
                 Destroy(gameObject);
             }
         }

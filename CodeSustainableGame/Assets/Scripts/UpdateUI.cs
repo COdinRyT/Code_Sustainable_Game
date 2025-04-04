@@ -20,11 +20,16 @@ public class UpdateUI : MonoBehaviour
 
     private List<string> characterNames = new List<string>();
 
+    public TextMeshProUGUI playerName;
+    TutorialManager tutorialManager;
+
     void Start()
     {
         GameManager.Instance.currentTurn = startingTurn;
         //UpdateUIElements();        
         garbage = FindAnyObjectByType<Garbage>();
+       tutorialManager = FindAnyObjectByType<TutorialManager>();
+        tutorialManager.nameInput.onEndEdit.AddListener(OnNameInputEnd);
     }
 
     void Update()
@@ -34,7 +39,7 @@ public class UpdateUI : MonoBehaviour
 
     public void UpdateUIElements()
     {
-        //Turns.text = "Turns: " + GameManager.Instance.currentTurn.ToString() + "/" + GameManager.Instance.maxTurn.ToString();
+        Turns.text = GameManager.Instance.currentTurn.ToString() + "/" + GameManager.Instance.maxTurn.ToString();
         People.text = GameManager.Instance.currentPeople.ToString() + "/" + GameManager.Instance.maxPeople.ToString();
         Money.text = GameManager.Instance.currentMoney.ToString() + "$";
 
@@ -55,6 +60,16 @@ public class UpdateUI : MonoBehaviour
         GameManager.Instance.currentTurn++;
         GameManager.Instance.garbageLevel++;
         UpdateUIElements();
+    }
+
+    void OnNameInputEnd(string input)
+    {
+        PlayerName(); //Update ui when player finishes editing
+    }
+
+    public void PlayerName()
+    {
+        playerName.text = tutorialManager.SetPlayerName();
     }
 
     //public void UpdateQueueUI(List<GameObject> characterQueue)
