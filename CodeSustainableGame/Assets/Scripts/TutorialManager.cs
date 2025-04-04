@@ -68,6 +68,7 @@ public class TutorialManager : MonoBehaviour
     {
         switch(currentDetail)
         {
+
             case Tutorial.icon:
                 tutorialText.text = tutorialDetails[1];
                 break;

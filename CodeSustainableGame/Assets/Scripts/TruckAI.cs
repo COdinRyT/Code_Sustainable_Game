@@ -19,6 +19,8 @@ public class TruckAI : MonoBehaviour
     private int timesCollected;
     public Vector3 spawnPositions;
     DepositTrash depositTrash;
+    Garbage garbageAsset;
+    CharacterGarbage character;
 
     private GameObject player;
     [SerializeField]public float collectionRange = 3f;
@@ -27,7 +29,7 @@ public class TruckAI : MonoBehaviour
 
     public Slider collectionSlider;
     [SerializeField] private int garbageCollected = 0;
-    [SerializeField] private int maxGarbageCollect = 5;
+    [SerializeField] private int maxGarbageCollect = 100;
     public bool isDisposed;
     public int turnCounter = 3;
 
@@ -54,7 +56,7 @@ public class TruckAI : MonoBehaviour
 
     private void EnableNavMesh()
     {
-        agent.enabled = true;
+        gameObject.GetComponent<NavMeshAgent>().enabled = true;
     }
 
     private IEnumerator DelayedMoveTruck()
@@ -93,11 +95,15 @@ public class TruckAI : MonoBehaviour
             Debug.LogWarning("Collection slider is null! Ensure it is assigned.");
         }
 
+
+
+        garbageAsset = FindAnyObjectByType<Garbage>();
         withinRange = false;
         isLeft = false;
         gameObject.SetActive(true);
+        character = FindAnyObjectByType<CharacterGarbage>();
     }
-    private int turnDisappear = -1; // Ryan is this where this goes?
+//    private int turnDisappear = -1; // Ryan is this where this goes?
     private void Update()
     {
         RaycastHit hit;
@@ -187,11 +193,11 @@ public class TruckAI : MonoBehaviour
     public void TrashCollection()
     {
         
-        if(GameManager.Instance.trashCollected > 0 && withinRange)
+        if(character.garbageHolding > 0 && withinRange)
         {
-            garbageCollected++;
+            garbageCollected += 25;
             UpdateSlider();
-            GameManager.Instance.trashCollected--;
+            character.garbageHolding -= character.garbageHolding;
         }
         else
         {

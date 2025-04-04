@@ -137,8 +137,8 @@ public class PointClickMovement : MonoBehaviour
             yield break;
         }
 
-        Vector3 cameraPosition = new Vector3(gameObject.transform.position.x + 6, gameObject.transform.position.y + 4, gameObject.transform.position.z);
-        camera.transform.position = cameraPosition;
+        //Vector3 cameraPosition = new Vector3(gameObject.transform.position.x + 6, gameObject.transform.position.y + 4, gameObject.transform.position.z);
+        //camera.transform.position = cameraPosition;
 
         // Wait for a click or check if we need to skip the move
         yield return StartCoroutine(WaitForClick());
