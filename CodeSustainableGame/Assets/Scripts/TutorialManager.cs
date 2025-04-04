@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -11,8 +12,12 @@ public class TutorialManager : MonoBehaviour
     public TextMeshProUGUI tutorialText;
     public GameObject panel;
 
+    public TMP_InputField nameInput;
+    private string playerName; //Store player's name
+
     public enum Tutorial
     {
+        start,
         icon, 
         turnCounter, 
         sponsorMoney,
@@ -60,7 +65,7 @@ public class TutorialManager : MonoBehaviour
 
         };
 
-        panel.SetActive(false);
+        //panel.SetActive(false);
     }
 
     // Update is called once per frame
@@ -68,7 +73,8 @@ public class TutorialManager : MonoBehaviour
     {
         switch(currentDetail)
         {
-
+            case Tutorial.start:
+                tutorialText.text = tutorialDetails[0]; break;
             case Tutorial.icon:
                 tutorialText.text = tutorialDetails[1];
                 break;
@@ -121,15 +127,37 @@ public class TutorialManager : MonoBehaviour
                 tutorialText.text = tutorialDetails[17];
                 break;
         }
+
+
     }
 
     public void StartingTutorial()
     {
-
+        panel.SetActive(false);
     }
 
-    public void PanelActivates()
+    public void PanelActivates(string tutorial)
     {
-        panel.SetActive(true);
+        GameObject foundPanel = GameObject.Find(tutorial);
+
+        if (foundPanel != null)
+        {
+            foundPanel.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("Panel with name '" + tutorial + "' not found.");
+        }
+    }
+
+    public string SetPlayerName()
+    {
+        playerName = nameInput.text;
+        return playerName;
+    }
+
+    public void ActualLevel()
+    {
+        SceneManager.LoadScene("The Actual Level 2");
     }
 }

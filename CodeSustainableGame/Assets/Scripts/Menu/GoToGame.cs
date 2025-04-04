@@ -12,6 +12,6 @@ public class GoToGame : MonoBehaviour
 
     public void GoToLevel()
     {
-        SceneManager.LoadScene("The Actual Level");
+        SceneManager.LoadScene("NEW Level1 1");
     }
 }
