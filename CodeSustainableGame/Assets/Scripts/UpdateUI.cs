@@ -14,6 +14,7 @@ public class UpdateUI : MonoBehaviour
     public Image moneyBar;
     public Image garbageBar;
     public Image happyBar;
+    public Image getInvloved;
     //public Image involvedBar;
 
     private int startingTurn = 0;
@@ -22,6 +23,7 @@ public class UpdateUI : MonoBehaviour
 
     public TextMeshProUGUI playerName;
     TutorialManager tutorialManager;
+    public GameObject panels;
 
     void Start()
     {
@@ -46,6 +48,7 @@ public class UpdateUI : MonoBehaviour
         moneyBar.fillAmount = GameManager.Instance.currentMoney / 9999f; // If the money amount is larger than 9999 than the bar will not fill up any more.
         garbageBar.fillAmount = GameManager.Instance.currentGarbageAmount / GameManager.Instance.maxGarbage;
         happyBar.fillAmount = GameManager.Instance.happiness / 100f;
+        getInvloved.fillAmount = (GameManager.Instance.maxGarbage - GameManager.Instance.currentGarbageAmount) / 100;
         //involvedBar.fillAmount = GameManager.Instance.involvedAmount / GameManager.Instance.involvedNeededLevelUp;
         //Debug.Log(GameManager.Instance.involvedAmount / GameManager.Instance.involvedNeededLevelUp);
     }
@@ -70,6 +73,16 @@ public class UpdateUI : MonoBehaviour
     public void PlayerName()
     {
         playerName.text = tutorialManager.SetPlayerName();
+    }
+
+    public void SkipAll()
+    {
+        panels.gameObject.SetActive(false);
+    }
+
+    public void ActivatePanel()
+    {
+        panels.gameObject.SetActive(true);
     }
 
     //public void UpdateQueueUI(List<GameObject> characterQueue)
