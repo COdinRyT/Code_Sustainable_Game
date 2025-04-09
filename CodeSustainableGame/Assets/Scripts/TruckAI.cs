@@ -36,6 +36,8 @@ public class TruckAI : MonoBehaviour
 
     public int moneyAmount;
 
+    public int happinessAmount;
+
     private void Awake()
     {
         if (agent == null)
@@ -218,9 +220,14 @@ public class TruckAI : MonoBehaviour
         collectionSlider.value = garbageCollected;
     }
 
-    private void GainMoney()
+    private void GainMoney() //Give players money when this function is called
     {
         GameManager.Instance.currentMoney += moneyAmount;
+    }
+
+    private void GainHappiness()
+    {
+        GameManager.Instance.happiness += happinessAmount;
     }
 
     private void OnDrawGizmos()
@@ -236,6 +243,7 @@ public class TruckAI : MonoBehaviour
             withinRange = true;
             Debug.Log($"Character {other.gameObject.name} is within range");
             TrashCollection();
+            GainHappiness();
             //if (withinRange)
             //{
             //    depositTrash.UpdateProgress();
