@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -51,11 +52,6 @@ public class UpdateUI : MonoBehaviour
         getInvloved.fillAmount = (GameManager.Instance.maxGarbage - GameManager.Instance.currentGarbageAmount) / 100;
         //involvedBar.fillAmount = GameManager.Instance.involvedAmount / GameManager.Instance.involvedNeededLevelUp;
         //Debug.Log(GameManager.Instance.involvedAmount / GameManager.Instance.involvedNeededLevelUp);
-    }
-
-    public void UpdatePileSliderUI()
-    {
-        
     }
 
     public void IncreaseTurnCount()
