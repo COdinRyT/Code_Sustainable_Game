@@ -411833,6 +411833,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3430627777603556280, guid: fafb34d5c5f4f5449b0dbd23209e50a4, type: 3}
+      propertyPath: m_Radius
+      value: 0.75
+      objectReference: {fileID: 0}
     - target: {fileID: 3650974617734537426, guid: fafb34d5c5f4f5449b0dbd23209e50a4, type: 3}
       propertyPath: happinessAmount
       value: 10
