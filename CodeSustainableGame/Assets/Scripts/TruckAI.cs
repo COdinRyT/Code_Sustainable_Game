@@ -233,7 +233,7 @@ public class TruckAI : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = new Color(255, 0, 0, 0.5f);
-        Gizmos.DrawSphere(transform.position, 14);
+        Gizmos.DrawSphere(transform.position, 5);
     }
 
     private void OnTriggerEnter(Collider other)
