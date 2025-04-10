@@ -44,7 +44,7 @@ public class UpdateUI : MonoBehaviour
     {
         Turns.text = GameManager.Instance.currentTurn.ToString() + "/" + GameManager.Instance.maxTurn.ToString();
         People.text = GameManager.Instance.currentPeople.ToString() + "/" + GameManager.Instance.maxPeople.ToString();
-        Money.text = GameManager.Instance.currentMoney.ToString() + "$";
+        Money.text = "$" + GameManager.Instance.currentMoney.ToString();
 
         moneyBar.fillAmount = GameManager.Instance.currentMoney / 9999f; // If the money amount is larger than 9999 than the bar will not fill up any more.
         garbageBar.fillAmount = GameManager.Instance.currentGarbageAmount / GameManager.Instance.maxGarbage;
