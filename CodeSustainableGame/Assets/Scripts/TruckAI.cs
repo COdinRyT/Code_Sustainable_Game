@@ -19,6 +19,9 @@ public class TruckAI : MonoBehaviour
     private int timesCollected;
     public Vector3 spawnPositions;
     DepositTrash depositTrash;
+    Garbage garbageAsset;
+    CharacterGarbage character;
+    TutorialManager tutorialManager;
 
     private GameObject player;
     [SerializeField]public float collectionRange = 3f;
@@ -27,11 +30,13 @@ public class TruckAI : MonoBehaviour
 
     public Slider collectionSlider;
     [SerializeField] private int garbageCollected = 0;
-    [SerializeField] private int maxGarbageCollect = 5;
+    [SerializeField] private int maxGarbageCollect = 100;
     public bool isDisposed;
     public int turnCounter = 3;
 
     public int moneyAmount;
+
+    public int happinessAmount;
 
     private void Awake()
     {
@@ -54,7 +59,7 @@ public class TruckAI : MonoBehaviour
 
     private void EnableNavMesh()
     {
-        agent.enabled = true;
+        gameObject.GetComponent<NavMeshAgent>().enabled = true;
     }
 
     private IEnumerator DelayedMoveTruck()
@@ -93,11 +98,16 @@ public class TruckAI : MonoBehaviour
             Debug.LogWarning("Collection slider is null! Ensure it is assigned.");
         }
 
+
+
+        garbageAsset = FindAnyObjectByType<Garbage>();
         withinRange = false;
         isLeft = false;
         gameObject.SetActive(true);
+        character = FindAnyObjectByType<CharacterGarbage>();
+        tutorialManager = FindAnyObjectByType<TutorialManager>();
     }
-    private int turnDisappear = -1; // Ryan is this where this goes?
+//    private int turnDisappear = -1; // Ryan is this where this goes?
     private void Update()
     {
         RaycastHit hit;
@@ -179,6 +189,11 @@ public class TruckAI : MonoBehaviour
                 collectionSlider.value = 0;
                 isLeft = true;
                 GainMoney();
+                if(tutorialManager != null)
+                {
+                    string end = "Tutorial:Finish";
+                    tutorialManager.PanelActivates(end);
+                }
                 Destroy(gameObject);
             }
         }
@@ -187,11 +202,11 @@ public class TruckAI : MonoBehaviour
     public void TrashCollection()
     {
         
-        if(GameManager.Instance.trashCollected > 0 && withinRange)
+        if(character.garbageHolding > 0 && withinRange)
         {
-            garbageCollected++;
+            garbageCollected += 25;
             UpdateSlider();
-            GameManager.Instance.trashCollected--;
+            character.garbageHolding -= character.garbageHolding;
         }
         else
         {
@@ -205,15 +220,20 @@ public class TruckAI : MonoBehaviour
         collectionSlider.value = garbageCollected;
     }
 
-    private void GainMoney()
+    private void GainMoney() //Give players money when this function is called
     {
         GameManager.Instance.currentMoney += moneyAmount;
+    }
+
+    private void GainHappiness()
+    {
+        GameManager.Instance.happiness += happinessAmount;
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = new Color(255, 0, 0, 0.5f);
-        Gizmos.DrawSphere(transform.position, 14);
+        Gizmos.DrawSphere(transform.position, 5);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -223,6 +243,7 @@ public class TruckAI : MonoBehaviour
             withinRange = true;
             Debug.Log($"Character {other.gameObject.name} is within range");
             TrashCollection();
+            GainHappiness();
             //if (withinRange)
             //{
             //    depositTrash.UpdateProgress();

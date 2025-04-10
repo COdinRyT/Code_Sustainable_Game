@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,17 +15,24 @@ public class UpdateUI : MonoBehaviour
     public Image moneyBar;
     public Image garbageBar;
     public Image happyBar;
+    public Image getInvloved;
     //public Image involvedBar;
 
     private int startingTurn = 0;
 
     private List<string> characterNames = new List<string>();
 
+    public TextMeshProUGUI playerName;
+    TutorialManager tutorialManager;
+    public GameObject panels;
+
     void Start()
     {
         GameManager.Instance.currentTurn = startingTurn;
         //UpdateUIElements();        
         garbage = FindAnyObjectByType<Garbage>();
+       tutorialManager = FindAnyObjectByType<TutorialManager>();
+        tutorialManager.nameInput.onEndEdit.AddListener(OnNameInputEnd);
     }
 
     void Update()
@@ -34,20 +42,16 @@ public class UpdateUI : MonoBehaviour
 
     public void UpdateUIElements()
     {
-        //Turns.text = "Turns: " + GameManager.Instance.currentTurn.ToString() + "/" + GameManager.Instance.maxTurn.ToString();
+        Turns.text = GameManager.Instance.currentTurn.ToString() + "/" + GameManager.Instance.maxTurn.ToString();
         People.text = GameManager.Instance.currentPeople.ToString() + "/" + GameManager.Instance.maxPeople.ToString();
-        Money.text = GameManager.Instance.currentMoney.ToString() + "$";
+        Money.text = "$" + GameManager.Instance.currentMoney.ToString();
 
         moneyBar.fillAmount = GameManager.Instance.currentMoney / 9999f; // If the money amount is larger than 9999 than the bar will not fill up any more.
         garbageBar.fillAmount = GameManager.Instance.currentGarbageAmount / GameManager.Instance.maxGarbage;
         happyBar.fillAmount = GameManager.Instance.happiness / 100f;
+        getInvloved.fillAmount = (GameManager.Instance.maxGarbage - GameManager.Instance.currentGarbageAmount) / 100;
         //involvedBar.fillAmount = GameManager.Instance.involvedAmount / GameManager.Instance.involvedNeededLevelUp;
         //Debug.Log(GameManager.Instance.involvedAmount / GameManager.Instance.involvedNeededLevelUp);
-    }
-
-    public void UpdatePileSliderUI()
-    {
-        
     }
 
     public void IncreaseTurnCount()
@@ -55,6 +59,26 @@ public class UpdateUI : MonoBehaviour
         GameManager.Instance.currentTurn++;
         GameManager.Instance.garbageLevel++;
         UpdateUIElements();
+    }
+
+    void OnNameInputEnd(string input)
+    {
+        PlayerName(); //Update ui when player finishes editing
+    }
+
+    public void PlayerName()
+    {
+        playerName.text = tutorialManager.SetPlayerName();
+    }
+
+    public void SkipAll()
+    {
+        panels.gameObject.SetActive(false);
+    }
+
+    public void ActivatePanel()
+    {
+        panels.gameObject.SetActive(true);
     }
 
     //public void UpdateQueueUI(List<GameObject> characterQueue)

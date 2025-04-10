@@ -8,7 +8,7 @@ public class EndTurn : MonoBehaviour
 
     public void OnClick()
     {
-        //Shop.Instance.truckSpawns = true;
+        Shop.Instance.truckSpawns = true;
 
         Debug.Log("CLicked");
         if (GameManager.Instance == null)
