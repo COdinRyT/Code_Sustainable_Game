@@ -329,7 +329,7 @@ public class GameManager : MonoBehaviour
 
             if (characterMovement != null)
             {
-                //Debug.Log($"{currentCharacter.name} starting MovePlayer. skipMove = {characterMovement.skipMove}");
+                Debug.Log($"{currentCharacter.name} starting MovePlayer. skipMove = {characterMovement.skipMove}");
                 characterMovement.SelectPlayer(currentCharacter);
                 yield return StartCoroutine(characterMovement.MovePlayer());
             }

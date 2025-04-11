@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
-using UnityEngine.Timeline;
-//using UnityEngine.EventSystems;  // Include this to check for UI interaction
 
 public class PointClickMovement : MonoBehaviour
 {
@@ -23,7 +21,6 @@ public class PointClickMovement : MonoBehaviour
 
     private Vector3 targetPosition;
 
-    private Vector3 additionPos = new Vector3(0, 0.1f, 0);
     // Flashing variables
     public bool flashCharacter = false;
     private bool flashup = true;
@@ -40,10 +37,6 @@ public class PointClickMovement : MonoBehaviour
     public GameObject[] allChildren;
     public GameObject GarbageStorage;
 
-    public float x;
-    public float y;
-    public float z;
-
     private Vector3 madeUpVector3;
 
     private void Awake()
@@ -54,12 +47,7 @@ public class PointClickMovement : MonoBehaviour
 
         if (this.enabled == true)
         {
-            //Debug.Log($"Agent {gameObject.name} has been added to queue");
             gameManager.ConfirmVolunteer(gameObject);
-        }
-        else
-        {
-            //Debug.Log("Agent is not in the queue");
         }
     }
 
@@ -71,7 +59,7 @@ public class PointClickMovement : MonoBehaviour
             cube.SetActive(true);
             if (flashup)
             {
-                cube.transform.position = cube.transform.position + additionPos * speedFactor;
+                cube.transform.position = cube.transform.position + new Vector3(0, 0.1f, 0) * speedFactor;
                 if (cube.transform.position.y > 5)
                 {
                     flashup = false;
@@ -80,7 +68,7 @@ public class PointClickMovement : MonoBehaviour
             }
             if (flashdown)
             {
-                cube.transform.position = cube.transform.position - additionPos * speedFactor;
+                cube.transform.position = cube.transform.position - new Vector3(0, 0.1f, 0) * speedFactor;
                 if (cube.transform.position.y < 3)
                 {
                     flashup = true;
@@ -92,15 +80,12 @@ public class PointClickMovement : MonoBehaviour
         {
             cube.SetActive(false);
         }
-        // Handle player selection here if needed (already done by GameManager)
     }
 
     // When this function is called, make the player the selected game object
     public void SelectPlayer(GameObject player)
     {
         selectedPlayer = player;
-
-        //Debug.Log("Player has been Selected");
     }
 
     public void SelectTile(GameObject tile, GameObject marker)
@@ -110,8 +95,8 @@ public class PointClickMovement : MonoBehaviour
             Destroy(currentMarker);
 
         currentMarker = Instantiate(marker, selectedTile.transform.position, Quaternion.identity);
-        //Debug.Log("Tile selected");
     }
+
     private void GetChildren()
     {
         allChildren = new GameObject[GarbageStorage.transform.childCount];
@@ -120,40 +105,39 @@ public class PointClickMovement : MonoBehaviour
             allChildren[i] = GarbageStorage.transform.GetChild(i).gameObject;
         }
     }
+
     // Move the player when this function is called and wait for the player to click
     public IEnumerator MovePlayer()
     {
-
-        //skipMove = GameManager.Instance.endTurn;
         flashCharacter = true;
         if (selectedPlayer == null)
         {
             flashCharacter = false;
-            //Debug.LogError("No player selected!");
             yield break;
         }
 
-        // Get the NavMeshAgent from the selected playerw
+        // Get the NavMeshAgent from the selected player
         NavMeshAgent playerAgent = selectedPlayer.GetComponent<NavMeshAgent>();
-        if (selectedPlayer == null)
+        if (playerAgent == null)
         {
             flashCharacter = false;
-            Debug.LogError("No player selected!");
             yield break;
         }
+
+        // Enable rotation updates for the agent
+        playerAgent.updateRotation = true;
 
         Vector3 cameraPosition = new Vector3(gameObject.transform.position.x + 6, gameObject.transform.position.y + 4, gameObject.transform.position.z);
         camera.transform.position = cameraPosition;
-        //Debug.Log("Waiting for click");
+
         // Wait for a click or check if we need to skip the move
         yield return StartCoroutine(WaitForClick());
 
-        madeUpVector3 = new Vector3(gameObject.transform.position.x, y, gameObject.transform.position.z);
+        madeUpVector3 = new Vector3(gameObject.transform.position.x, 0.5f, gameObject.transform.position.z);
         for (int i = 0; i < allChildren.Length; i++)
         {
             if (allChildren[i].transform.position.x == madeUpVector3.x && allChildren[i].transform.position.z == madeUpVector3.z)
             {
-                //Debug.Log("On garbage tile");
                 yield break;  // Exit the coroutine early
             }
         }
@@ -161,21 +145,10 @@ public class PointClickMovement : MonoBehaviour
         // If skipMove is true, immediately skip the movement
         if (skipMove)
         {
-            Debug.Log($"{gameObject.name} => Skipping move due to skipMove = TRUE in MovePlayer()");
             flashCharacter = false;
-            skipMove = false;
-            yield break;
+            skipMove = false;  // Reset skip flag
+            yield break;  // Exit the coroutine early
         }
-
-        // // Only proceed with raycast if we are not over UI (like a button)
-        // if (EventSystem.current.IsPointerOverGameObject())
-        // {
-
-        //     // Skip raycasting if mouse is over UI
-        //     flashCharacter = false;
-        //     Debug.Log("Pointer is over UI, skipping raycast.");
-        //     yield break;
-        // }
 
         // Get the click position (convert mouse position to world position)
         Ray ray = camera.ScreenPointToRay(Input.mousePosition);
@@ -184,26 +157,23 @@ public class PointClickMovement : MonoBehaviour
         {
             if (hit.collider != null)
             {
-                //Debug.Log("Ray hit" + hit.transform.gameObject.layer);
-                targetPosition = hit.point;  // Set the target position to where the player clicked
+                // Set the target position to where the player clicked
+                targetPosition = hit.point;
 
                 // Round the target position to the nearest whole unit for tile-based movement
-                targetPosition.x = Mathf.Round(targetPosition.x);  // Round X to nearest 1 unit
-                targetPosition.z = Mathf.Round(targetPosition.z);  // Round Z to nearest 1 unit
+                targetPosition.x = Mathf.Round(targetPosition.x);
+                targetPosition.z = Mathf.Round(targetPosition.z);
                 targetPosition.y = hit.point.y;  // Keep the Y as the original height
 
                 // Move the player to the snapped position
                 playerAgent.SetDestination(targetPosition);
-                //Debug.Log($"Moving to snapped position: {targetPosition}");
-
-                // Create marker on tile
-                //Instantiate(Marker, targetPosition, Quaternion.identity);
 
                 // Wait for the agent to reach the target
                 while (playerAgent.pathPending || playerAgent.remainingDistance > 0.1f)
                 {
                     yield return null;  // Continue waiting until the movement is complete
                 }
+
                 // Check if the player is standing on garbage after moving
                 if (IsOnGarbage(selectedPlayer.transform.position))
                 {
@@ -211,19 +181,16 @@ public class PointClickMovement : MonoBehaviour
                 }
 
                 flashCharacter = false;
-                //Debug.Log("Movement complete!");
             }
         }
     }
+
     // Function to check if the player is on garbage
     private bool IsOnGarbage(Vector3 playerPosition)
     {
-        // Logic to check if the player is standing on a garbage tile
-        // Here, we'll assume your garbage tiles are tagged as "Garbage"
         Collider[] colliders = Physics.OverlapSphere(playerPosition, 0.5f);  // Small radius around player to check for garbage
         foreach (Collider col in colliders)
         {
-            //Debug.Log(col);
             if (col.name == "SmallGarbage" || col.name == "MediumGarbage")  // Make sure the garbage objects have this tag
             {
                 return true;
@@ -231,25 +198,15 @@ public class PointClickMovement : MonoBehaviour
         }
         return false;
     }
+
     // Wait for a click before proceeding
     private IEnumerator WaitForClick()
     {
-        madeUpVector3 = new Vector3(gameObject.transform.position.x, y, gameObject.transform.position.z);
-
-        for (int i = 0; i < allChildren.Length; i++)
-        {
-            if (allChildren[i].transform.position.x == madeUpVector3.x && allChildren[i].transform.position.z == madeUpVector3.z)
-            {
-                yield break;  // Exit the coroutine early
-            }
-        }
-
         while (true)
         {
             // If skipMove is triggered, exit immediately
             if (skipMove)
             {
-                //Debug.Log("Skip move detected during WaitForClick()");
                 yield break;
             }
 
@@ -258,37 +215,16 @@ public class PointClickMovement : MonoBehaviour
                 Ray ray = camera.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
 
-                // 🟢 Draw the ray in the Scene view for debugging
-                Debug.DrawRay(ray.origin, ray.direction * 100f, Color.green, 400f); // 2 seconds
-
-                // 🟡 Optional log
-                Debug.Log("Mouse click raycast fired");
-
-                // Make sure you're not clicking on UI
-                if (!EventSystem.current.IsPointerOverGameObject())
+                if (!EventSystem.current.IsPointerOverGameObject() && Physics.Raycast(ray, out hit))
                 {
-                    if (Physics.Raycast(ray, out hit))
+                    if (hit.collider.gameObject.layer != 5)
                     {
-                        Debug.Log("Raycast hit: " + hit.collider.gameObject.name);
-                        Debug.Log("Hit layer: " + hit.collider.gameObject.layer);
-
-                        // If it's NOT the layer you're expecting, stop the coroutine
-                        if (hit.collider.gameObject.layer != 5)
-                        {
-                            Debug.Log("Hit object is not on expected layer (5), breaking coroutine.");
-                            yield break;
-                        }
+                        yield break;
                     }
-                    else
-                    {
-                        Debug.Log("Raycast did not hit anything.");
-                    }
-                }
-                else
-                {
-                    Debug.Log("Pointer is over UI. Ignoring click.");
                 }
             }
+
+            yield return null;
         }
     }
 }
