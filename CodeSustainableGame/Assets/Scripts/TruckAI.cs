@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 public class TruckAI : MonoBehaviour
 {
-    [SerializeField]private Vector3 targetDestination; // Assign this in inspector
+    [SerializeField] private Vector3 targetDestination; // Assign this in inspector
     public NavMeshAgent agent;
     public NavMeshSurface surface;
     public float truckSpeed = 5f;
@@ -24,7 +24,7 @@ public class TruckAI : MonoBehaviour
     TutorialManager tutorialManager;
 
     private GameObject player;
-    [SerializeField]public float collectionRange = 3f;
+    [SerializeField] public float collectionRange = 3f;
     public bool withinRange;
     public bool isLeft;
 
@@ -46,11 +46,7 @@ public class TruckAI : MonoBehaviour
 
         gameObject.SetActive(true);
         agent.speed = truckSpeed;
-        if (agent != null)
-        {
-            agent.isStopped = false; // Ensure the agent is moving
-        }
-        //agent.isStopped = false; // Ensure the agent is moving
+        agent.isStopped = false; // Ensure the agent is moving
         emptyTrash = FindAnyObjectByType<EmptyTrashCollection>();
         shop = FindAnyObjectByType<Shop>();
         depositTrash = FindAnyObjectByType<DepositTrash>();
@@ -74,10 +70,10 @@ public class TruckAI : MonoBehaviour
 
     private void Start()
     {
-        if(surface == null)
+        if (surface == null)
         {
             surface = FindObjectOfType<NavMeshSurface>();
-        }     
+        }
 
         NavMeshHit hit;
         if (NavMesh.SamplePosition(spawnPositions, out hit, 5f, NavMesh.AllAreas))
@@ -111,7 +107,7 @@ public class TruckAI : MonoBehaviour
         character = FindAnyObjectByType<CharacterGarbage>();
         tutorialManager = FindAnyObjectByType<TutorialManager>();
     }
-//    private int turnDisappear = -1; // Ryan is this where this goes?
+    //    private int turnDisappear = -1; // Ryan is this where this goes?
     private void Update()
     {
         RaycastHit hit;
@@ -193,7 +189,7 @@ public class TruckAI : MonoBehaviour
                 collectionSlider.value = 0;
                 isLeft = true;
                 GainMoney();
-                if(tutorialManager != null)
+                if (tutorialManager != null)
                 {
                     string end = "Tutorial:Finish";
                     tutorialManager.PanelActivates(end);
@@ -205,8 +201,8 @@ public class TruckAI : MonoBehaviour
 
     public void TrashCollection()
     {
-        
-        if(character.garbageHolding > 0 && withinRange)
+
+        if (character.garbageHolding > 0 && withinRange)
         {
             garbageCollected += 25;
             UpdateSlider();
@@ -242,7 +238,9 @@ public class TruckAI : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        //Debug.Log(other.transform.parent);
+        Debug.Log(other.gameObject.name);
+        if (other.gameObject.name == "Head")
         {
             withinRange = true;
             Debug.Log($"Character {other.gameObject.name} is within range");
@@ -256,7 +254,7 @@ public class TruckAI : MonoBehaviour
             //        TrashCollection();
             //    }
             //}
-            
+
         }
     }
 }

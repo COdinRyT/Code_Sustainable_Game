@@ -40,6 +40,12 @@ public class Garbage : MonoBehaviour
             currentHealth = mediumGarbageHealth;
             healthBar.UpdateHealthBar(currentHealth, mediumGarbageHealth);
         }
+        if (Name == "MediumGarbageTutorial")
+        {
+
+            currentHealth = mediumGarbageHealth;
+            healthBar.UpdateHealthBar(currentHealth, mediumGarbageHealth);
+        }
     }
     // Ensure the garbage has a trigger collider
     private void OnTriggerEnter(Collider other)
@@ -58,6 +64,10 @@ public class Garbage : MonoBehaviour
             healthBar.UpdateHealthBar(currentHealth, smallGarbageHealth);
         }
         if (Name == "MediumGarbage")
+        {
+            healthBar.UpdateHealthBar(currentHealth, mediumGarbageHealth);
+        }
+        if (Name == "MediumGarbageTutorial")
         {
             healthBar.UpdateHealthBar(currentHealth, mediumGarbageHealth);
         }
@@ -83,6 +93,23 @@ public class Garbage : MonoBehaviour
             GameManager.Instance.MediumTrashPile(100);
             //GameManager.Instance.involvedAmount += 20;
             Destroy(gameObject);
+            if (truck.isDisposed)
+            {
+                //GameManager.Instance.trashCollected++;
+                //truck.isDisposed = false;
+                //Debug.Log("Trash Collected!");
+                return;
+            }
+        }
+        else if (currentHealth <= 0 && Name == "MediumGarbageTutorial")
+        {
+            GameManager.Instance.involvedAmount += 20;
+            truck.isDisposed = true;
+            //Debug.Log("Destroyed");
+            GameManager.Instance.MediumTrashPile(100);
+            //GameManager.Instance.involvedAmount += 20;
+            Destroy(gameObject);
+            GameManager.Instance.tutorialGarbageWasRemoved = true;
             if (truck.isDisposed)
             {
                 //GameManager.Instance.trashCollected++;

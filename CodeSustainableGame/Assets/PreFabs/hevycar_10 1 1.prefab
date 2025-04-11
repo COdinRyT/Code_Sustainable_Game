@@ -262,6 +262,7 @@ MonoBehaviour:
   isDisposed: 0
   turnCounter: 3
   moneyAmount: 1200
+  happinessAmount: 10
 --- !u!135 &3430627777603556280
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -281,7 +282,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 2
+  m_Radius: 1.5
   m_Center: {x: 0, y: 0.2413, z: -0.03809999}
 --- !u!4 &1194515269782088044 stripped
 Transform:

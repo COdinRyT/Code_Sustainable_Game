@@ -436,7 +436,7 @@ GameObject:
   - component: {fileID: 5347677364719417013}
   m_Layer: 6
   m_Name: 08_OldFarmer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -526,10 +526,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 7611442330153703824}
+  Marker: {fileID: 0}
   playerSpeed: 5
   stepDelay: 0.2
   selectedPlayer: {fileID: 0}
   selectedTile: {fileID: 0}
+  flashCharacter: 0
+  cube: {fileID: 0}
+  moveSpeedCube: 50
+  skipMove: 0
+  raycastLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  allChildren: []
+  GarbageStorage: {fileID: 0}
 --- !u!1 &5845616778969112782
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,11 +7,11 @@ public class GoToGame : MonoBehaviour
 {
     public void OnClick()
     {
-        SceneManager.LoadScene("Demo_Level");
+        SceneManager.LoadScene("NEW Level1 1");
     }
 
     public void GoToLevel()
     {
-        SceneManager.LoadScene("NEW Level1 1");
+        SceneManager.LoadScene("Tutorial");
     }
 }

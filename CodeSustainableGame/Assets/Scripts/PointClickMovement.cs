@@ -125,7 +125,7 @@ public class PointClickMovement : MonoBehaviour
         }
 
         // Enable rotation updates for the agent
-        playerAgent.updateRotation = true;
+        //playerAgent.updateRotation = true;
 
         Vector3 cameraPosition = new Vector3(gameObject.transform.position.x + 6, gameObject.transform.position.y + 4, gameObject.transform.position.z);
         camera.transform.position = cameraPosition;
@@ -173,19 +173,20 @@ public class PointClickMovement : MonoBehaviour
                 {
                     yield return null;  // Continue waiting until the movement is complete
                 }
-
+                /*
                 // Check if the player is standing on garbage after moving
                 if (IsOnGarbage(selectedPlayer.transform.position))
                 {
                     skipMove = true;  // Automatically skip the turn if the player is on garbage
                 }
-
+                */
                 flashCharacter = false;
             }
         }
     }
 
     // Function to check if the player is on garbage
+    /*
     private bool IsOnGarbage(Vector3 playerPosition)
     {
         Collider[] colliders = Physics.OverlapSphere(playerPosition, 0.5f);  // Small radius around player to check for garbage
@@ -198,33 +199,58 @@ public class PointClickMovement : MonoBehaviour
         }
         return false;
     }
-
+    */
     // Wait for a click before proceeding
     private IEnumerator WaitForClick()
     {
-        while (true)
+        madeUpVector3 = new Vector3(gameObject.transform.position.x, .5f, gameObject.transform.position.z);
+
+        for (int i = 0; i < allChildren.Length; i++)
         {
-            // If skipMove is triggered, exit immediately
+            if (allChildren[i].transform.position.x == madeUpVector3.x && allChildren[i].transform.position.z == madeUpVector3.z)
+            {
+                yield break;  // Exit the coroutine early
+            }
+        }
+        bool clicked = false;
+        /*
+        if (skipMove)
+        {
+            yield return null;
+        }
+        */
+        // While we haven't clicked and haven't skipped, keep waiting
+        while (!clicked && !skipMove)
+        {
+
             if (skipMove)
             {
-                yield break;
+                yield return null;
             }
 
-            if (Input.GetMouseButtonDown(0))
+
+
+            if (Input.GetMouseButtonDown(0))  // Left mouse button clicked
             {
                 Ray ray = camera.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
-
-                if (!EventSystem.current.IsPointerOverGameObject() && Physics.Raycast(ray, out hit))
+                if (EventSystem.current.IsPointerOverGameObject())
                 {
+
+                }
+                else if (Physics.Raycast(ray, out hit))
+                {
+                    Debug.Log(hit.collider.gameObject.layer);
+                    // Check if the hit object is on a specific layer (e.g., Layer 8)
                     if (hit.collider.gameObject.layer != 5)
                     {
-                        yield break;
+                        clicked = true;
+                        // Do something if the object is on Layer 8
                     }
                 }
             }
-
-            yield return null;
+            yield return null;  // Wait until the next frame
         }
     }
+
 }

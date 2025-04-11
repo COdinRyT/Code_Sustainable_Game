@@ -11,10 +11,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/StartScreen.unity
     guid: 96d0fcfda841eb74b90afa3131ac787a
+  - enabled: 1
+    path: Assets/Scenes/Tutorial.unity
+    guid: ecb32f089145b794dbf5fb88c3cf6020
   - enabled: 0
     path: Assets/Scenes/Demo_Level.unity
     guid: d8a97ed1583665c44b2d876cd02f4f75
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/OldNotUsed/Settings.unity
     guid: c78267dc442c9c1428419c2bcbe26436
   - enabled: 1
@@ -41,7 +44,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/NEW Level1 1.unity
     guid: c4d1838cfb6f4ed4ca0c8e060fb94b48
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/The Actual Level 2.unity
     guid: 717f53237f24b6d45ba77a5bdfea9df8
   m_configObjects:

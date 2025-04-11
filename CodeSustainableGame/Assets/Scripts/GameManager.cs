@@ -65,7 +65,16 @@ public class GameManager : MonoBehaviour
     private bool hasTaskStarted = false;  // Add a flag to track if the task has started
     TruckAI truckAI;
     public int trashCollected;
+    public bool tutorialGarbageWasRemoved = false;
+    public int startingNumberUnits = 1;
 
+
+    public GameObject worker1;
+    public GameObject worker2;
+    public GameObject worker3;
+    public GameObject worker4;     
+    public GameObject worker5;
+    public GameObject worker6;
     public static GameManager Instance { get; private set; }
 
     void Awake()
@@ -139,15 +148,15 @@ public class GameManager : MonoBehaviour
             PointClickMovement movement = character.GetComponent<PointClickMovement>();
             if (movement != null)
             {
-                movement.skipMove = true;
+                movement.skipMove = false;
                 updateUI.IncreaseTurnCount();
             }
         }
     }
     public void FirstPlayer()
     {
-        Volunteer = Instantiate(Volunteer, volunterSpawnPosition.transform.position, Quaternion.identity, garbageParentTransform);
-        Volunteer.name = "Worker";
+        //Volunteer = Instantiate(Volunteer, volunterSpawnPosition.transform.position, Quaternion.identity, garbageParentTransform);
+        //Volunteer.name = "Worker";
         //Debug.Log("First player function");
         DoTask();
     }
@@ -166,7 +175,36 @@ public class GameManager : MonoBehaviour
         {
             spawnNextTurn = true;
             spawnTriggered = true;
-            
+            if (startingNumberUnits == 1)
+            {
+                startingNumberUnits++;
+                worker2.SetActive(true);
+                ConfirmVolunteer(worker2);
+            }
+            else if (startingNumberUnits == 2)
+            {
+                startingNumberUnits++;
+                worker3.SetActive(true);
+                ConfirmVolunteer(worker3);
+            }
+            else if (startingNumberUnits == 3)
+            {
+                startingNumberUnits++;
+                worker4.SetActive(true);
+                ConfirmVolunteer(worker4);
+            }
+            else if (startingNumberUnits == 4)
+            {
+                startingNumberUnits++;
+                worker5.SetActive(true);
+                ConfirmVolunteer(worker5);
+            }
+            else if (startingNumberUnits == 5)
+            {
+                startingNumberUnits++;
+                worker6.SetActive(true);
+                ConfirmVolunteer(worker6);
+            }
 
             involvedAmount = 0;
         }
@@ -189,7 +227,7 @@ public class GameManager : MonoBehaviour
             EndGameLose();
         }
         //updateUI.UpdateQueueUI(new List<GameObject>(characters));
-        GameManager.Instance.GetInvolvedIsTrue();
+        //GameManager.Instance.GetInvolvedIsTrue();
         //updateUI.UpdateQueueUI(new List<GameObject>(characters));
         //Debug.Log("Brh");
         if (endTurn && currentTurn < maxTurn)
@@ -197,10 +235,10 @@ public class GameManager : MonoBehaviour
             if (spawnNextTurn)
             {
                 Vector3 spawnPosition = new Vector3(20, .5f, -65);
-                GameObject newVolunteer = Instantiate(volunteerPrefab, spawnPosition, Quaternion.identity, garbageParentTransform);
-                newVolunteer.name = "Worker";
-                ConfirmVolunteer(newVolunteer);
-
+                //GameObject newVolunteer = Instantiate(volunteerPrefab, spawnPosition, Quaternion.identity, garbageParentTransform);
+                //newVolunteer.name = "Worker";
+                //ConfirmVolunteer(newVolunteer);
+                
                 spawnNextTurn = false;
                 spawnTriggered = false;
             }
@@ -273,12 +311,14 @@ public class GameManager : MonoBehaviour
             Debug.Log($"Added {character.name} to queue");
 
             // 👇 Immediately reset skipMove when added
+            /* Jonah temp disabled to see if this is affecting queue
             var movement = character.GetComponent<PointClickMovement>();
             if (movement != null)
             {
                 movement.skipMove = false;
                 Debug.Log($"{character.name} => skipMove set to FALSE in ConfirmVolunteer()");
             }
+            */
         }
         else
         {
@@ -293,7 +333,7 @@ public class GameManager : MonoBehaviour
         hasTaskStarted = true;
 
         //Debug.Log("DoTask() called. Resetting skipMove flags");
-
+        /*
         foreach (GameObject character in characters)
         {
             PointClickMovement movement = character.GetComponent<PointClickMovement>();
@@ -303,7 +343,7 @@ public class GameManager : MonoBehaviour
                 //Debug.Log($"{character.name} => skipMove set to FALSE in DoTask()");
             }
         }
-
+        */
         StartCoroutine(MoveCharacterSequence());
     }
 
@@ -312,28 +352,31 @@ public class GameManager : MonoBehaviour
     {
         // Save a temporary list of all characters in the queue
         List<GameObject> charactersInCurrentTurn = new List<GameObject>(characters);
-
+        /*
         foreach (var character in charactersInCurrentTurn)
         {
             var movement = character.GetComponent<PointClickMovement>();
             if (movement != null)
                 movement.skipMove = false;
         }
+        */
+        Debug.Log("Character count is: " + characters.Count);
         while (characters.Count > 0)
         {
             GameObject currentCharacter = characters.Dequeue();
-            currentActiveCharacter = currentCharacter;
+            //currentActiveCharacter = currentCharacter;
             // Get the PointClickMovement component from the current character
 
             PointClickMovement characterMovement = currentCharacter.GetComponent<PointClickMovement>();
 
             if (characterMovement != null)
             {
-                Debug.Log($"{currentCharacter.name} starting MovePlayer. skipMove = {characterMovement.skipMove}");
+                //Debug.Log($"{currentCharacter.name} starting MovePlayer. skipMove = {characterMovement.skipMove}");
                 characterMovement.SelectPlayer(currentCharacter);
-                yield return StartCoroutine(characterMovement.MovePlayer());
+                
             }
-            currentActiveCharacter = null;
+            yield return StartCoroutine(characterMovement.MovePlayer());
+            //wcurrentActiveCharacter = null;
         }
 
         // After all characters have moved, re-add them to the queue
