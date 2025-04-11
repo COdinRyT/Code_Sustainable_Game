@@ -31,8 +31,17 @@ public class UpdateUI : MonoBehaviour
         GameManager.Instance.currentTurn = startingTurn;
         //UpdateUIElements();        
         garbage = FindAnyObjectByType<Garbage>();
-       tutorialManager = FindAnyObjectByType<TutorialManager>();
-        tutorialManager.nameInput.onEndEdit.AddListener(OnNameInputEnd);
+        tutorialManager = FindAnyObjectByType<TutorialManager>();
+        if ( tutorialManager != null)
+        {
+            if (tutorialManager.nameInput != null)
+            {
+                if (tutorialManager.nameInput.onEndEdit != null)
+                {
+                    tutorialManager.nameInput.onEndEdit.AddListener(OnNameInputEnd);
+                }
+            }
+        }
     }
 
     void Update()
@@ -49,7 +58,7 @@ public class UpdateUI : MonoBehaviour
         moneyBar.fillAmount = GameManager.Instance.currentMoney / 9999f; // If the money amount is larger than 9999 than the bar will not fill up any more.
         garbageBar.fillAmount = GameManager.Instance.currentGarbageAmount / GameManager.Instance.maxGarbage;
         happyBar.fillAmount = GameManager.Instance.happiness / 100f;
-        getInvloved.fillAmount = (GameManager.Instance.maxGarbage - GameManager.Instance.currentGarbageAmount) / 100;
+        getInvloved.fillAmount = GameManager.Instance.involvedAmount / 100;
         //involvedBar.fillAmount = GameManager.Instance.involvedAmount / GameManager.Instance.involvedNeededLevelUp;
         //Debug.Log(GameManager.Instance.involvedAmount / GameManager.Instance.involvedNeededLevelUp);
     }

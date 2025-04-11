@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 using System;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
+using static TutorialManager;
 public class GameManager : MonoBehaviour
 {
     private bool hasStarted = false;
@@ -42,6 +43,7 @@ public class GameManager : MonoBehaviour
     public GameObject SmallGarbage;
     public GameObject MediumGarbage;
     public GameObject[] garbagePiles;
+    public GameObject GarbageCloneMediumTutorial;
     public List<GameObject> tag_targets = new List<GameObject>();
     public Transform parentTransform;
     public Transform garbageParentTransform;
@@ -84,11 +86,22 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        GameObject GarbageCloneMedium;
         camera = Camera.main;
         currentTurn = startTurn;
         StartGame();
-        SpawnGarbage();
+        Scene currentScene = SceneManager.GetActiveScene();
+        string sceneName = currentScene.name;
+        if (sceneName == "Tutorial")
+        {
+            //Vector3 spawnPosition = new Vector3(20, .5f, -65);
+            //GarbageCloneMedium = Instantiate(GarbageCloneMediumTutorial, spawnPosition, Quaternion.identity, parentTransform);
+            //GarbageCloneMedium.name = MediumGarbage.name;
+        }
+        else
+        {
+            SpawnGarbage();
+        }
         updateUI = FindAnyObjectByType<UpdateUI>();
         truckAI = FindAnyObjectByType<TruckAI>();
         //updateUI.UpdateQueueUI(new List<GameObject>(characters));
@@ -112,16 +125,6 @@ public class GameManager : MonoBehaviour
         }
 
         FirstPlayer();
-    }
-    
-    public void GetInvolvedClick()
-    {
-        if (readyToGetInvolved)
-        {
-            Volunteer = Instantiate(Volunteer, volunterSpawnPosition.transform.position, Quaternion.identity, garbageParentTransform);
-            Volunteer.name = "Worker";
-            //VolunterClone.transform.rotation *= Quaternion.Euler(0, 90f, 0);
-        }
     }
     
     // This method is called when the skip button is clicked
@@ -161,7 +164,7 @@ public class GameManager : MonoBehaviour
     public void resetGarbage()
     {
         currentGarbageAmount = garbageLevel * 100;
-        //involvedAmount += 20;
+        
         happiness += 10;
         readyToGetInvolved = true;
     }
@@ -169,11 +172,12 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (involvedAmount >= involvedNeededLevelUp)
-        //{
-        //    spawnUnit = true;
-        //    involvedAmount = 0;
-        //}
+        if (involvedAmount >= involvedNeededLevelUp)
+        {
+            Volunteer = Instantiate(Volunteer, volunterSpawnPosition.transform.position, Quaternion.identity, garbageParentTransform);
+            Volunteer.name = "Worker";
+            involvedAmount = 0;
+        }
         if (currentGarbageAmount <= 0 && hasStarted == true)
         {
             garbageLevel += 1;
@@ -251,7 +255,19 @@ public class GameManager : MonoBehaviour
     void StartGame()
     {
         SetupVariables();
-        SpawnGarbage();
+        Scene currentScene = SceneManager.GetActiveScene();
+        string sceneName = currentScene.name;
+        //Debug.Log("Current Scene Name: " + sceneName);
+        if (sceneName == "Tutorial")
+        {
+
+
+
+        }
+        else
+        {
+            SpawnGarbage();
+        }
     }
     void SetupVariables()
     {

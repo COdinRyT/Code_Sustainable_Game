@@ -46,7 +46,11 @@ public class TruckAI : MonoBehaviour
 
         gameObject.SetActive(true);
         agent.speed = truckSpeed;
-        agent.isStopped = false; // Ensure the agent is moving
+        if (agent != null)
+        {
+            agent.isStopped = false; // Ensure the agent is moving
+        }
+        //agent.isStopped = false; // Ensure the agent is moving
         emptyTrash = FindAnyObjectByType<EmptyTrashCollection>();
         shop = FindAnyObjectByType<Shop>();
         depositTrash = FindAnyObjectByType<DepositTrash>();

@@ -30,11 +30,13 @@ public class Garbage : MonoBehaviour
         Name = gameObject.name;
         if (Name == "SmallGarbage")
         {
+            
             currentHealth = smallGarbageHealth;
             healthBar.UpdateHealthBar(currentHealth, smallGarbageHealth);
         }
         if (Name == "MediumGarbage")
         {
+            
             currentHealth = mediumGarbageHealth;
             healthBar.UpdateHealthBar(currentHealth, mediumGarbageHealth);
         }
@@ -61,6 +63,7 @@ public class Garbage : MonoBehaviour
         }
         if (currentHealth <= 0 && Name == "SmallGarbage")
         {
+            GameManager.Instance.involvedAmount += 10;
             truck.isDisposed = true;
             GameManager.Instance.SmallTrashPile(50);
             //GameManager.Instance.involvedAmount += 20;
@@ -74,6 +77,7 @@ public class Garbage : MonoBehaviour
             }
         }
         else if (currentHealth <= 0 && Name == "MediumGarbage") {
+            GameManager.Instance.involvedAmount += 20;
             truck.isDisposed = true;
             Debug.Log("Destroyed");
             GameManager.Instance.MediumTrashPile(100);
