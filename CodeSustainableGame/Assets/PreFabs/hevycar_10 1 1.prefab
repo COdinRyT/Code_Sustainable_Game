@@ -248,7 +248,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 762a160953b218740abb4a2525aab410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetDestination: {x: 5, y: 0, z: -66}
+  targetDestination:
+  - {x: 5, y: 0.5, z: -65}
+  - {x: 40, y: 0.5, z: -86}
+  - {x: 6, y: 0.5, z: -84}
   agent: {fileID: 6672261762089273811}
   surface: {fileID: 7108585114863004879, guid: f5d78ceb29afa1342a56425535b99f60, type: 3}
   truckSpeed: 5
@@ -262,6 +265,7 @@ MonoBehaviour:
   isDisposed: 0
   turnCounter: 3
   moneyAmount: 1200
+  happinessAmount: 0
 --- !u!135 &3430627777603556280
 SphereCollider:
   m_ObjectHideFlags: 0

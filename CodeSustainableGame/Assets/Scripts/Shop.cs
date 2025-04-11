@@ -26,6 +26,8 @@ public class Shop : MonoBehaviour
 
     public static Shop Instance { get; private set; }
 
+    public List<GameObject> activeTrucks = new List<GameObject>();
+
     public void ShopButtonClick()
     {
         if (Panel.activeSelf)
@@ -78,8 +80,8 @@ public class Shop : MonoBehaviour
         {
             if (smallTruck != null)
             {
-
-                Instantiate(smallTruck, smallTruck.transform.position, Quaternion.identity);
+                GameObject newTruck = Instantiate(smallTruck, smallTruck.transform.position, Quaternion.identity);
+                activeTrucks.Add(newTruck);
                 GameManager.Instance.currentMoney -= smallTruckCost;
             }
             else
@@ -95,8 +97,8 @@ public class Shop : MonoBehaviour
         {
             if (mediumTruck != null)
             {
-
-                Instantiate(mediumTruck, mediumTruck.transform.position, Quaternion.identity);
+                GameObject newTruck = Instantiate(mediumTruck, mediumTruck.transform.position, Quaternion.identity);
+                activeTrucks.Add(newTruck);
                 GameManager.Instance.currentMoney -= mediumTruckCost;
             }
             else
@@ -113,8 +115,8 @@ public class Shop : MonoBehaviour
         {
             if (largeTruck != null)
             {
-
-                Instantiate(largeTruck, largeTruck.transform.position, Quaternion.identity);
+                GameObject newTruck = Instantiate(largeTruck, largeTruck.transform.position, Quaternion.identity);
+                activeTrucks.Add(newTruck);
                 GameManager.Instance.currentMoney -= largeTruckCost;
             }
             else
@@ -123,21 +125,5 @@ public class Shop : MonoBehaviour
             }
         }
 
-    }
-
-    public void SellTrucks()
-    {
-        if(smallTruck != null)
-        {
-            DestroyImmediate(smallTruck, true);
-        }
-        if(mediumTruck != null)
-        {
-            DestroyImmediate(mediumTruck, true);
-        }
-        if(largeTruck != null)
-        {
-            DestroyImmediate(largeTruck, true);
-        }
     }
 }

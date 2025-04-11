@@ -18,10 +18,13 @@ public class Garbage : MonoBehaviour
     [SerializeField]
     private FloatingHealthBar healthBar;
 
+    private AudioSource pickupSound;
+
     private void Awake()
     {
         healthBar = GetComponentInChildren<FloatingHealthBar>();
         truck = FindAnyObjectByType<TruckAI>();
+        pickupSound = GetComponent<AudioSource>();
     }
 
     // Start is called before the first frame update
@@ -64,6 +67,8 @@ public class Garbage : MonoBehaviour
             //truck.isDisposed = true;
             GameManager.Instance.SmallTrashPile(50);
             //GameManager.Instance.involvedAmount += 20;
+            pickupSound.Play();
+            Debug.Log("Sound playing");
             Destroy(gameObject);
             /*
             if (truck.isDisposed)
@@ -80,6 +85,7 @@ public class Garbage : MonoBehaviour
             Debug.Log("Destroyed");
             GameManager.Instance.MediumTrashPile(100);
             //GameManager.Instance.involvedAmount += 20;
+            pickupSound.Play();
             Destroy(gameObject);
             /*
             if (truck.isDisposed)

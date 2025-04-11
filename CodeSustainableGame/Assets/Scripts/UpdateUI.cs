@@ -25,6 +25,7 @@ public class UpdateUI : MonoBehaviour
     public TextMeshProUGUI playerName;
     TutorialManager tutorialManager;
     public GameObject panels;
+    private bool truckSold;
 
     void Start()
     {
@@ -44,7 +45,7 @@ public class UpdateUI : MonoBehaviour
     {
         Turns.text = GameManager.Instance.currentTurn.ToString() + "/" + GameManager.Instance.maxTurn.ToString();
         People.text = GameManager.Instance.currentPeople.ToString() + "/" + GameManager.Instance.maxPeople.ToString();
-        Money.text = GameManager.Instance.currentMoney.ToString() + "$";
+        Money.text = "$" + GameManager.Instance.currentMoney.ToString();
 
         moneyBar.fillAmount = GameManager.Instance.currentMoney / 9999f; // If the money amount is larger than 9999 than the bar will not fill up any more.
         garbageBar.fillAmount = GameManager.Instance.currentGarbageAmount / GameManager.Instance.maxGarbage;
@@ -81,18 +82,19 @@ public class UpdateUI : MonoBehaviour
         panels.gameObject.SetActive(true);
     }
 
-    //public void UpdateQueueUI(List<GameObject> characterQueue)
-    //{
-    //    characterNames.Clear();
+    public void SellSmallTrucks()
+    {
+        if(Shop.Instance.activeTrucks.Count > 0)
+        {
+            GameObject truck = Shop.Instance.activeTrucks[0]; //First truck in list
+            
+            if(truck != null)
+            {
+                Destroy(truck);
+            }
 
-    //    foreach (GameObject character in characterQueue)
-    //    {
-    //        characterNames.Add(character.name);
-    //    }
-    //    if (queueText != null)
-    //    {
-    //        Debug.Log("Updating");
-    //        queueText.text = "Queue: \n" + string.Join("\n", characterNames);
-    //    }
-    //}
+            Shop.Instance.activeTrucks.RemoveAt(0);
+        }
+    }
+
 }

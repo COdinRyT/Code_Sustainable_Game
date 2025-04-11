@@ -98987,12 +98987,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Panel: {fileID: 551662378}
-  smallTruck: {fileID: 554907454}
+  smallTruck: {fileID: 1194515269782058316, guid: fafb34d5c5f4f5449b0dbd23209e50a4, type: 3}
   mediumTruck: {fileID: 123287472768035162, guid: 21cb834f2ec606b4689bfe369b4f3152, type: 3}
   largeTruck: {fileID: 8496645070490606743, guid: 0f1b249967ef6a74d9451162ed29b775, type: 3}
   smallTruckCost: 125000
   turnsuntilnewtruck: 4
   truckSpawns: 0
+  activeTrucks: []
 --- !u!1 &552571539
 GameObject:
   m_ObjectHideFlags: 0
@@ -141797,7 +141798,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &789183613
 RectTransform:
   m_ObjectHideFlags: 0
@@ -198852,6 +198853,10 @@ PrefabInstance:
       propertyPath: m_FillAmount
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1262723540209097912, guid: 7ce39711ff97fb2488ff16e4ba1cdd8f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 252.95
+      objectReference: {fileID: 0}
     - target: {fileID: 1677156317215250871, guid: 7ce39711ff97fb2488ff16e4ba1cdd8f, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -199004,6 +199009,14 @@ PrefabInstance:
       propertyPath: getInvloved
       value: 
       objectReference: {fileID: 1011783630}
+    - target: {fileID: 6820803669952566400, guid: 7ce39711ff97fb2488ff16e4ba1cdd8f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -276
+      objectReference: {fileID: 0}
+    - target: {fileID: 7063350201901356661, guid: 7ce39711ff97fb2488ff16e4ba1cdd8f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -199.50003
+      objectReference: {fileID: 0}
     - target: {fileID: 8255338710180351999, guid: 7ce39711ff97fb2488ff16e4ba1cdd8f, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -199095,18 +199108,18 @@ PrefabInstance:
     - target: {fileID: 8825717531246124392, guid: 7ce39711ff97fb2488ff16e4ba1cdd8f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 551662380}
+      objectReference: {fileID: 830751541}
     - target: {fileID: 8825717531246124392, guid: 7ce39711ff97fb2488ff16e4ba1cdd8f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8825717531246124392, guid: 7ce39711ff97fb2488ff16e4ba1cdd8f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SellTrucks
+      value: SellSmallTrucks
       objectReference: {fileID: 0}
     - target: {fileID: 8825717531246124392, guid: 7ce39711ff97fb2488ff16e4ba1cdd8f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Shop, Assembly-CSharp
+      value: UpdateUI, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8825717531246124392, guid: 7ce39711ff97fb2488ff16e4ba1cdd8f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -370695,6 +370708,7 @@ MonoBehaviour:
   smallTruckCost: 125000
   turnsuntilnewtruck: 4
   truckSpawns: 0
+  activeTrucks: []
 --- !u!1 &2024394929
 GameObject:
   m_ObjectHideFlags: 0
@@ -411793,6 +411807,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: hevycar_10 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1194515269782058316, guid: fafb34d5c5f4f5449b0dbd23209e50a4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1194515269782088044, guid: fafb34d5c5f4f5449b0dbd23209e50a4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 7.66
@@ -411843,11 +411861,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5417325042595961745, guid: fafb34d5c5f4f5449b0dbd23209e50a4, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8880976933233500152, guid: fafb34d5c5f4f5449b0dbd23209e50a4, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
