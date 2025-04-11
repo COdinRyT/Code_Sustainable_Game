@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public GameObject volunterSpawnPosition;
     public Queue<GameObject> characters = new Queue<GameObject>(); // Character queue
     public GameObject newVolunteers;
+    public GameObject volunteerPrefab;  // Rename for clarity
     public GameObject prefab;
 
     public float stepDelay = 0.2f;  // Delay between tile movements 
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
     public int happiness;
     public int awarenessLevel;
     public int currentPlantedTrees = 0;
+    public GameObject currentActiveCharacter;
 
     public float involvedAmount;
     public float involvedNeededLevelUp = 100;
@@ -38,7 +40,8 @@ public class GameManager : MonoBehaviour
     public bool endTurn = false;
 
     public Button skipButton;  // Drag the Skip Button here from the Unity Editor
-
+    private bool spawnNextTurn = false;
+    private bool spawnTriggered = false;
     public GameObject TerrainGroup;
     public GameObject SmallGarbage;
     public GameObject MediumGarbage;
@@ -126,7 +129,7 @@ public class GameManager : MonoBehaviour
 
         FirstPlayer();
     }
-    
+
     // This method is called when the skip button is clicked
     public void OnEndTurnClick()
     {
@@ -136,21 +139,8 @@ public class GameManager : MonoBehaviour
             PointClickMovement movement = character.GetComponent<PointClickMovement>();
             if (movement != null)
             {
-                movement.skipMove = false;
-                updateUI.IncreaseTurnCount();
-            }
-        }
-    }
-    public void OnSkipButtonClick()
-    {
-        // Set the skip flag to true for all characters
-        foreach (GameObject character in characters)
-        {
-            PointClickMovement movement = character.GetComponent<PointClickMovement>();
-            if (movement != null)
-            {
                 movement.skipMove = true;
-                movement.flashCharacter = false;
+                updateUI.IncreaseTurnCount();
             }
         }
     }
@@ -158,13 +148,13 @@ public class GameManager : MonoBehaviour
     {
         Volunteer = Instantiate(Volunteer, volunterSpawnPosition.transform.position, Quaternion.identity, garbageParentTransform);
         Volunteer.name = "Worker";
-        Debug.Log("First player function");
+        //Debug.Log("First player function");
         DoTask();
     }
     public void resetGarbage()
     {
         currentGarbageAmount = garbageLevel * 100;
-        
+
         happiness += 10;
         readyToGetInvolved = true;
     }
@@ -174,69 +164,72 @@ public class GameManager : MonoBehaviour
     {
         if (involvedAmount >= involvedNeededLevelUp)
         {
-            Volunteer = Instantiate(Volunteer, volunterSpawnPosition.transform.position, Quaternion.identity, garbageParentTransform);
-            Volunteer.name = "Worker";
+            spawnNextTurn = true;
+            spawnTriggered = true;
+            
+
             involvedAmount = 0;
         }
         if (currentGarbageAmount <= 0 && hasStarted == true)
         {
             garbageLevel += 1;
             maxGarbage = garbageLevel * 100;
-            Debug.Log("Set happiness");
+            //Debug.Log("Set happiness");
             resetGarbage();
 
         }
         if (happiness >= 100) // This is how you win the game
         {
-            Debug.Log("Won by happiness");
+            //Debug.Log("Won by happiness");
             EndGameWin();
         }
         if (currentTurn >= 50)// This is how you lose the game
         {
-            Debug.Log("Loss by turns");
+            //Debug.Log("Loss by turns");
             EndGameLose();
         }
         //updateUI.UpdateQueueUI(new List<GameObject>(characters));
+        GameManager.Instance.GetInvolvedIsTrue();
+        //updateUI.UpdateQueueUI(new List<GameObject>(characters));
+        //Debug.Log("Brh");
         if (endTurn && currentTurn < maxTurn)
         {
-            GameManager.Instance.GetInvolvedIsTrue();
-            //updateUI.UpdateQueueUI(new List<GameObject>(characters));
-            //Debug.Log("Brh");
-            if (endTurn && currentTurn < maxTurn)
+            if (spawnNextTurn)
             {
-                if (spawnUnit)
-                {
-                    Volunteer = Instantiate(Volunteer, volunterSpawnPosition.transform.position, Quaternion.identity, garbageParentTransform);
-                    Volunteer.name = "Worker";
-                    spawnUnit = false;
-                }
-                // Find all game objects with the tag "Player" (or any tag you've assigned to your characters)
-                GameObject[] allCharacters = GameObject.FindGameObjectsWithTag("Player");
+                Vector3 spawnPosition = new Vector3(20, .5f, -65);
+                GameObject newVolunteer = Instantiate(volunteerPrefab, spawnPosition, Quaternion.identity, garbageParentTransform);
+                newVolunteer.name = "Worker";
+                ConfirmVolunteer(newVolunteer);
 
-                // Loop through each character and call a function (e.g., CheckCollisionBetweenPlayerAndGarbage)
-                foreach (GameObject character in allCharacters)
-                {
-                    Debug.Log($"Checking for garbage for character: {character.name}");
-
-                    // Assuming each character has a script (like CheckIfOnGarbage) attached with a function you want to call
-                    CheckIfOnGarbage playerScript = character.GetComponent<CheckIfOnGarbage>();
-
-                    if (playerScript != null)
-                    {
-                        // Call the function to check for garbage (or any other function you want to execute)
-                        //Debug.Log("Test");
-                        playerScript.CheckCollisionBetweenPlayerAndGarbage();
-                    }
-                    else
-                    {
-                        Debug.LogWarning($"Player {character.name} does not have the CheckIfOnGarbage script attached.");
-                    }
-                }
-                Debug.Log("Up");
-                endTurn = false;
-                currentTurn++;
-                DoTask();
+                spawnNextTurn = false;
+                spawnTriggered = false;
             }
+            // Find all game objects with the tag "Player" (or any tag you've assigned to your characters)
+            GameObject[] allCharacters = GameObject.FindGameObjectsWithTag("Player");
+
+            // Loop through each character and call a function (e.g., CheckCollisionBetweenPlayerAndGarbage)
+            foreach (GameObject character in allCharacters)
+            {
+                //Debug.Log($"Checking for garbage for character: {character.name}");
+
+                // Assuming each character has a script (like CheckIfOnGarbage) attached with a function you want to call
+                CheckIfOnGarbage playerScript = character.GetComponent<CheckIfOnGarbage>();
+
+                if (playerScript != null)
+                {
+                    // Call the function to check for garbage (or any other function you want to execute)
+                    //Debug.Log("Test");
+                    playerScript.CheckCollisionBetweenPlayerAndGarbage();
+                }
+                else
+                {
+                    //Debug.LogWarning($"Player {character.name} does not have the CheckIfOnGarbage script attached.");
+                }
+            }
+            //Debug.Log("Up");
+            endTurn = false;
+            currentTurn++;
+            DoTask();
         }
     }
     void EndGameLose()
@@ -249,7 +242,7 @@ public class GameManager : MonoBehaviour
     }
     public void GetInvolvedIsTrue()
     {
-        Debug.Log("Update glow");
+        //Debug.Log("Update glow");
         //GlowAndSparkle.Instance.transparency = 100;
     }
     void StartGame()
@@ -260,9 +253,6 @@ public class GameManager : MonoBehaviour
         //Debug.Log("Current Scene Name: " + sceneName);
         if (sceneName == "Tutorial")
         {
-
-
-
         }
         else
         {
@@ -280,20 +270,41 @@ public class GameManager : MonoBehaviour
         if (!characters.Contains(character))
         {
             characters.Enqueue(character);
-            Debug.Log($"Added character: {character.name}, Total characters in queue: {characters.Count}");
+            Debug.Log($"Added {character.name} to queue");
+
+            // 👇 Immediately reset skipMove when added
+            var movement = character.GetComponent<PointClickMovement>();
+            if (movement != null)
+            {
+                movement.skipMove = false;
+                Debug.Log($"{character.name} => skipMove set to FALSE in ConfirmVolunteer()");
+            }
+        }
+        else
+        {
+            Debug.Log($"{character.name} already in queue");
         }
     }
 
+
     public void DoTask()
     {
-        // Ensure we're only running the task once
         if (hasTaskStarted) return;
         hasTaskStarted = true;
 
-        Debug.Log("Doing Task");
-        // Start the process to move characters one by one
-        StartCoroutine(MoveCharacterSequence());
+        //Debug.Log("DoTask() called. Resetting skipMove flags");
 
+        foreach (GameObject character in characters)
+        {
+            PointClickMovement movement = character.GetComponent<PointClickMovement>();
+            if (movement != null)
+            {
+                movement.skipMove = false;
+                //Debug.Log($"{character.name} => skipMove set to FALSE in DoTask()");
+            }
+        }
+
+        StartCoroutine(MoveCharacterSequence());
     }
 
     // Coroutine to move characters one at a time, waiting for click before each character moves
@@ -301,30 +312,28 @@ public class GameManager : MonoBehaviour
     {
         // Save a temporary list of all characters in the queue
         List<GameObject> charactersInCurrentTurn = new List<GameObject>(characters);
+
+        foreach (var character in charactersInCurrentTurn)
+        {
+            var movement = character.GetComponent<PointClickMovement>();
+            if (movement != null)
+                movement.skipMove = false;
+        }
         while (characters.Count > 0)
         {
             GameObject currentCharacter = characters.Dequeue();
-
-            // Debug logs to check queue sizes
-            //Debug.Log($"Dequeued Character: {currentCharacter.name}");
-            //Debug.Log($"Remaining Characters in Queue: {characters.Count}");
-
-            //updateUI.UpdateQueueUI(new List<GameObject>(characters));
-
+            currentActiveCharacter = currentCharacter;
             // Get the PointClickMovement component from the current character
+
             PointClickMovement characterMovement = currentCharacter.GetComponent<PointClickMovement>();
 
             if (characterMovement != null)
             {
-                // Select the current character in PointClickMovement
+                //Debug.Log($"{currentCharacter.name} starting MovePlayer. skipMove = {characterMovement.skipMove}");
                 characterMovement.SelectPlayer(currentCharacter);
+                yield return StartCoroutine(characterMovement.MovePlayer());
             }
-
-            // Wait for the player to click before moving the character
-            //yield return StartCoroutine(WaitForClick());
-
-            // Move the current player to the clicked position
-            yield return StartCoroutine(characterMovement.MovePlayer());
+            currentActiveCharacter = null;
         }
 
         // After all characters have moved, re-add them to the queue

@@ -851,7 +851,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   garbageHealthBar: {fileID: 886382464948455984}
   mainCamera: {fileID: 6158468113512480423, guid: ce651738c2eaa884385f491b1b6b17c0, type: 3}
-  target: {fileID: 1703642722785371953}
 --- !u!1 &2122636465905902762
 GameObject:
   m_ObjectHideFlags: 0
@@ -1917,7 +1916,7 @@ GameObject:
   - component: {fileID: 7048255108866793762}
   m_Layer: 9
   m_Name: MediumGarbage
-  m_TagString: Untagged
+  m_TagString: Trash
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1959,7 +1958,6 @@ MonoBehaviour:
   largeGarbageHealth: 200
   currentHealth: 0
   Name: MediumGarbage
-  isCollected: 0
   healthBar: {fileID: 9100570945500003902}
 --- !u!65 &7048255108866793762
 BoxCollider:

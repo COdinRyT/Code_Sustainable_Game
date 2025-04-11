@@ -29,13 +29,31 @@ public class CheckIfOnGarbage : MonoBehaviour
     }
     public void CheckCollisionBetweenPlayerAndGarbage()
     {
-        madeUpVector3 = new Vector3(gameObject.transform.position.x,y,gameObject.transform.position.z);
-        GetChildren();
+        //Debug.Log("Checking collision!");
+
+        // Snap the player's x and z position to the nearest whole unit (grid snap)
+        madeUpVector3 = new Vector3(
+            Mathf.Round(gameObject.transform.position.x),  // Round X to nearest whole number
+            y,  // Keep the Y position as is
+            Mathf.Round(gameObject.transform.position.z)   // Round Z to nearest whole number
+        );
+
+        GetChildren();  // Populate the array of all children (garbage items)
+
         for (int i = 0; i < allChildren.Length; i++)
         {
-            if (allChildren[i].transform.position.x == madeUpVector3.x && allChildren[i].transform.position.z == madeUpVector3.z)
+            // Debugging to ensure the positions are being checked correctly
+            //Debug.Log("MadeUpVector (Rounded): " + madeUpVector3);
+            //Debug.Log("Garbage pos: " + allChildren[i].transform.position);
+
+            // Compare the rounded player position with the garbage's position
+            if (Mathf.Approximately(allChildren[i].transform.position.x, madeUpVector3.x) &&
+                Mathf.Approximately(allChildren[i].transform.position.z, madeUpVector3.z))
             {
+                //Debug.Log("X and Z are the same");
+
                 Vector3 currentScale = allChildren[i].transform.localScale;
+
                 if (allChildren[i].GetComponent<Garbage>())
                 {
                     if (allChildren[i].GetComponent<Garbage>().currentHealth > 0)
@@ -43,16 +61,13 @@ public class CheckIfOnGarbage : MonoBehaviour
                         Player.GetComponent<CharacterGarbage>().garbageHolding += 25;
                         allChildren[i].GetComponent<Garbage>().currentHealth -= 25;
                         allChildren[i].transform.localScale = currentScale * 0.8f;
-                        Debug.Log(allChildren[i].GetComponent<Garbage>().currentHealth);
-                        //Destroy(allChildren[i]);
-                        Debug.Log("Same spot, We have collision.");
                         PlayerAndGarbageCollision = true;
                     }
                 }
             }
         }
-
     }
+
     private void GetChildren()
     {
         allChildren = new GameObject[GarbageStorage.transform.childCount];

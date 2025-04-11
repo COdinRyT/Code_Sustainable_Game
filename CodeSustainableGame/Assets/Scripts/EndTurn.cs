@@ -19,17 +19,14 @@ public class EndTurn : MonoBehaviour
         }
         Shop.Instance.truckSpawns = true;
 
-        Debug.Log("CLicked");
+        //Debug.Log("CLicked");
         if (GameManager.Instance == null)
         {
-            Debug.LogError("GameManager.Instance is null");
+            //Debug.LogError("GameManager.Instance is null");
             return;
         }
 
-        if (GameManager.Instance.endTurn == false)
-        {
-            GameManager.Instance.endTurn = true;
-            Debug.Log("End turn end turn");
-        }
+        GameManager.Instance.endTurn = true;
+        //Debug.Log("End turn end turn");
     }
 }

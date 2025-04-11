@@ -2050,7 +2050,7 @@ GameObject:
   - component: {fileID: 7048255108866793762}
   m_Layer: 9
   m_Name: MediumGarbageTutorial
-  m_TagString: Untagged
+  m_TagString: Trash
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

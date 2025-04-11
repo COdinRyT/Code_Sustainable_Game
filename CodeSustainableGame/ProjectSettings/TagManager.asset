@@ -6,6 +6,7 @@ TagManager:
   tags:
   - GridTile
   - Button
+  - Trash
   layers:
   - Default
   - TransparentFX

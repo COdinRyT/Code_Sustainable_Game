@@ -44,10 +44,10 @@ public class Garbage : MonoBehaviour
     // Ensure the garbage has a trigger collider
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Other: " + other.name);
+        //Debug.Log("Other: " + other.name);
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Garbage and Character are on the same tile!");
+            //Debug.Log("Garbage and Character are on the same tile!");
         }
     }
     // Update is called once per frame
@@ -72,14 +72,14 @@ public class Garbage : MonoBehaviour
             {
                 GameManager.Instance.trashCollected++;
                 //truck.isDisposed = false;
-                Debug.Log("Trash Collected!");
+                //Debug.Log("Trash Collected!");
                 return;
             }
         }
         else if (currentHealth <= 0 && Name == "MediumGarbage") {
             GameManager.Instance.involvedAmount += 20;
             truck.isDisposed = true;
-            Debug.Log("Destroyed");
+            //Debug.Log("Destroyed");
             GameManager.Instance.MediumTrashPile(100);
             //GameManager.Instance.involvedAmount += 20;
             Destroy(gameObject);
@@ -87,7 +87,7 @@ public class Garbage : MonoBehaviour
             {
                 //GameManager.Instance.trashCollected++;
                 //truck.isDisposed = false;
-                Debug.Log("Trash Collected!");
+                //Debug.Log("Trash Collected!");
                 return;
             }
         }
